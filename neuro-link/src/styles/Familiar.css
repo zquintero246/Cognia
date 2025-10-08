@@ -1,90 +1,83 @@
-/* === Familiar.css === */
-.familiar-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 3rem 2rem;
-  background: linear-gradient(135deg, #fff5eb, #fceaff);
+.modulo-familiar {
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom right, #eaf4fc, #f8f1ff);
   min-height: 100vh;
+  padding: 40px;
+}
+
+.titulo-familiar {
+  font-size: 2.2rem;
+  color: #5b2cff;
+  margin-bottom: 10px;
+}
+
+.subtitulo-familiar {
   color: #333;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Título principal */
-.familiar-title {
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: #7b3ff6;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* Descripción del módulo */
-.familiar-descripcion {
-  max-width: 800px;
-  text-align: center;
+  margin-bottom: 30px;
   font-size: 1.1rem;
-  line-height: 1.6;
-  color: #555;
-  background: white;
-  border-radius: 18px;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 4px 12px rgba(123, 63, 246, 0.1);
-  margin-bottom: 2.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.familiar-descripcion:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 20px rgba(123, 63, 246, 0.15);
-}
-
-/* Botones */
-.familiar-botones {
+.lista-actividades {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 20px;
 }
 
-.familiar-boton {
-  background: linear-gradient(135deg, #9b6bff, #ff7cc2);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  padding: 0.9rem 1.8rem;
-  font-size: 1.05rem;
-  font-weight: 600;
+.tarjeta-actividad {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  width: 260px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 10px rgba(155, 107, 255, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.familiar-boton:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(155, 107, 255, 0.35);
+.tarjeta-actividad:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(123, 97, 255, 0.3);
 }
 
-/* Efecto para cuando se hace clic */
-.familiar-boton:active {
-  transform: scale(0.97);
-  box-shadow: 0 2px 6px rgba(155, 107, 255, 0.2);
+.actividad-familiar {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  margin: 0 auto;
+  max-width: 600px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsividad */
-@media (max-width: 768px) {
-  .familiar-title {
-    font-size: 1.8rem;
-  }
+.opciones {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
 
-  .familiar-descripcion {
-    font-size: 1rem;
-    padding: 1.2rem;
-  }
+.opcion {
+  background: linear-gradient(135deg, #6a85ff, #c9afff);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
 
-  .familiar-boton {
-    font-size: 0.95rem;
-    padding: 0.8rem 1.4rem;
-  }
+.opcion:hover {
+  transform: scale(1.08);
+  background: linear-gradient(135deg, #4f66ff, #b591ff);
+}
+
+.boton-volver {
+  background: #ececff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 30px;
+  cursor: pointer;
+  color: #333;
 }

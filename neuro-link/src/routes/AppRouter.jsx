@@ -9,7 +9,11 @@ import Social from "../modules/Social/Social";
 import Tecnico from "../modules/Tecnico/Tecnico";
 import Familiar from "../modules/Familiar/Familiar";
 import Dashboard from "../modules/Dashboard/Dashboard";
+<<<<<<< Updated upstream
 import Registro from "../modules/Registro/Registro";
+=======
+import AuthPage from "../modules/Auth/AuthPage";
+>>>>>>> Stashed changes
 //import ModoCalma from "../../neuro-link/src/modules/ModoCalma/ModoCalma";
 
 function AppRouter() {
@@ -17,6 +21,7 @@ function AppRouter() {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/sensorial" element={<Sensorial />} />

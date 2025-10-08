@@ -1,0 +1,212 @@
+/* === Pulso Musical === */
+.pulso-musical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e8f0ff, #f7eaff);
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  color: #222;
+  padding: 40px 20px;
+}
+
+.actividad-titulo {
+  font-size: 2.2rem;
+  color: #673ab7;
+  margin-bottom: 10px;
+}
+
+.actividad-descripcion {
+  font-size: 1.1rem;
+  max-width: 600px;
+  color: #444;
+  margin-bottom: 24px;
+}
+
+.boton-actividad {
+  background: linear-gradient(135deg, #b388ff, #7c4dff);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 26px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 20px;
+}
+
+.boton-actividad:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(124, 77, 255, 0.3);
+}
+
+.boton-actividad.detener {
+  background: linear-gradient(135deg, #ff8a65, #ff5252);
+}
+
+.ritmo-circulo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #d1c4e9;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  margin: 40px 0;
+  transition: all 0.25s ease;
+}
+
+.ritmo-circulo.activo {
+  background: #7c4dff;
+  box-shadow: 0 0 40px rgba(124, 77, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.feedback {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #5e35b1;
+  font-weight: 600;
+  height: 24px;
+}
+
+.puntaje {
+  background: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.boton-volver {
+  background: linear-gradient(135deg, #b388ff, #9575cd);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.boton-volver:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(149, 117, 205, 0.3);
+}
+
+/* ====== Estilos generales de Reacción Sensorial ====== */
+
+.reaccion-sensorial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1rem;
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f7f5ff);
+  color: #333;
+}
+
+.reaccion-sensorial .actividad-titulo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #6b4eff;
+  margin-bottom: 1rem;
+}
+
+.reaccion-sensorial .actividad-descripcion {
+  font-size: 1.1rem;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Botones */
+.boton-actividad {
+  background: linear-gradient(135deg, #a366ff, #ff8ccf);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  margin-bottom: 2rem;
+}
+
+.boton-actividad:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(139, 61, 255, 0.25);
+}
+
+.boton-actividad.detener {
+  background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+}
+
+/* Círculo de estímulo */
+.estimulo {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: #bbb;
+  margin: 2rem auto;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.estimulo.activo {
+  background-color: #ffd54f;
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(255, 213, 79, 0.8);
+}
+
+/* Feedback y puntaje */
+.feedback {
+  font-size: 1.2rem;
+  color: #5f27cd;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.puntaje {
+  font-size: 1.1rem;
+  color: #444;
+  margin-top: 0.5rem;
+}
+
+.boton-volver {
+  margin-top: 2.5rem;
+  background: linear-gradient(135deg, #b88cff, #ff9ff3);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.7rem 1.4rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.boton-volver:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 12px rgba(139, 61, 255, 0.25);
+}
+
+/* Adaptación móvil */
+@media (max-width: 600px) {
+  .estimulo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .actividad-titulo {
+    font-size: 1.7rem;
+  }
+
+  .actividad-descripcion {
+    font-size: 1rem;
+  }
+}
