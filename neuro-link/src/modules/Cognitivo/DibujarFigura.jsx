@@ -41,6 +41,7 @@ export default function DibujarFigura({ volver }) {
     setDrawing(false);
   };
 
+
   const limpiarCanvas = () => {
     const canvas = canvasRef.current;
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -48,33 +49,38 @@ export default function DibujarFigura({ volver }) {
     setFeedback("");
   };
 
-  const validarDibujo = () => {
-    if (strokes.length < 30) {
-      setFeedback("Intenta dibujar la figura completa 👀");
-      return;
-    }
+  const [loading, setLoading] = useState(false);
 
-    // 💡 Validación simplificada según figura actual
-    if (figuraActual === "círculo") {
-      setFeedback("¡Bien! parece un círculo 🟢");
-    } else if (figuraActual === "cuadrado") {
-      setFeedback("¡Excelente! se parece a un cuadrado 🟦");
-    } else if (figuraActual === "triángulo") {
-      setFeedback("¡Muy bien! parece un triángulo 🔺");
-    }
+  const validarDibujo = async () => {
+    setLoading(true);
+    const canvas = canvasRef.current;
+    const imageData = canvas.toDataURL("image/png");
 
-    // cambia a otra figura aleatoria
-    setTimeout(() => {
-      limpiarCanvas();
-      const nueva = figuras[Math.floor(Math.random() * figuras.length)];
-      setFiguraActual(nueva);
-    }, 2000);
+    const payload = {
+      figuraEsperada: figuraActual,
+      image: imageData,
+    };
+
+    try {
+      const res = await fetch("http://127.0.0.1:8000/analyze_drawing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      setFeedback(data.feedback || "Sin respuesta del servidor");
+    } catch (err) {
+      console.error("Error:", err);
+      setFeedback("Error al analizar el dibujo");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="actividad-cognitiva">
       <h1>Dibuja la figura</h1>
-      <p>📝 Instrucción: Dibuja un {figuraActual}</p>
+      <p>Instrucción: Dibuja un {figuraActual}</p>
 
       <canvas
         ref={canvasRef}
@@ -88,8 +94,8 @@ export default function DibujarFigura({ volver }) {
       />
 
       <div className="botones">
-        <button className="boton-actividad" onClick={validarDibujo}>
-          Validar dibujo
+       <button className="boton-actividad" onClick={validarDibujo}>
+        Validar dibujo
         </button>
         <button className="boton-actividad limpiar" onClick={limpiarCanvas}>
           Limpiar
