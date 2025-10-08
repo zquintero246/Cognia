@@ -1,0 +1,141 @@
+.explora-container {
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  color: #333;
+  padding: 24px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.explora-container h2 {
+  color: #2b6cb0;
+  margin-bottom: 8px;
+}
+
+.explora-instruccion {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.explora-card {
+  background-color: #f8fafc;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.explora-card h3 {
+  color: #2b6cb0;
+  margin-bottom: 18px;
+  font-size: 20px;
+}
+
+.explora-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.explora-btn {
+  background-color: #edf2f7;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.explora-btn:hover {
+  background-color: #e2e8f0;
+  transform: scale(1.03);
+}
+
+.explora-btn.correct {
+  background-color: #68d391;
+  color: white;
+  font-weight: 600;
+  transform: scale(1.05);
+}
+
+.explora-btn.incorrect {
+  background-color: #fc8181;
+  color: white;
+  font-weight: 600;
+}
+
+.explora-feedback {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #2f855a;
+}
+
+.explora-explanation {
+  background-color: #fefcbf;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: left;
+  margin-top: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.explora-explanation strong {
+  color: #744210;
+}
+
+.explora-explanation p {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.explora-explanation button {
+  margin-top: 12px;
+  padding: 10px 16px;
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.explora-explanation button:hover {
+  background-color: #2b6cb0;
+}
+
+.volver-btn {
+  margin-top: 16px;
+  padding: 10px 18px;
+  background-color: #e2e8f0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.volver-btn:hover {
+  background-color: #cbd5e0;
+}
+
+/* Móvil */
+@media (max-width: 600px) {
+  .explora-card {
+    padding: 18px;
+  }
+
+  .explora-btn {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .explora-card h3 {
+    font-size: 18px;
+  }
+}
