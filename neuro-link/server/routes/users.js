@@ -25,4 +25,20 @@ router.post('/', express.json(), (req, res) => {
   });
 });
 
+// DELETE eliminar usuario
+router.delete('/:id', (req, res) => {
+  const db = require('../database/init');
+  const userId = req.params.id;
+  
+  db.run('DELETE FROM users WHERE id = ?', [userId], function(err) {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    res.json({ message: 'Usuario eliminado exitosamente' });
+  });
+});
+
 module.exports = router;
