@@ -1,5 +1,14 @@
-import actividades from "../data/actividades.json";
+import actividadesData from "../data/actividades.json";
 
-export const getActividadesPorModulo = (modulo) => {
-  return actividades[modulo] || [];
-};
+export function getActividadesPorModulo(moduleName) {
+  const modulo = actividadesData.modules.find(
+    (m) => m.module.toLowerCase() === moduleName.toLowerCase()
+  );
+  return modulo ? modulo.activities : [];
+}
+
+export function getActividadPorNombre(moduleName, activityName) {
+  const modulo = getActividadesPorModulo(moduleName);
+  return modulo.find((a) => a.name === activityName);
+}
+
