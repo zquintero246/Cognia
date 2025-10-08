@@ -1,0 +1,26 @@
+{
+  "sensorial": [
+    {
+      "id": 1,
+      "nombre": "Luces y sonidos",
+      "nivel": "básico",
+      "objetivo": "Estimular atención visual y auditiva"
+    }
+  ],
+  "cognitivo": [
+    {
+      "id": 2,
+      "nombre": "Secuencia de colores",
+      "nivel": "intermedio",
+      "objetivo": "Mejorar memoria visual"
+    }
+  ],
+  "social": [
+    {
+      "id": 3,
+      "nombre": "Juego de turnos",
+      "nivel": "básico",
+      "objetivo": "Fomentar cooperación y empatía"
+    }
+  ]
+}
