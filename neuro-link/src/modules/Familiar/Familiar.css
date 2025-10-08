@@ -1,0 +1,73 @@
+.familiar-container {
+  text-align: center;
+  padding: 40px 20px;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #eef5ff, #f9f6ff);
+  min-height: 100vh;
+  color: #333;
+}
+
+.titulo-familiar {
+  font-size: 2.4rem;
+  color: #4b32e3;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 4px rgba(100, 100, 255, 0.2);
+}
+
+.descripcion-familiar {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  color: #444;
+}
+
+.actividades-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.actividad-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.actividad-card:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #d6e6ff, #f2e4ff);
+}
+
+.actividad-card strong {
+  display: block;
+  color: #4b32e3;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.actividad-card p {
+  color: #555;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.fade-in {
+  animation: fadeIn 0.7s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -71,7 +71,7 @@ async def analyze_drawing(request: Request):
         "predicted": predicted_label,
         "confidence": confidence,
         "match": match,
-        "feedback": "Correcto" if match else f"Parece un {predicted_label}",
+        "feedback": f"Correcto {predicted_label}" if match else f"Parece un {predicted_label}",
     }
     return feedback
 

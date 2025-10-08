@@ -1,20 +1,48 @@
-import React from "react";
-import "../../styles/Familiar.css"; // 🔥 Importa el nuevo CSS correcto
+import React, { useState } from "react";
+import "./Familiar.css";
+import ConociendoFamilia from "./ConociendoFamilia";
+import ResolviendoConflictos from "./ResolviendoConflictos";
+import ApoyoMutuo from "./ApoyoMutuo";
 
 export default function Familiar() {
+  const [actividad, setActividad] = useState(null);
+
+  const volver = () => setActividad(null);
+
+  if (actividad === "conocer") return <ConociendoFamilia volver={volver} />;
+  if (actividad === "conflictos") return <ResolviendoConflictos volver={volver} />;
+  if (actividad === "apoyo") return <ApoyoMutuo volver={volver} />;
+
   return (
-    <div className="familiar-container">
-      <h1 className="familiar-title">Módulo Familiar</h1>
-      <p className="familiar-descripcion">
-        En este módulo aprenderás a fortalecer los vínculos familiares a través del respeto, la empatía y la comunicación asertiva.
+    <div className="familiar-container fade-in">
+      <h1 className="titulo-familiar">👨‍👩‍👧‍👦 Módulo Familiar</h1>
+      <p className="descripcion-familiar">
+        Fortalece la comunicación y empatía con tu familia a través de actividades simples y visuales 💕
       </p>
 
-      <div className="familiar-botones">
-        <button className="familiar-boton" onClick={() => alert("Ejercicio: Resolviendo Conflictos")}>
-          Resolviendo Conflictos
+      <div className="actividades-grid">
+        <button
+          className="actividad-card familiar-btn"
+          onClick={() => setActividad("conocer")}
+        >
+          🧩 <strong>Conociendo a mi familia</strong>
+          <p>Descubre cosas nuevas de tus seres queridos mientras juegas.</p>
         </button>
-        <button className="familiar-boton" onClick={() => alert("Ejercicio: Apoyo Mutuo")}>
-          Apoyo Mutuo
+
+        <button
+          className="actividad-card familiar-btn"
+          onClick={() => setActividad("conflictos")}
+        >
+          ☮️ <strong>Resolviendo conflictos</strong>
+          <p>Aprende a comunicarte con calma y respeto cuando hay desacuerdos.</p>
+        </button>
+
+        <button
+          className="actividad-card familiar-btn"
+          onClick={() => setActividad("apoyo")}
+        >
+          💞 <strong>Apoyo mutuo</strong>
+          <p>Fortalece la confianza y colaboración con tus familiares.</p>
         </button>
       </div>
     </div>
