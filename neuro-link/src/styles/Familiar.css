@@ -1,0 +1,90 @@
+/* === Familiar.css === */
+.familiar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #fff5eb, #fceaff);
+  min-height: 100vh;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Título principal */
+.familiar-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #7b3ff6;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Descripción del módulo */
+.familiar-descripcion {
+  max-width: 800px;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  background: white;
+  border-radius: 18px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 12px rgba(123, 63, 246, 0.1);
+  margin-bottom: 2.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.familiar-descripcion:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(123, 63, 246, 0.15);
+}
+
+/* Botones */
+.familiar-botones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.familiar-boton {
+  background: linear-gradient(135deg, #9b6bff, #ff7cc2);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem 1.8rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(155, 107, 255, 0.25);
+}
+
+.familiar-boton:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(155, 107, 255, 0.35);
+}
+
+/* Efecto para cuando se hace clic */
+.familiar-boton:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(155, 107, 255, 0.2);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .familiar-title {
+    font-size: 1.8rem;
+  }
+
+  .familiar-descripcion {
+    font-size: 1rem;
+    padding: 1.2rem;
+  }
+
+  .familiar-boton {
+    font-size: 0.95rem;
+    padding: 0.8rem 1.4rem;
+  }
+}

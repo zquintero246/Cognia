@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { sendActivity } from "../../services/activityService";
 import "./Social.css";
 
 export default function EmpatiaEnAccion({ volver }) {
@@ -41,13 +42,29 @@ export default function EmpatiaEnAccion({ volver }) {
   const [feedback, setFeedback] = useState("");
   const [score, setScore] = useState(0);
 
+  // ✅ Nueva función para registrar la puntuación y enviar actividad
+  const onPuntuar = async (puntos = 1) => {
+    setScore((s) => s + puntos);
+    try {
+      await sendActivity({
+        modulo: "Social",
+        actividad: "Empatía en acción",
+        puntuacion: puntos,
+        escenario: escenarioActual.descripcion,
+      });
+      console.log("✅ Actividad registrada correctamente (EmpatíaEnAccion)");
+    } catch (err) {
+      console.warn("⚠️ No se pudo enviar la actividad al servidor:", err);
+    }
+  };
+
   const elegirOpcion = (opcion) => {
     if (opcion === escenarioActual.correcta) {
       setFeedback("✅ ¡Correcto! Reconociste la emoción.");
-      setScore((s) => s + 1);
+      onPuntuar(1);
       setTimeout(() => nuevaRonda(), 2000);
     } else {
-      setFeedback("❌ No es esa emoción. Piensa cómo se siente la persona.");
+      setFeedback("❌ Intenta de nuevo, piensa cómo se sentiría esa persona.");
     }
   };
 

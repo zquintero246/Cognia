@@ -1,27 +1,43 @@
-import React, { useState } from "react";
+// src/modules/Social/Social.jsx
+import React, { useState, useEffect } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
-import ConstruyeRespuesta from "./ConstruyeRespuesta"; 
-import EmpatiaEnAccion from "./EmpatiaEnAccion"; 
-import VozYEmocion from "./VozYEmocion"; 
+import ConstruyeRespuesta from "./ConstruyeRespuesta";
+import EmpatiaEnAccion from "./EmpatiaEnAccion";
+import VozYEmocion from "./VozYEmocion";
 import "./Social.css";
 
 export default function Social() {
   const actividades = getActividadesPorModulo("Social");
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
+  const [scoreGlobal, setScoreGlobal] = useState(() => {
+    const s = localStorage.getItem("social_score");
+    return s ? Number(s) : 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("social_score", scoreGlobal);
+  }, [scoreGlobal]);
+
+  const incrementarPuntaje = (pts = 1) => setScoreGlobal((s) => s + pts);
 
   const renderActividad = () => {
     if (!actividadSeleccionada) return null;
 
+    const props = {
+      volver: () => setActividadSeleccionada(null),
+      onPuntuar: (pts = 1) => incrementarPuntaje(pts),
+    };
+
     switch (actividadSeleccionada.name) {
       case "Construye la respuesta":
-        return <ConstruyeRespuesta volver={() => setActividadSeleccionada(null)} />;
+        return <ConstruyeRespuesta {...props} />;
       case "Empatía en acción":
-        return <EmpatiaEnAccion volver={() => setActividadSeleccionada(null)} />;
+        return <EmpatiaEnAccion {...props} />;
       case "Voz y emoción":
-        return <VozYEmocion volver={() => setActividadSeleccionada(null)} />;
+        return <VozYEmocion {...props} />;
       default:
         return (
-          <p>
+          <p className="actividad-noimpl">
             Esta actividad aún no está implementada:{" "}
             <strong>{actividadSeleccionada.name}</strong>
           </p>
@@ -30,81 +46,48 @@ export default function Social() {
   };
 
   return (
-    <div
-      style={{
-        padding: "24px",
-        fontFamily: "Poppins, sans-serif",
-        textAlign: "center",
-      }}
-    >
-      <h1 style={{ color: "#333" }}>🤝 Módulo Social</h1>
+    <div className="social-module fade-in">
+      <header className="social-header">
+        <h1>🤝 Módulo Social</h1>
+        <div className="social-score">⭐ Puntaje: {scoreGlobal}</div>
+      </header>
 
       {actividadSeleccionada ? (
-        <div>
-          <h2 style={{ marginTop: "10px" }}>{actividadSeleccionada.name}</h2>
+        <div className="actividad-container">
+          <h2 className="actividad-titulo">{actividadSeleccionada.name}</h2>
           {renderActividad()}
           <button
-            style={{
-              marginTop: "16px",
-              padding: "10px 18px",
-              background: "#eaeaea",
-              borderRadius: "10px",
-              border: "none",
-              cursor: "pointer",
-            }}
+            className="boton-volver gradiente"
             onClick={() => setActividadSeleccionada(null)}
           >
             ← Volver a la lista
           </button>
         </div>
       ) : (
-        <div>
-          <p style={{ color: "#555" }}>
-            Selecciona una actividad para comenzar.
+        <div className="lista-actividades">
+          <p className="lista-subtitulo">
+            Escoge una de las siguientes actividades para fortalecer tus habilidades sociales 🌱
           </p>
 
           {actividades.length === 0 ? (
-            <p>No se encontraron actividades para este módulo.</p>
+            <p>No se encontraron actividades disponibles.</p>
           ) : (
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                marginTop: "20px",
-                display: "grid",
-                gap: "14px",
-                justifyContent: "center",
-              }}
-            >
+            <ul className="lista-grid">
               {actividades.map((a, index) => (
                 <li
                   key={index}
+                  className="actividad-item card-hover"
                   onClick={() => setActividadSeleccionada(a)}
-                  style={{
-                    background: "#f6f8fa",
-                    borderRadius: "12px",
-                    padding: "16px 24px",
-                    width: "320px",
-                    cursor: "pointer",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-                    transition: "transform 0.15s ease",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.02)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
                 >
-                  <strong>{a.name}</strong>
-                  <p style={{ margin: "4px 0", fontSize: "14px" }}>
-                    {a.description}
-                  </p>
-                  <small style={{ color: "#777" }}>🎯 {a.why_useful}</small>
-                  <p style={{ marginTop: "6px", fontSize: "13px" }}>
-                    <strong>Dificultad:</strong> {a.difficulty} |{" "}
-                    <strong>Estímulo:</strong> {a.stimulus}
-                  </p>
+                  <h3>{a.name}</h3>
+                  <p className="actividad-desc">{a.description}</p>
+                  <div className="actividad-meta">
+                    <span>🎯 {a.why_useful}</span>
+                  </div>
+                  <small className="actividad-extra">
+                    Dificultad: <strong>{a.difficulty}</strong> · Estímulo:{" "}
+                    <strong>{a.stimulus}</strong>
+                  </small>
                 </li>
               ))}
             </ul>

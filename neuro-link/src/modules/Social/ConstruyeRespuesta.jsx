@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { sendActivity } from "../../services/activityService";
 import "./Social.css";
 
 export default function ConstruyeRespuesta({ volver }) {
@@ -36,6 +37,22 @@ export default function ConstruyeRespuesta({ volver }) {
   const [feedback, setFeedback] = useState("");
   const [score, setScore] = useState(0);
 
+  // ✅ Nueva función onPuntuar (antes daba error)
+  const onPuntuar = async (puntos = 1) => {
+    setScore((s) => s + puntos);
+    try {
+      await sendActivity({
+        modulo: "Social",
+        actividad: "Construye la respuesta",
+        puntuacion: puntos,
+        contexto: situacionActual.contexto,
+      });
+      console.log("✅ Actividad registrada correctamente (ConstruyeRespuesta)");
+    } catch (err) {
+      console.warn("⚠️ No se pudo enviar la actividad al servidor:", err);
+    }
+  };
+
   const seleccionarPalabra = (palabra) => {
     if (seleccion.includes(palabra)) return;
     setSeleccion([...seleccion, palabra]);
@@ -47,7 +64,7 @@ export default function ConstruyeRespuesta({ volver }) {
 
     if (correcto) {
       setFeedback("✅ ¡Excelente! Frase correcta.");
-      setScore((s) => s + 1);
+      onPuntuar(1); // ahora sí está definida
       setTimeout(() => nuevaSituacion(), 2000);
     } else {
       setFeedback("❌ Intenta de nuevo. Fíjate en el orden.");

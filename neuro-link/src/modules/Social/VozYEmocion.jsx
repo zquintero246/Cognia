@@ -1,105 +1,134 @@
-import React, { useState } from "react";
+// src/modules/Social/VozYEmocion.jsx
+import React, { useState, useEffect, useRef } from "react";
 import "./Social.css";
 
-export default function VozYEmocion({ volver }) {
-  const emociones = [
-    {
-      nombre: "Alegría",
-      frase: "¡Qué lindo día para jugar juntos!",
-      tono: 1.2,
-      velocidad: 1.1,
-      volumen: 1,
-    },
-    {
-      nombre: "Tristeza",
-      frase: "Hoy me siento un poco solo...",
-      tono: 0.8,
-      velocidad: 0.9,
-      volumen: 0.8,
-    },
-    {
-      nombre: "Miedo",
-      frase: "Creo que escuché un ruido extraño...",
-      tono: 1.4,
-      velocidad: 1.2,
-      volumen: 0.9,
-    },
-    {
-      nombre: "Enojo",
-      frase: "¡Te dije que no toques eso!",
-      tono: 0.9,
-      velocidad: 1.2,
-      volumen: 1,
-    },
+export default function VozYEmocion({ volver, onPuntuar }) {
+  const frases = [
+    { id: 1, text: "Hola, ¿cómo estás?", expectedKeywords: ["hola", "cómo", "estás"] },
+    { id: 2, text: "Gracias por ayudarme", expectedKeywords: ["gracias", "ayudarme"] },
+    { id: 3, text: "Me siento feliz hoy", expectedKeywords: ["me", "siento", "feliz"] },
   ];
 
-  const [emocionActual, setEmocionActual] = useState(
-    emociones[Math.floor(Math.random() * emociones.length)]
+  const [fraseActual, setFraseActual] = useState(
+    frases[Math.floor(Math.random() * frases.length)]
   );
   const [feedback, setFeedback] = useState("");
-  const [score, setScore] = useState(0);
-  const [jugado, setJugado] = useState(false);
+  const [listening, setListening] = useState(false);
+  const recognitionRef = useRef(null);
 
-  const reproducirVoz = () => {
-    const synth = window.speechSynthesis;
-    const utter = new SpeechSynthesisUtterance(emocionActual.frase);
-    utter.pitch = emocionActual.tono;
-    utter.rate = emocionActual.velocidad;
-    utter.volume = emocionActual.volumen;
-    utter.lang = "es-ES";
-    synth.speak(utter);
-    setJugado(true);
+  useEffect(() => {
+    // Inicializar SpeechRecognition si está disponible
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition || null;
+    if (!SpeechRecognition) return;
+
+    const rec = new SpeechRecognition();
+    rec.lang = "es-ES";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+
+    rec.onstart = () => setListening(true);
+    rec.onend = () => setListening(false);
+    rec.onerror = (e) => {
+      setFeedback("Error en reconocimiento: " + e.error);
+      setListening(false);
+    };
+    rec.onresult = (event) => {
+      const transcript = event.results[0][0].transcript.toLowerCase();
+      evaluarTranscripcion(transcript);
+    };
+
+    recognitionRef.current = rec;
+    // cleanup
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.onresult = null;
+        recognitionRef.current.onstart = null;
+        recognitionRef.current.onend = null;
+        recognitionRef.current.onerror = null;
+        try {
+          recognitionRef.current.stop();
+        } catch {}
+      }
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  const evaluarTranscripcion = (transcript) => {
+    const keywords = fraseActual.expectedKeywords;
+    // Contar cuántas keywords aparecen
+    let aciertos = 0;
+    for (const k of keywords) {
+      if (transcript.includes(k)) aciertos++;
+    }
+    const ratio = aciertos / keywords.length;
+
+    if (ratio >= 0.6) {
+      setFeedback("✅ ¡Muy bien! Buena pronunciación y entonación.");
+      if (onPuntuar) onPuntuar(1);
+      setTimeout(() => siguienteFrase(), 1400);
+    } else {
+      setFeedback("❌ Intenta pronunciar con más claridad. Repite la frase.");
+    }
   };
 
-  const verificar = (opcion) => {
-    if (!jugado) {
-      setFeedback("🔊 Primero escucha la frase.");
+  const iniciarReconocimiento = () => {
+    const rec = recognitionRef.current;
+    if (!rec) {
+      setFeedback("Reconocimiento de voz no disponible en este navegador.");
       return;
     }
 
-    if (opcion === emocionActual.nombre) {
-      setFeedback("✅ ¡Correcto! Reconociste la emoción.");
-      setScore((s) => s + 1);
-      setTimeout(() => nuevaRonda(), 2000);
-    } else {
-      setFeedback("❌ No es esa emoción. Escucha el tono nuevamente.");
+    try {
+      rec.start();
+      setFeedback("Escuchando... habla ahora.");
+    } catch (e) {
+      // ya iniciado
     }
   };
 
-  const nuevaRonda = () => {
-    const nueva = emociones[Math.floor(Math.random() * emociones.length)];
-    setEmocionActual(nueva);
+  const siguienteFrase = () => {
+    const nueva = frases[Math.floor(Math.random() * frases.length)];
+    setFraseActual(nueva);
     setFeedback("");
-    setJugado(false);
+  };
+
+  const marcarLeido = () => {
+    // fallback: usuario clickea que leyó la frase
+    setFeedback("Marcado como leído. Buen trabajo.");
+    if (onPuntuar) onPuntuar(1);
+    setTimeout(() => siguienteFrase(), 1200);
   };
 
   return (
     <div className="actividad-social">
-      <h1>🎧 Voz y emoción</h1>
-      <p>Escucha la frase y elige qué emoción transmite.</p>
+      <h1>🔊 Voz y emoción</h1>
+      <p className="contexto">
+        Lee en voz alta la siguiente frase con entonación adecuada:
+      </p>
+      <div className="frase-voz">{fraseActual.text}</div>
 
-      <button className="boton-actividad" onClick={reproducirVoz}>
-        🔊 Escuchar frase
-      </button>
+      <div style={{ marginTop: 18 }}>
+        <button className="boton-actividad" onClick={iniciarReconocimiento}>
+          {listening ? "Escuchando..." : "Comenzar reconocimiento de voz"}
+        </button>
 
-      <div className="opciones-emociones">
-        {emociones.map((e, i) => (
-          <button
-            key={i}
-            className="opcion-emocion"
-            onClick={() => verificar(e.nombre)}
-          >
-            {e.nombre}
-          </button>
-        ))}
+        <button
+          className="boton-actividad limpiar"
+          style={{ marginLeft: 8 }}
+          onClick={marcarLeido}
+        >
+          Marcar como leído (fallback)
+        </button>
       </div>
 
       {feedback && <p className="feedback">{feedback}</p>}
-      <p className="puntaje">Puntuación: {score}</p>
 
-      <button className="boton-volver" onClick={volver}>
-        ⬅ Volver
-      </button>
+      <div style={{ marginTop: 14 }}>
+        <button className="boton-volver" onClick={volver}>
+          ⬅ Volver
+        </button>
+      </div>
     </div>
   );
 }
