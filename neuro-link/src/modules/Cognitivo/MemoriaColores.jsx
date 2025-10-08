@@ -23,12 +23,11 @@ export default function MemoriaColores() {
   const [timeStart, setTimeStart] = useState(null);
 
   useEffect(() => {
-    // iniciar primer round si quieres automático
     // generateNewSequence(level);
   }, []);
 
-  const generateNewSequence = async (lvl = level) => {
-    const len = Math.min(6, 2 + lvl); // longitud base = 2 + lvl, tope 6
+  const generateNewSequence = async (lvl = level, seqOverride = null) => {
+    const len = seqOverride ?? Math.min(6, 2 + lvl);
     const seq = Array.from({ length: len }, () =>
       Math.floor(Math.random() * COLORS.length)
     );
@@ -77,7 +76,8 @@ export default function MemoriaColores() {
     const errors = sequence.length - correctCount;
 
     const result = {
-      user_id: user.nombre || "anon",
+      user_id: user?.nombre || "anon",
+      session_id: `${user?.nombre || "anon"}_${Date.now()}`,
       module: "Cognitivo",
       activity_id: "memoria_colores_01",
       correct: correctCount,
@@ -90,28 +90,44 @@ export default function MemoriaColores() {
       ...prev,
       progreso: {
         ...prev.progreso,
-        cognitivo: prev.progreso.cognitivo + (success ? 1 : 0),
+        cognitivo: (prev?.progreso?.cognitivo || 0) + (success ? 1 : 0),
       },
     }));
 
+    let aiResponse = null;
     try {
-      const aiResponse = await sendActivity(result);
+      aiResponse = await sendActivity(result);
       console.log("AI response:", aiResponse);
     } catch (e) {
-      console.warn("sendActivity fallo:", e);
+      console.warn("sendActivity falló:", e);
+    }
+
+    let seqOverride = null;
+
+    if (aiResponse?.recommendation) {
+      const { next_difficulty, next_module, adjustments } = aiResponse.recommendation;
+
+      if (next_difficulty === "increase") {
+        setLevel((l) => l + 1);
+        setMessage("🔥 Subiendo dificultad");
+      } else if (next_difficulty === "decrease") {
+        setLevel(1);
+        setMessage("Tomémoslo suave, reiniciando nivel");
+      } else {
+        setMessage("Nivel estable, sigue así 😎");
+      }
+
+      if (adjustments?.sequence_length) seqOverride = adjustments.sequence_length;
+
+      if (next_module && next_module !== result.activity_id) {
+        console.log(`IA recomienda cambiar a: ${next_module}`);
+      }
     }
 
     await sleep(800);
-    if (success) {
-      setLevel((l) => l + 1);
-      setMessage("Preparando siguiente secuencia…");
-      await sleep(600);
-      generateNewSequence(level + 1);
-    } else {
-      setMessage("Intentemos otra vez. Generando nueva secuencia…");
-      await sleep(800);
-      generateNewSequence(1);
-    }
+    setMessage("Preparando siguiente secuencia…");
+    await sleep(600);
+    await generateNewSequence(level, seqOverride);
   };
 
   return (

@@ -1,5 +1,5 @@
-from core.analyzer import analyze_performance
-from core.recommender import recommend_next
+from ModuloAI.analyzer import analyze_performance
+from ModuloAI.recommender import recommend_next
 
 
 def run_demo():
