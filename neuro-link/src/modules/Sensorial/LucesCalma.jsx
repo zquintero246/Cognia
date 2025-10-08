@@ -1,45 +1,69 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Sensorial.css";
 
 export default function LucesCalma({ volver }) {
-  const [colorIndex, setColorIndex] = useState(0);
   const [running, setRunning] = useState(false);
+  const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [score, setScore] = useState(0);
+  const containerRef = useRef(null);
 
-  const colors = [
-    "#A1C4FD", // azul claro
-    "#C2E9FB", // celeste
-    "#FBC2EB", // rosa pastel
-    "#FDEB93", // amarillo suave
-    "#B5FFFC", // turquesa
-  ];
+  const dificultad = 2; // 🔹 1 = lento, 2 = medio, 3 = rápido
+  const intervalTime = dificultad === 1 ? 4000 : dificultad === 2 ? 2500 : 1500;
 
+  // Movimiento suave del foco
   useEffect(() => {
     let interval;
     if (running) {
       interval = setInterval(() => {
-        setColorIndex((prev) => (prev + 1) % colors.length);
-      }, 3000); // cambio cada 3 segundos
+        setPosition({
+          x: 10 + Math.random() * 80,
+          y: 10 + Math.random() * 70,
+        });
+      }, intervalTime);
     }
     return () => clearInterval(interval);
-  }, [running]);
+  }, [running, intervalTime]);
+
+  // Verificar si el cursor está dentro del foco
+  const handleMouseMove = (e) => {
+    if (!containerRef.current || !running) return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const focoRadius = 60;
+    const focoCenter = {
+      x: (position.x / 100) * rect.width,
+      y: (position.y / 100) * rect.height,
+    };
+
+    const cursor = {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
+
+    const distancia = Math.sqrt(
+      Math.pow(cursor.x - focoCenter.x, 2) + Math.pow(cursor.y - focoCenter.y, 2)
+    );
+
+    // ✅ si el cursor está dentro del radio visible del foco
+    if (distancia <= focoRadius) {
+      setScore((prev) => prev + 1);
+    }
+  };
 
   return (
     <div
+      ref={containerRef}
       className="luces-calma"
-      style={{
-        background: colors[colorIndex],
-        transition: "background 3s ease-in-out",
-      }}
+      onMouseMove={handleMouseMove}
     >
       <h1 className="actividad-titulo">🌅 Luces que calman</h1>
       <p className="actividad-descripcion">
-        Observa los cambios suaves de color y respira profundo.  
-        Esta actividad ayuda a relajar la mente y enfocar la atención visual.
+        Sigue el foco de luz con el cursor mientras se mueve.
       </p>
 
       {!running ? (
         <button className="boton-actividad" onClick={() => setRunning(true)}>
-          Iniciar luces
+          Iniciar
         </button>
       ) : (
         <button className="boton-actividad detener" onClick={() => setRunning(false)}>
@@ -47,9 +71,22 @@ export default function LucesCalma({ volver }) {
         </button>
       )}
 
+      <div
+        className="foco-luz"
+        style={{
+          left: `${position.x}%`,
+          top: `${position.y}%`,
+          opacity: running ? 1 : 0,
+        }}
+      ></div>
+
+      <p className="puntaje">Seguimiento exitoso: {score}</p>
+
       <button className="boton-volver" onClick={volver}>
         ⬅ Volver
       </button>
     </div>
   );
 }
+
+

@@ -75,3 +75,81 @@
   color: #666;
   margin-top: 20px;
 }
+
+.canvas-dibujo {
+  background-color: #f8f8ff;
+  border: 3px solid #888;
+  border-radius: 12px;
+  margin: 20px auto;
+  display: block;
+  cursor: crosshair;
+}
+
+.actividad-cognitiva {
+  text-align: center;
+  padding: 20px;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.feedback {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.boton-actividad.limpiar {
+  background-color: #f6d365;
+  color: #333;
+}
+
+.canvas-dibujo {
+  background-color: #f8f8ff;
+  border: 3px solid #888;
+  border-radius: 12px;
+  margin: 20px auto;
+  display: block;
+  cursor: crosshair;
+}
+
+.actividad-cognitiva {
+  text-align: center;
+  padding: 20px;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.feedback {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.boton-actividad.limpiar {
+  background-color: #f6d365;
+  color: #333;
+}
+
+.canvas-direccion {
+  background-color: #fafaff;
+  border: 3px solid #bbb;
+  border-radius: 12px;
+  margin-top: 20px;
+  cursor: grab;
+}
+
+.canvas-direccion:active {
+  cursor: grabbing;
+}
+
+

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
 import MemoriaColores from "./MemoriaColores";
+import DibujarFigura from "./DibujarFigura";
+import SeguirDireccion from "./SeguirDireccion";
+
 import "./Cognitivo.css";
 
 export default function Cognitivo() {
   const actividades = getActividadesPorModulo("Cognitivo");
-
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
 
   const renderActividad = () => {
@@ -13,12 +15,16 @@ export default function Cognitivo() {
 
     switch (actividadSeleccionada.name) {
       case "Memoria de colores":
-        return <MemoriaColores />;
+        return <MemoriaColores volver={() => setActividadSeleccionada(null)} />;
+      case "Dibujar la figura":
+        return <DibujarFigura volver={() => setActividadSeleccionada(null)} />;
+      case "Seguir dirección":
+        return <SeguirDireccion volver={() => setActividadSeleccionada(null)} />;
       default:
         return (
           <p>
-            Esta actividad aún no está implementada:
-            <strong> {actividadSeleccionada.name}</strong>
+            Esta actividad aún no está implementada:{" "}
+            <strong>{actividadSeleccionada.name}</strong>
           </p>
         );
     }
@@ -34,7 +40,6 @@ export default function Cognitivo() {
     >
       <h1 style={{ color: "#333" }}>🧠 Módulo Cognitivo</h1>
 
-      {}
       {actividadSeleccionada ? (
         <div>
           <h2 style={{ marginTop: "10px" }}>{actividadSeleccionada.name}</h2>
@@ -55,9 +60,7 @@ export default function Cognitivo() {
         </div>
       ) : (
         <div>
-          <p style={{ color: "#555" }}>
-            Selecciona una actividad para comenzar.
-          </p>
+          <p style={{ color: "#555" }}>Selecciona una actividad para comenzar.</p>
 
           {actividades.length === 0 ? (
             <p>No se encontraron actividades para este módulo.</p>
@@ -96,9 +99,7 @@ export default function Cognitivo() {
                   <p style={{ margin: "4px 0", fontSize: "14px" }}>
                     {a.description}
                   </p>
-                  <small style={{ color: "#777" }}>
-                    🎯 {a.why_useful}
-                  </small>
+                  <small style={{ color: "#777" }}>🎯 {a.why_useful}</small>
                   <p style={{ marginTop: "6px", fontSize: "13px" }}>
                     <strong>Dificultad:</strong> {a.difficulty} |{" "}
                     <strong>Estímulo:</strong> {a.stimulus}
@@ -112,3 +113,4 @@ export default function Cognitivo() {
     </div>
   );
 }
+
