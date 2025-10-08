@@ -1,0 +1,79 @@
+.tecnico-container {
+  padding: 24px;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.tecnico-title {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.tecnico-descripcion {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.lista-actividades {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  display: grid;
+  gap: 14px;
+  justify-content: center;
+}
+
+.actividad-item {
+  background: #f6f8fa;
+  border-radius: 12px;
+  padding: 16px 24px;
+  width: 320px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease;
+}
+
+.actividad-item:hover {
+  transform: scale(1.03);
+  background-color: #eef3ff;
+}
+
+.actividad-desc {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.actividad-why {
+  color: #777;
+  font-size: 13px;
+}
+
+.actividad-info {
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.volver-boton {
+  margin-top: 16px;
+  padding: 10px 18px;
+  background: #eaeaea;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.volver-boton:hover {
+  background: #d8d8d8;
+}
+
+.actividad-titulo {
+  margin-top: 10px;
+  font-size: 1.5rem;
+}
+
+.actividad-contenedor {
+  margin-top: 20px;
+}
