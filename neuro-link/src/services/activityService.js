@@ -1,5 +1,7 @@
 // src/services/activityService.js
 
+import Tecnico from "../modules/Tecnico/Tecnico";
+
 /**
  * 🔹 Base de datos local de actividades por módulo
  * (sustituye completamente al archivo actividades.json)
@@ -62,6 +64,29 @@ const actividadesData = {
       stimulus: "visual",
     },
   ],
+  Tecnico: [
+    {
+      "name": "Paso a paso: la ciencia de la vida diaria",
+      "description": "Organiza los pasos de tareas comunes en orden lógico.",
+      "stimulus": "cognitivo",
+      "difficulty": 2,
+      "why_useful": "Refuerza el pensamiento secuencial y la lógica cotidiana."
+    },
+    {
+      "name": "Explora el porqué",
+      "description": "Responde preguntas sobre cómo funciona el mundo.",
+      "stimulus": "cognitivo",
+      "difficulty": 2,
+      "why_useful": "Fomenta la curiosidad y el pensamiento científico."
+    },
+    {
+      "name": "Clasifica por su función",
+      "description": "Asocia objetos con su función correspondiente.",
+      "stimulus": "visual",
+      "difficulty": 3,
+      "why_useful": "Refuerza la comprensión funcional de los objetos cotidianos."
+    }
+  ]   
 };
 
 /**
