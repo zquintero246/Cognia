@@ -1,0 +1,251 @@
+.sensorial-container {
+  padding: 30px;
+  font-family: "Poppins", sans-serif;
+  background-color: #f7fbff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sensorial-title {
+  font-size: 2rem;
+  color: #2979ff;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.sensorial-sub {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.activity-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 700px;
+}
+
+.activity-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 10px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+}
+
+.activity-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #2979ff;
+  margin-bottom: 8px;
+}
+
+.activity-desc {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.activity-meta {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.activity-meta strong {
+  color: #2979ff;
+}
+
+.luces-calma {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #2c2c2c;
+  text-align: center;
+  transition: background 3s ease-in-out;
+}
+
+.actividad-titulo {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #1e3a8a;
+}
+
+.actividad-descripcion {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin-bottom: 25px;
+}
+
+.boton-actividad {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.boton-actividad:hover {
+  background-color: #4338ca;
+}
+
+.boton-actividad.detener {
+  background-color: #f87171;
+}
+
+.boton-actividad.detener:hover {
+  background-color: #dc2626;
+}
+
+.boton-volver {
+  margin-top: 20px;
+  background-color: #e5e7eb;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.boton-volver:hover {
+  background-color: #d1d5db;
+}
+
+.pulso-musical {
+  width: 100%;
+  height: 100vh;
+  background-color: #f5f8ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.zona-interaccion {
+  margin: 20px 0;
+}
+
+.boton-ritmo {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 20px 40px;
+  font-size: 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.boton-ritmo:active {
+  transform: scale(0.95);
+  background-color: #2563eb;
+}
+
+.feedback {
+  font-size: 1.1rem;
+  margin-top: 10px;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+.puntaje {
+  font-size: 1.1rem;
+  color: #374151;
+  margin-top: 8px;
+}
+.reaccion-sensorial {
+  width: 100%;
+  height: 100vh;
+  background-color: #f5f8ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.estimulo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #9ca3af;
+  margin: 30px;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.estimulo.activo {
+  background-color: #34d399; /* verde suave */
+  transform: scale(1.1);
+}
+
+.feedback {
+  font-size: 1.1rem;
+  margin-top: 10px;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.puntaje {
+  font-size: 1rem;
+  color: #374151;
+  margin-top: 6px;
+}
+
+.foco-luz {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%); /* ✅ centra el foco en su posición */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+  transition: all 2.5s ease-in-out;
+  pointer-events: none;
+}
+
+.luces-calma {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: #0f172a; /* fondo oscuro para resaltar luz */
+  overflow: hidden;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 50px;
+}
+
+.ritmo-circulo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #93c5fd;
+  margin: 25px auto;
+  transition: all 0.25s ease;
+}
+
+.ritmo-circulo.activo {
+  background-color: #2563eb;
+  transform: scale(1.15);
+}
+
+
+
+

@@ -1,0 +1,87 @@
+.actividad-social {
+  text-align: center;
+  padding: 20px;
+}
+
+.contexto {
+  margin: 10px 0;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.palabras-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.palabra-boton {
+  background: #e3f2fd;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.palabra-boton:hover {
+  background: #bbdefb;
+}
+
+.palabra-boton.seleccionada {
+  background: #90caf9;
+  color: white;
+}
+
+.frase-construida {
+  margin: 15px auto;
+  padding: 8px;
+  min-height: 40px;
+  width: 70%;
+  border-bottom: 2px dashed #bbb;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.palabra-construida {
+  background: #f0f0f0;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.acciones-sociales {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.opciones-emociones {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.opcion-emocion {
+  background: #e0f2f1;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.opcion-emocion:hover {
+  background: #80cbc4;
+  color: white;
+  transform: scale(1.05);
+}
