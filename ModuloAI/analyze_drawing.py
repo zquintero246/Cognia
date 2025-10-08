@@ -23,22 +23,24 @@ def load_model_if_needed():
 
 
 def predict_from_base64(b64_image: str):
+    """Recibe una imagen en base64 y devuelve (etiqueta, confianza)."""
     if b64_image.startswith("data:"):
         b64_image = b64_image.split(",", 1)[1]
 
+    # Decodificar la imagen
     img_bytes = base64.b64decode(b64_image)
-    image = Image.open(io.BytesIO(img_bytes)).convert("L")
-
-    image = Image.eval(image, lambda x: 255 - x)
-
+    image = Image.open(io.BytesIO(img_bytes)).convert("RGB")
     image = image.resize((28, 28))
-    x = np.array(image).astype("float32") / 255.0
-    x = x.reshape(1, 28, 28, 1)
 
+    # Normalizar
+    x = np.array(image).astype("float32") / 255.0
+    x = x.reshape(1, 28, 28, 3)
+
+    # Predicción
     model = load_model_if_needed()
     preds = model.predict(x)
     idx = int(np.argmax(preds, axis=1)[0])
     confidence = float(np.max(preds))
-    label = LABELS.get(idx, "desconocido")
 
+    label = LABELS.get(idx, "desconocido")
     return label, confidence
