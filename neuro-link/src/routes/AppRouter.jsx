@@ -9,6 +9,7 @@ import Social from "../modules/Social/Social";
 import Tecnico from "../modules/Tecnico/Tecnico";
 import Familiar from "../modules/Familiar/Familiar";
 import Dashboard from "../modules/Dashboard/Dashboard";
+import Registro from "../modules/Registro/Registro";
 //import ModoCalma from "../../neuro-link/src/modules/ModoCalma/ModoCalma";
 
 function AppRouter() {
@@ -23,6 +24,7 @@ function AppRouter() {
         <Route path="/social" element={<Social />} />
         <Route path="/tecnico" element={<Tecnico />} />
         <Route path="/familiar" element={<Familiar />} />
+        <Route path="/registro" element={<Registro />} />
       </Routes>
     </Router>
   );
