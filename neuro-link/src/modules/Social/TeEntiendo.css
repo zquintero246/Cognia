@@ -1,0 +1,59 @@
+.ti-container{
+  text-align:center; padding:20px;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+}
+
+.ti-header{
+  width:100%; max-width:980px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.ti-switch input{ margin-right:6px; }
+
+.ti-scene{
+  width:100%; max-width:720px; margin-top:6px;
+  display:flex; justify-content:center;
+}
+.ti-scene-img{
+  width:360px; height:220px; object-fit:contain;
+  background:#f8f9fb; border:1px solid #e9ecef; border-radius:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+}
+
+.ti-step{ width:100%; max-width:980px; opacity:.45; transition:opacity .18s; }
+.ti-step.active{ opacity:1; }
+.ti-step-title{
+  display:flex; align-items:center; gap:8px; font-weight:700; margin:8px 0 6px;
+}
+.ti-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:24px; height:24px; border-radius:8px; background:#e7f5ff; color:#1c7ed6; font-weight:800;
+}
+
+.ti-grid{
+  display:grid; gap:14px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.ti-card{
+  position:relative; background:#fff; border:2px solid #e9ecef; border-radius:16px;
+  padding:12px; display:flex; flex-direction:column; align-items:center; gap:8px;
+  cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.06);
+  transition:transform .12s, border-color .12s, box-shadow .12s;
+}
+.ti-card:hover{ transform:translateY(-2px); border-color:#dee2e6; box-shadow:0 10px 22px rgba(0,0,0,.08); }
+.ti-card:active{ transform:scale(.98); }
+
+.ti-card.ok{ border-color:#51cf66; animation:ti-pop .18s ease-out; }
+.ti-card.bad{ border-color:#fa5252; animation:ti-shake .22s linear 1; }
+
+.ti-picto{ width:96px; height:96px; object-fit:contain; user-select:none; }
+.ti-label{ color:#343a40; font-weight:600; }
+
+.volver-btn{
+  margin-top:14px; padding:10px 18px; border:none; background:#007bff; color:#fff;
+  border-radius:10px; cursor:pointer; transition:background .25s;
+}
+.volver-btn:hover{ background:#0056b3; }
+
+@keyframes ti-shake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-3px);} 75%{transform:translateX(3px);} }
+@keyframes ti-pop{ 0%{transform:scale(.96);} 100%{transform:scale(1);} }

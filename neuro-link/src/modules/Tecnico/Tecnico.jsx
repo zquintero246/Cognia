@@ -1,9 +1,9 @@
 // src/modules/Tecnico/Tecnico.jsx
 import React, { useState } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
-import PasoAPaso from "./PasoAPaso";
-import ExploraPorQue from "./ExploraPorQue";
-import ClasificaFuncion from "./ClasificaFuncion";
+import ConstruyeRobot from "./ConstruyeRobot";
+import EncuentraError from "./EncuentraError";
+import MiniProgramador from "./MiniProgramador";
 import "./Tecnico.css";
 import { useNavigate } from "react-router-dom";
 
@@ -22,12 +22,12 @@ const volverDashboard = () => {
     if (!actividadSeleccionada) return null;
 
     switch (actividadSeleccionada.name) {
-      case "Paso a paso: la ciencia de la vida diaria":
-        return <PasoAPaso />;
-      case "Explora el porqué":
-        return <ExploraPorQue />;
-      case "Clasifica por su función":
-        return <ClasificaFuncion />;
+      case "Mini programador":
+        return <MiniProgramador/>;
+      case "Construye tu robot":
+        return <ConstruyeRobot />;
+      case "Encuentra el error":
+        return <EncuentraError />;
       default:
         return (
           <p>
@@ -83,20 +83,6 @@ const volverDashboard = () => {
           )}
         </div>
       )}
-      <button
-        style={{
-          marginTop: "24px",
-          padding: "10px 18px",
-          background: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-        onClick={volverDashboard}
-      >
-        ← Volver al Dashboard
-      </button>
     </div>
   );
 }

@@ -1,0 +1,122 @@
+.programador-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.mensaje {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.mensaje.error {
+  color: #e74c3c;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fila {
+  display: flex;
+  gap: 3px;
+}
+
+.celda {
+  width: 55px;
+  height: 55px;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.celda.robot {
+  background-color: #a6d8ff;
+  transform: scale(1.05);
+}
+
+.celda.objetivo {
+  background-color: #b2f2bb;
+}
+
+.celda:not(.robot):not(.objetivo):has(> .flecha) {
+  color: #495057;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.botones-direccion {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dir-btn {
+  font-size: 1.4rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.2s;
+}
+
+.dir-btn:hover {
+  background-color: #d0ebff;
+  transform: scale(1.1);
+}
+
+.programa {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-height: 30px;
+  justify-content: center;
+}
+
+.paso {
+  font-size: 1.2rem;
+  background-color: #e9d5ff;
+  padding: 3px 6px;
+  border-radius: 5px;
+}
+
+.ejecutar-btn {
+  background-color: #4dabf7;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ejecutar-btn:hover {
+  background-color: #1c7ed6;
+}
+
+.volver-btn {
+  margin-top: 1rem;
+  background-color: #adb5bd;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.celda.obstaculo {
+  background-color: #ffc9c9;
+  border: 2px solid #fa5252;
+}

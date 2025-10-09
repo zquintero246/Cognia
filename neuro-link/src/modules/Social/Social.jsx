@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
 import ConstruyeRespuesta from "./ConstruyeRespuesta";
 import EmpatiaEnAccion from "./EmpatiaEnAccion";
-import VozYEmocion from "./VozYEmocion";
+import TeEntiendo from "./TeEntiendo";
 import "./Social.css";
 import { useNavigate } from "react-router-dom";
 
@@ -41,8 +41,8 @@ const volverDashboard = () => {
         return <ConstruyeRespuesta {...props} />;
       case "Empatía en acción":
         return <EmpatiaEnAccion {...props} />;
-      case "Voz y emoción":
-        return <VozYEmocion {...props} />;
+      case "Te entiendo (cooperativo)":
+        return <TeEntiendo {...props} />;
       default:
         return (
           <p className="actividad-noimpl">
@@ -102,20 +102,6 @@ const volverDashboard = () => {
           )}
         </div>
       )}
-      <button
-        style={{
-          marginTop: "24px",
-          padding: "10px 18px",
-          background: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-        onClick={volverDashboard}
-      >
-        ← Volver al Dashboard
-      </button>
     </div>
   );
 }

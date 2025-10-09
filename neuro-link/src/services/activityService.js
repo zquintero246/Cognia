@@ -57,13 +57,14 @@ const actividadesData = {
       stimulus: "auditivo",
     },
     {
-        name: "Empatía en acción",
-        description: "Se presenta una situación y el usuario elige la acción empática más apropiada.",
-        why_useful: "Fortalece la empatía cognitiva y enseña respuestas prosociales.",
-        difficulty: "3",
-        stimulus: "cognitivo",
+      name: "Te entiendo (cooperativo)",
+      description: "Dos niños juegan juntos: uno identifica la emoción del personaje y el otro elige una acción empática.",
+      stimulus: "social",
+      difficulty: 3,
+      why_useful: "Refuerza empatía cognitiva y respuestas prosociales mediante cooperación entre pares."
     },
   ],
+
   Sensorial: [
     {
       name: "Caza de Luz",
@@ -93,29 +94,31 @@ const actividadesData = {
       stimulus: "visual",
     },
   ],
+
   Tecnico: [
     {
-      "name": "Paso a paso: la ciencia de la vida diaria",
-      "description": "Organiza los pasos de tareas comunes en orden lógico.",
+      "name": "Mini programador",
+      "description": "Ayuda a un pequeño robot a llegar a su objetivo organizando los pasos correctos. Arrastra flechas (→ ↓ ↑ ←) en el orden adecuado.",
       "stimulus": "cognitivo",
       "difficulty": 2,
-      "why_useful": "Refuerza el pensamiento secuencial y la lógica cotidiana."
+      "why_useful": "Introduce el pensamiento secuencial y lógico, base del pensamiento computacional."
     },
     {
-      "name": "Explora el porqué",
-      "description": "Responde preguntas sobre cómo funciona el mundo.",
+      "name": "Construye tu robot",
+      "description": "Combina piezas como cabeza, cuerpo, brazos y luces para armar tu propio robot y ver cómo cobra vida.",
+      "stimulus": "sensorial",
+      "difficulty": 1,
+      "why_useful": "Fomenta la creatividad técnica y el reconocimiento de componentes, acercando a los niños al mundo de la robótica."
+    },
+     {
+      "name": "Encuentra el error",
+      "description": "Observa una secuencia o máquina con un paso incorrecto y descubre qué parte está mal para que todo funcione bien.",
       "stimulus": "cognitivo",
-      "difficulty": 2,
-      "why_useful": "Fomenta la curiosidad y el pensamiento científico."
-    },
-    {
-      "name": "Clasifica por su función",
-      "description": "Asocia objetos con su función correspondiente.",
-      "stimulus": "visual",
       "difficulty": 3,
-      "why_useful": "Refuerza la comprensión funcional de los objetos cotidianos."
-    }
+      "why_useful": "Fortalece el razonamiento lógico y la observación técnica al identificar fallos en procesos o sistemas."
+     }
   ],
+
 };
 
 /**
