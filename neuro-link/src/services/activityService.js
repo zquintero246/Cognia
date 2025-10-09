@@ -39,11 +39,11 @@ const actividadesData = {
 
   Social: [
     {
-      name: "Construye la respuesta",
+      name: "Reflejo Social",
       description:
-        "El usuario arma una respuesta social adecuada tocando las palabras en orden.",
+        "Fortalecer la imitación, sincronía social y empatía corporal, Uno de los jugadores realiza un movimiento, y el otro debe imitarlo lo más rápido y preciso posible.",
       why_useful:
-        "Desarrolla el lenguaje expresivo y la estructura de la conversación.",
+        "Estimula atención compartida.",
       difficulty: "3",
       stimulus: "visual",
     },
@@ -57,8 +57,8 @@ const actividadesData = {
       stimulus: "auditivo",
     },
     {
-        name: "Empatía en acción",
-        description: "Se presenta una situación y el usuario elige la acción empática más apropiada.",
+        name: "Historias de Dos Corazones",
+        description: "Cada jugador tiene su turno para representar o describir una emoción sin decir su nombre directamente.",
         why_useful: "Fortalece la empatía cognitiva y enseña respuestas prosociales.",
         difficulty: "3",
         stimulus: "cognitivo",
@@ -84,13 +84,13 @@ const actividadesData = {
       stimulus: "auditivo",
     },
     {
-      name: "Reacción Sensorial",
+      name: "Eco Armónico",
       description:
-        "Presiona el botón tan pronto veas el círculo cambiar de color.",
+        "El jugador escucha una secuencia de sonidos naturales (por ejemplo: pájaro, tambor, viento, gota de agua) y debe repetirlos en el mismo orden tocando los íconos correspondientes.",
       why_useful:
-        "Fortalece la velocidad de respuesta y la atención sostenida ante estímulos visuales.",
+        "Mejora atención sostenida y asociación multisensorial.",
       difficulty: "2",
-      stimulus: "visual",
+      stimulus: "Auditivo + Visual.",
     },
   ],
   Tecnico: [

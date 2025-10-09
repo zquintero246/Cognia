@@ -1,11 +1,12 @@
 // src/modules/Social/Social.jsx
 import React, { useState, useEffect } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
-import ConstruyeRespuesta from "./ConstruyeRespuesta";
-import EmpatiaEnAccion from "./EmpatiaEnAccion";
+import ReflejoSocial from "./ReflejoSocial";
+import EmpatiaEnAccion from "./HistoriasDosCorazones";
 import VozYEmocion from "./VozYEmocion";
 import "./Social.css";
 import { useNavigate } from "react-router-dom";
+import HistoriasDosCorazones from "./HistoriasDosCorazones";
 
 export default function Social() {
   const actividades = getActividadesPorModulo("Social");
@@ -37,8 +38,8 @@ const volverDashboard = () => {
     };
 
     switch (actividadSeleccionada.name) {
-      case "Construye la respuesta":
-        return <ConstruyeRespuesta {...props} />;
+      case "Historias de Dos Corazones":
+        return <HistoriasDosCorazones {...props} />;
       case "Empatía en acción":
         return <EmpatiaEnAccion {...props} />;
       case "Voz y emoción":
