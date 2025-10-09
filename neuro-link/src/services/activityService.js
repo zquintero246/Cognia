@@ -9,34 +9,34 @@ import Tecnico from "../modules/Tecnico/Tecnico";
 const actividadesData = {
   Cognitivo: [
     {
-          "name": "Memoria de colores",
-          "description": "Reconocimiento de colores y su secuencia.",
-          "stimulus": "visual",
-          "difficulty": 1,
-          "feedback": "¡Muy bien!",
-          "why_useful": "Ayuda a fortalecer la memoria visual y la atención sostenida. Los niños con autismo tienden a aprender mejor mediante la repetición de patrones visuales estructurados.",
-          "overstimulation_risk": "Bajo. Evitar colores muy brillantes o cambios de luz rápidos para no generar fatiga visual."
+          name: "Memoria de colores",
+          description: "Reconocimiento de colores y su secuencia.",
+          stimulus: "visual",
+          difficulty: 1,
+          feedback: "¡Muy bien!",
+          why_useful: "Ayuda a fortalecer la memoria visual y la atención sostenida. Los niños con autismo tienden a aprender mejor mediante la repetición de patrones visuales estructurados.",
+          overstimulation_risk: "Bajo. Evitar colores muy brillantes o cambios de luz rápidos para no generar fatiga visual."
         },
         {
-          "name": "Seguir dirección",
-          "description": "Una voz dirá una dirección y el usuario debe presionar el botón correspondiente.",
-          "stimulus": "auditivo",
-          "difficulty": 2,
-          "feedback": "¡Excelente!",
-          "why_useful": "Mejora la comprensión auditiva, la asociación verbal y la orientación espacial. Refuerza la capacidad de escuchar, procesar y ejecutar instrucciones simples.",
-          "overstimulation_risk": "Bajo. Controlar el volumen y evitar repeticiones excesivas del mismo sonido para no causar irritación auditiva."
+          name: "Flechas Ritmo",
+          description: "Varias flechas apareceran de manera consecutiva, No dejes pasar ninguna y aumenta tu puntaje.",
+          stimulus: "auditivo",
+          difficulty: 2,
+          feedback: "¡Excelente!",
+          why_useful: "Mejora la comprensión auditiva, la asociación verbal y la orientación espacial. Refuerza la capacidad de escuchar, procesar y ejecutar instrucciones simples.",
+          overstimulation_risk: "Bajo. Controlar el volumen y evitar repeticiones excesivas del mismo sonido para no causar irritación auditiva."
         },
         {
-          "name": "Dibujar la figura",
-          "description": "El usuario deberá dibujar una figura que es mencionada en un texto.",
-          "stimulus": "visual",
-          "difficulty": 3,
-          "feedback": "¡Perfecto!",
-          "why_useful": "Fortalece la comprensión lectora y la coordinación visomotora. También estimula la interpretación simbólica, un área que puede estar limitada en el espectro autista.",
-          "overstimulation_risk": "Bajo. Mantener el entorno visual despejado y el tiempo controlado para evitar frustración."
+          name: "Dibujar la figura",
+          description: "El usuario deberá dibujar una figura que es mencionada en un texto.",
+          stimulus: "visual",
+          difficulty: 3,
+          feedback: "¡Perfecto!",
+          why_useful: "Fortalece la comprensión lectora y la coordinación visomotora. También estimula la interpretación simbólica, un área que puede estar limitada en el espectro autista.",
+          overstimulation_risk: "Bajo. Mantener el entorno visual despejado y el tiempo controlado para evitar frustración."
         }
       ],
-      
+
   Social: [
     {
       name: "Construye la respuesta",

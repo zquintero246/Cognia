@@ -3,10 +3,14 @@ import LightChase from "./LightChase";
 import PulsoMusical from "./PulsoMusical";
 import ReaccionSensorial from "./ReaccionSensorial";
 import "./Sensorial.css";
-
+import { useNavigate } from "react-router-dom";
 export default function Sensorial() {
   const [actividadActual, setActividadActual] = useState(null);
+  const navigate = useNavigate();
 
+  const volverDashboard = () => {
+      navigate("/dashboard");
+    };
   const renderActividad = () => {
     switch (actividadActual) {
       case "LightChase":
@@ -59,6 +63,20 @@ export default function Sensorial() {
           <p>Ejercicio de reflejos y atención</p>
         </button>
       </div>
+      <button
+        style={{
+          marginTop: "24px",
+          padding: "10px 18px",
+          background: "#007bff",
+          color: "#fff",
+          border: "none",
+          borderRadius: "8px",
+          cursor: "pointer",
+        }}
+        onClick={volverDashboard}
+      >
+        ← Volver al Dashboard
+      </button>
     </div>
   );
 }

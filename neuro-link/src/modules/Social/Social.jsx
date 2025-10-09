@@ -5,6 +5,7 @@ import ConstruyeRespuesta from "./ConstruyeRespuesta";
 import EmpatiaEnAccion from "./EmpatiaEnAccion";
 import VozYEmocion from "./VozYEmocion";
 import "./Social.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Social() {
   const actividades = getActividadesPorModulo("Social");
@@ -13,6 +14,13 @@ export default function Social() {
     const s = localStorage.getItem("social_score");
     return s ? Number(s) : 0;
   });
+
+  const navigate = useNavigate();
+
+const volverDashboard = () => {
+    navigate("/dashboard");
+  };
+
 
   useEffect(() => {
     localStorage.setItem("social_score", scoreGlobal);
@@ -94,6 +102,20 @@ export default function Social() {
           )}
         </div>
       )}
+      <button
+        style={{
+          marginTop: "24px",
+          padding: "10px 18px",
+          background: "#007bff",
+          color: "#fff",
+          border: "none",
+          borderRadius: "8px",
+          cursor: "pointer",
+        }}
+        onClick={volverDashboard}
+      >
+        ← Volver al Dashboard
+      </button>
     </div>
   );
 }

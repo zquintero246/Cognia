@@ -5,12 +5,18 @@ import PasoAPaso from "./PasoAPaso";
 import ExploraPorQue from "./ExploraPorQue";
 import ClasificaFuncion from "./ClasificaFuncion";
 import "./Tecnico.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Tecnico() {
   // Si usas JSON, asegúrate que las actividades del módulo técnico estén definidas ahí.
   const actividades = getActividadesPorModulo("Tecnico");
 
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
+  const navigate = useNavigate();
+
+const volverDashboard = () => {
+    navigate("/dashboard");
+  };
 
   const renderActividad = () => {
     if (!actividadSeleccionada) return null;
@@ -77,6 +83,20 @@ export default function Tecnico() {
           )}
         </div>
       )}
+      <button
+        style={{
+          marginTop: "24px",
+          padding: "10px 18px",
+          background: "#007bff",
+          color: "#fff",
+          border: "none",
+          borderRadius: "8px",
+          cursor: "pointer",
+        }}
+        onClick={volverDashboard}
+      >
+        ← Volver al Dashboard
+      </button>
     </div>
   );
 }
