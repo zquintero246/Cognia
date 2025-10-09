@@ -39,18 +39,22 @@ const actividadesData = {
 
   Social: [
     {
-      name: "Historias de Dos Corazones",
-      description: "Cada jugador tiene su turno para representar o describir una emoción sin decir su nombre directamente.",
-      why_useful: "Fortalece la empatía cognitiva y enseña respuestas prosociales.",
+      name: "Construye la respuesta",
+      description:
+        "El usuario arma una respuesta social adecuada tocando las palabras en orden.",
+      why_useful:
+        "Desarrolla el lenguaje expresivo y la estructura de la conversación.",
       difficulty: "3",
-      stimulus: "Cognitivo",
+      stimulus: "visual",
     },
     {
-      name: "Reflejo Social",
-      description: "Fortalecer la imitación, sincronía social y empatía corporal, Uno de los jugadores realiza un movimiento, y el otro debe imitarlo lo más rápido y preciso posible.",
-      stimulus: "Auditivo",
-      difficulty: 3,
-      why_useful: "Estimula atención compartida.",
+      name: "Voz y emoción",
+      description:
+        "Escucha una frase con una emoción y selecciona cuál es la emoción expresada.",
+      why_useful:
+        "Entrena la interpretación del tono de voz y la empatía auditiva.",
+      difficulty: "2",
+      stimulus: "auditivo",
     },
     {
       name: "Te entiendo (cooperativo)",
@@ -81,13 +85,13 @@ const actividadesData = {
       stimulus: "auditivo",
     },
     {
-      name: "Eco Armónico",
+      name: "Reacción Sensorial",
       description:
-        "El jugador escucha una secuencia de sonidos naturales (por ejemplo: pájaro, tambor, viento, gota de agua) y debe repetirlos en el mismo orden tocando los íconos correspondientes.",
+        "Presiona el botón tan pronto veas el círculo cambiar de color.",
       why_useful:
-        "Mejora atención sostenida y asociación multisensorial.",
+        "Fortalece la velocidad de respuesta y la atención sostenida ante estímulos visuales.",
       difficulty: "2",
-      stimulus: "Auditivo + Visual.",
+      stimulus: "visual",
     },
   ],
 

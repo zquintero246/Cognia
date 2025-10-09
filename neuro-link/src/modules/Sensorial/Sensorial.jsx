@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import LightChase from "./LightChase";
 import PulsoMusical from "./PulsoMusical";
-import EcoArmonico from "./EcoArmonico";
+import BrisaTactil from "./EcoArmonico";
 import "./Sensorial.css";
 import { useNavigate } from "react-router-dom";
-
-
-
 export default function Sensorial() {
   const [actividadActual, setActividadActual] = useState(null);
   const navigate = useNavigate();
@@ -20,8 +17,8 @@ export default function Sensorial() {
         return <LightChase volver={() => setActividadActual(null)} />;
       case "PulsoMusical":
         return <PulsoMusical volver={() => setActividadActual(null)} />;
-      case "Eco Armónico":
-        return <EcoArmonico volver={() => setActividadActual(null)} />;
+      case "BrisaTactil":
+        return <BrisaTactil volver={() => setActividadActual(null)} />;
       default:
         return null;
     }
@@ -58,14 +55,13 @@ export default function Sensorial() {
         </button>
 
         {/* Brisa Tactil */}
-       <button
+        <button
           className="sensorial-card active"
-          onClick={() => setActividadActual("Eco Armónico")}
+          onClick={() => setActividadActual("BrisaTactil")}
         >
           <strong>Eco Armónico</strong>
           <p>Refuerza memoria auditiva secuencial.</p>
         </button>
-
       </div>
       <button
         style={{
