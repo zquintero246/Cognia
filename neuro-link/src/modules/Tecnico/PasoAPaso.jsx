@@ -1,23 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./PasoAPaso.css";
 
-/*
-  PasoAPaso.jsx (mejorado)
-  Props:
-    - volver: función opcional para volver al menú
-    - dificultad: "facil" | "normal" | "dificil" (default: "normal")
-    - onResult: función opcional(result) donde result = {
-        processId, difficulty, attempts, hintsUsed, timeSpentMs, success
-      }
-*/
-
 const PROCESSES = [
-  /* (mismos procesos que ya tenías) */
   {
     id: "cepillarse",
     title: "Cepillarse los dientes",
-    description:
-      "Rutina de higiene dental con pasos simples y útiles para mantener la boca limpia.",
+    description: "Rutina de higiene dental con pasos simples.",
     steps: [
       "Mojar el cepillo de dientes",
       "Poner una pequeña cantidad de pasta dental",
@@ -27,90 +15,181 @@ const PROCESSES = [
     ],
     explain: [
       "Mojar el cepillo ayuda a preparar las cerdas.",
-      "Una cantidad pequeña de pasta es suficiente para limpiar bien.",
-      "Cepillar los dientes delanteros y traseros elimina la placa bacteriana.",
-      "La lengua acumula bacterias; cepillarla ayuda a mantener el aliento fresco.",
-      "Enjuagarse y guardar el cepillo evita contaminación."
-    ]
-  },
-  {
-    id: "germinacion",
-    title: "Germinación de una semilla",
-    description:
-      "Aprende cómo una semilla se convierte en una planta. Fomenta la paciencia y la observación.",
-    steps: [
-      "Llenar una maceta con tierra suelta",
-      "Colocar la semilla a la profundidad adecuada",
-      "Regar ligeramente la tierra",
-      "Poner la maceta en un lugar con luz indirecta",
-      "Observar cada día su crecimiento"
-    ],
-    explain: [
-      "La tierra sostiene y alimenta la semilla.",
-      "Enterrarla a la profundidad adecuada ayuda a protegerla.",
-      "El agua activa el proceso de germinación.",
-      "La luz suave favorece el crecimiento sin dañar la semilla.",
-      "Observar el proceso enseña sobre el tiempo y el cuidado."
+      "Una cantidad pequeña de pasta es suficiente.",
+      "Cepillar elimina la placa bacteriana.",
+      "La lengua acumula bacterias; cepillarla ayuda.",
+      "Enjuagar y guardar evita contaminación."
     ]
   },
   {
     id: "lavarse",
     title: "Lavarse las manos correctamente",
-    description:
-      "Aprende a lavarte las manos correctamente para cuidar tu salud.",
+    description: "Aprende a lavarte las manos correctamente.",
     steps: [
       "Mojar las manos con agua",
       "Aplicar jabón en las palmas",
-      "Frotar todas las partes de las manos durante 20 segundos",
+      "Frotar todas las partes durante 20 segundos",
       "Enjuagar con agua limpia",
-      "Secar con una toalla limpia o al aire"
+      "Secar con una toalla o al aire"
     ],
     explain: [
-      "El agua ayuda a remover la suciedad inicial.",
-      "El jabón atrapa los gérmenes y la grasa.",
-      "Frotar durante 20 segundos asegura eliminar bacterias.",
-      "Enjuagar limpia completamente los residuos de jabón.",
-      "Secar evita recontaminación por superficies húmedas."
-    ]
-  },
-  {
-    id: "hervir",
-    title: "Hervir agua (con supervisión)",
-    description:
-      "Aprende cómo hervir agua con seguridad y observar el cambio de estado.",
-    steps: [
-      "Llenar la olla con agua",
-      "Colocar la olla sobre la estufa",
-      "Encender la estufa con cuidado",
-      "Esperar hasta que el agua hierva",
-      "Apagar la estufa y retirar la olla"
-    ],
-    explain: [
-      "Medir el agua evita derrames.",
-      "Colocar la olla correctamente previene accidentes.",
-      "Encender con cuidado enseña sobre seguridad.",
-      "El hervor muestra el cambio de líquido a vapor.",
-      "Apagar y retirar con cuidado previene quemaduras."
+      "El agua remueve la suciedad inicial.",
+      "El jabón atrapa los gérmenes.",
+      "Frotar elimina bacterias.",
+      "Enjuagar limpia los residuos.",
+      "Secar evita recontaminación."
     ]
   },
   {
     id: "sandwich",
     title: "Preparar un sándwich",
-    description:
-      "Aprende a preparar un sándwich paso a paso, fomentando independencia y motricidad.",
+    description: "Aprende a preparar un sándwich paso a paso.",
     steps: [
-      "Lavar tus manos antes de cocinar",
-      "Colocar dos rebanadas de pan sobre la mesa",
-      "Poner el relleno (queso, jamón o vegetal)",
+      "Lavar las manos antes de cocinar",
+      "Colocar dos rebanadas de pan",
+      "Agregar el relleno elegido",
       "Tapar con la otra rebanada",
       "Servir y limpiar la mesa"
     ],
     explain: [
-      "Lavar las manos evita contaminación.",
-      "Preparar los ingredientes enseña orden y anticipación.",
-      "Agregar el relleno desarrolla coordinación fina.",
-      "Tapar completa la tarea visualmente.",
-      "Limpiar refuerza la responsabilidad después de cocinar."
+      "Evita contaminación.",
+      "Organiza ingredientes.",
+      "Desarrolla coordinación fina.",
+      "Completa la tarea visualmente.",
+      "Refuerza responsabilidad."
+    ]
+  },
+  {
+    id: "hervir",
+    title: "Hervir agua con seguridad",
+    description: "Aprende cómo hervir agua con cuidado.",
+    steps: [
+      "Llenar una olla con agua",
+      "Colocar la olla sobre la estufa",
+      "Encender la estufa con cuidado",
+      "Esperar hasta que hierva",
+      "Apagar la estufa y retirar la olla"
+    ],
+    explain: [
+      "Medir evita derrames.",
+      "Colocar correctamente previene accidentes.",
+      "Encender con cuidado enseña seguridad.",
+      "El hervor muestra cambio de estado.",
+      "Apagar previene quemaduras."
+    ]
+  },
+  {
+    id: "germinacion",
+    title: "Germinación de una semilla",
+    description: "Aprende cómo una semilla crece.",
+    steps: [
+      "Llenar una maceta con tierra suelta",
+      "Colocar la semilla a la profundidad adecuada",
+      "Regar ligeramente la tierra",
+      "Poner la maceta en un lugar con luz indirecta",
+      "Observar su crecimiento"
+    ],
+    explain: [
+      "La tierra sostiene la semilla.",
+      "Enterrarla la protege.",
+      "El agua activa la germinación.",
+      "La luz suave ayuda al crecimiento.",
+      "Observar enseña paciencia."
+    ]
+  },
+  {
+    id: "vestirse",
+    title: "Vestirse en la mañana",
+    description: "Aprende la rutina básica para vestirse.",
+    steps: [
+      "Elegir la ropa del día",
+      "Ponerse la camiseta",
+      "Ponerse el pantalón",
+      "Colocarse los calcetines y zapatos",
+      "Guardar la ropa que no se usa"
+    ],
+    explain: [
+      "Elegir ayuda autonomía.",
+      "Vestirse desarrolla motricidad.",
+      "Aprende orden en las acciones.",
+      "Finaliza la presentación personal.",
+      "Refuerza responsabilidad."
+    ]
+  },
+  {
+    id: "mesa",
+    title: "Poner la mesa",
+    description: "Organiza la mesa antes de comer.",
+    steps: [
+      "Colocar el mantel o individuales",
+      "Poner los platos en su lugar",
+      "Ubicar cubiertos a cada lado",
+      "Colocar vasos arriba del plato",
+      "Servir servilletas"
+    ],
+    explain: [
+      "Mantel protege la mesa.",
+      "Platos organizan el espacio.",
+      "Cubiertos enseñan lateralidad.",
+      "Vasos completan la disposición.",
+      "Servilletas fomentan limpieza."
+    ]
+  },
+  {
+    id: "cama",
+    title: "Tender la cama",
+    description: "Aprende a ordenar tu cama cada mañana.",
+    steps: [
+      "Retirar las sábanas arrugadas",
+      "Estirar la sábana inferior",
+      "Colocar la sábana superior",
+      "Acomodar la cobija y almohadas",
+      "Revisar que quede ordenada"
+    ],
+    explain: [
+      "Inicia la rutina diaria.",
+      "Mantiene higiene.",
+      "Promueve el orden.",
+      "Fomenta responsabilidad.",
+      "Genera sensación de logro."
+    ]
+  },
+  {
+    id: "desayuno",
+    title: "Preparar el desayuno",
+    description: "Aprende una rutina básica de la mañana.",
+    steps: [
+      "Lavar las manos",
+      "Servir cereal en un plato o vaso",
+      "Agregar leche o bebida vegetal",
+      "Tomar una fruta o pan",
+      "Comer y limpiar la mesa"
+    ],
+    explain: [
+      "Empieza con higiene.",
+      "Prepara el alimento principal.",
+      "Completa el desayuno nutritivo.",
+      "Incluye alimentos frescos.",
+      "Mantiene orden y hábitos."
+    ]
+  },
+  {
+    id: "mascota",
+    title: "Dar de comer a una mascota",
+    description: "Aprende responsabilidad cuidando un animal.",
+    steps: [
+      "Lavar el plato de comida",
+      "Servir la porción adecuada",
+      "Colocar el plato en su lugar",
+      "Esperar a que coma tranquilo",
+      "Guardar el alimento sobrante"
+    ],
+    explain: [
+      "Higiene ante todo.",
+      "Medir enseña cuidado.",
+      "Lugar fijo da seguridad.",
+      "Observar enseña empatía.",
+      "Guardar promueve orden."
     ]
   }
 ];
@@ -125,302 +204,174 @@ function shuffle(array) {
 }
 
 export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
+  const [order] = useState(() => shuffle(PROCESSES).slice(0, 10)); // 10 aleatorios
   const [index, setIndex] = useState(0);
-  const [shuffledItems, setShuffledItems] = useState([]); // {id, text, correctIndex|null}
-  const [selected, setSelected] = useState([]); // array of items
+  const [items, setItems] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [feedback, setFeedback] = useState("");
   const [showExplain, setShowExplain] = useState(false);
-  const [usedIds, setUsedIds] = useState(new Set());
   const [attempts, setAttempts] = useState(0);
-  const [hintsUsed, setHintsUsed] = useState(0);
+  const [hints, setHints] = useState(0);
   const startRef = useRef(null);
   const successRef = useRef(false);
 
-  const process = PROCESSES[index];
-
-  // calcula la secuencia correcta según dificultad
-  function getCorrectSequence(proc, nivel) {
-    const total = proc.steps.length;
-    if (nivel === "facil") {
-      // tomamos primeros 3 pasos o menos si el proceso es corto
-      const n = Math.max(2, Math.min(3, total));
-      return proc.steps.slice(0, n);
-    }
-    // normal -> todos los pasos
-    if (nivel === "normal") return proc.steps.slice();
-    // dificil -> todos los pasos (pero luego añadimos decoys)
-    return proc.steps.slice();
-  }
-
-  // crea el banco de botones (correctos + decoys opcionales)
-  function buildItems(proc, nivel) {
-    const correctSeq = getCorrectSequence(proc, nivel);
-    let items = correctSeq.map((text, i) => ({
-      id: `c-${i}`,
-      text,
-      correctIndex: i
-    }));
-
-    // para dificil, añadimos 1-2 decoys tomados de otros procesos
-    if (nivel === "dificil") {
-      const decoyPool = PROCESSES.flatMap((p) => p.steps).filter(
-        (s) => !proc.steps.includes(s)
-      );
-      const decoysNeeded = Math.min(2, Math.max(1, Math.floor(correctSeq.length / 3)));
-      const chosen = shuffle(decoyPool).slice(0, decoysNeeded);
-      const decoyItems = chosen.map((t, i) => ({
-        id: `d-${i}`,
-        text: t,
-        correctIndex: null
-      }));
-      items = items.concat(decoyItems);
-    }
-
-    return shuffle(items);
-  }
-
-  // reinicia proceso -> reconstruye items y métricas
-  const resetProcess = () => {
-    const items = buildItems(process, dificultad);
-    setShuffledItems(items);
-    setSelected([]);
-    setUsedIds(new Set());
-    setFeedback("");
-    setShowExplain(false);
-    setAttempts(0);
-    setHintsUsed(0);
-    successRef.current = false;
-    startRef.current = Date.now();
-  };
+  const process = order[index];
+  const correctSequence = process.steps;
 
   useEffect(() => {
     resetProcess();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, dificultad]);
+  }, [index]);
 
-  // cuantos pasos correctos se esperan
-  const correctSequence = getCorrectSequence(process, dificultad);
-
-  const pickStep = (item) => {
-    if (successRef.current) return;
-    if (usedIds.has(item.id)) return;
-    // limitar selección al número de pasos correctos (reduce confusión)
-    if (selected.length >= correctSequence.length) {
-      setFeedback("Has seleccionado el número máximo de pasos. Quita uno si quieres cambiar.");
-      return;
-    }
-    setSelected((prev) => [...prev, item]);
-    setUsedIds((prev) => {
-      const n = new Set(prev);
-      n.add(item.id);
-      return n;
-    });
+  function resetProcess() {
+    const shuffled = shuffle(process.steps).map((text, i) => ({
+      id: i,
+      text
+    }));
+    setItems(shuffled);
+    setSelected([]);
     setFeedback("");
-  };
+    setShowExplain(false);
+    setAttempts(0);
+    setHints(0);
+    successRef.current = false;
+    startRef.current = Date.now();
+  }
 
-  const removeStep = (pos) => {
+  function pick(it) {
     if (successRef.current) return;
-    const removed = selected[pos];
-    const newSel = selected.filter((_, i) => i !== pos);
-    setSelected(newSel);
-    setUsedIds((prev) => {
-      const n = new Set(prev);
-      if (removed) n.delete(removed.id);
-      return n;
-    });
-    setFeedback("");
-  };
+    if (selected.find((s) => s.id === it.id)) return;
+    setSelected([...selected, it]);
+  }
 
-  // dar una pista: seleccionar automáticamente el siguiente paso correcto
-  const giveHint = () => {
+  function removeStep(pos) {
     if (successRef.current) return;
-    const nextIndex = selected.length; // índice de siguiente paso requerido
-    if (nextIndex >= correctSequence.length) {
-      setFeedback("Ya seleccionaste todos los pasos requeridos.");
-      return;
-    }
-    const nextText = correctSequence[nextIndex];
-    const item = shuffledItems.find((it) => it.text === nextText && !usedIds.has(it.id));
-    if (item) {
-      setSelected((prev) => [...prev, item]);
-      setUsedIds((prev) => {
-        const n = new Set(prev);
-        n.add(item.id);
-        return n;
-      });
-      setHintsUsed((h) => h + 1);
-      setFeedback("Pista aplicada: se seleccionó el siguiente paso correcto.");
-    } else {
-      setFeedback("No se pudo encontrar la pista (intenta mezclar).");
-    }
-  };
+    setSelected(selected.filter((_, i) => i !== pos));
+  }
 
-  const shuffleUnselected = () => {
-    // mantiene los seleccionados, reordena los demás
-    const selectedIds = selected.map((s) => s.id);
-    const unselected = shuffledItems.filter((it) => !selectedIds.includes(it.id));
-    const newOrder = shuffle(unselected).concat(shuffledItems.filter((it) => selectedIds.includes(it.id)));
-    setShuffledItems(newOrder);
-  };
-
-  const validate = () => {
+  function validate() {
     if (selected.length < correctSequence.length) {
-      setFeedback("Debes seleccionar todos los pasos requeridos antes de validar.");
+      setFeedback("Selecciona todos los pasos.");
       return;
     }
     setAttempts((a) => a + 1);
-    // comprobar que los pasos seleccionados (en orden) coinciden con la secuencia correcta
-    let ok = true;
-    for (let i = 0; i < correctSequence.length; i++) {
-      if (!selected[i] || selected[i].text !== correctSequence[i]) {
-        ok = false;
-        break;
-      }
-    }
-
-    const timeSpentMs = Date.now() - (startRef.current || Date.now());
-
+    const ok = selected.every((s, i) => s.text === correctSequence[i]);
+    const timeSpentMs = Date.now() - startRef.current;
     if (ok) {
-      setFeedback("¡Excelente! Los pasos están en orden correcto.");
+      setFeedback("¡Excelente! Todo está en orden.");
       successRef.current = true;
       setShowExplain(true);
-      // hablar feedback
-      if (typeof window !== "undefined" && window.speechSynthesis) {
-        const voice = new SpeechSynthesisUtterance("¡Muy bien! Lo lograste.");
-        voice.lang = "es-ES";
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(voice);
-      }
-      // resultado para IA/backend
-      if (typeof onResult === "function") {
-        onResult({
-          processId: process.id,
-          difficulty: dificultad,
-          attempts: attempts + 1,
-          hintsUsed,
-          timeSpentMs,
-          success: true
-        });
-      }
+      onResult?.({
+        processId: process.id,
+        difficulty: dificultad,
+        attempts: attempts + 1,
+        hints,
+        timeSpentMs,
+        success: true
+      });
+      setTimeout(() => {
+        if (index + 1 < order.length) {
+          setIndex(index + 1);
+        } else {
+          setFeedback("🎉 ¡Completaste los 10 desafíos!");
+        }
+      }, 2500);
     } else {
-      setFeedback("Algunos pasos no están en orden. Intenta de nuevo.");
-      // reporte parcial
-      if (typeof onResult === "function") {
-        onResult({
-          processId: process.id,
-          difficulty: dificultad,
-          attempts: attempts + 1,
-          hintsUsed,
-          timeSpentMs,
-          success: false
-        });
-      }
+      setFeedback("Algunos pasos no están en orden.");
+      onResult?.({
+        processId: process.id,
+        difficulty: dificultad,
+        attempts: attempts + 1,
+        hints,
+        timeSpentMs,
+        success: false
+      });
     }
-  };
+  }
+
+  function hint() {
+    if (successRef.current) return;
+    const nextText = correctSequence[selected.length];
+    const item = items.find((i) => i.text === nextText);
+    if (item) {
+      setSelected([...selected, item]);
+      setHints((h) => h + 1);
+      setFeedback("Se añadió un paso correcto como pista.");
+    }
+  }
 
   return (
     <div className="paso-container">
-      <h2>{process.title}</h2>
+      <h2>
+        Desafío {index + 1} de {order.length}: {process.title}
+      </h2>
       <p>{process.description}</p>
 
-      <div className="paso-controls">
-        <label>Variación:</label>
-        <select value={index} onChange={(e) => setIndex(parseInt(e.target.value, 10))}>
-          {PROCESSES.map((p, i) => (
-            <option key={p.id} value={i}>
-              {p.title}
-            </option>
-          ))}
-        </select>
-
-        <label> Dificultad: </label>
-        <select value={dificultad} onChange={(e) => {
-          // si la dificultad viene de props (inmutable), esta línea no la cambiará.
-          // Se incluye para debug local; en integración real la dificultad la pasa la IA.
-          // eslint-disable-next-line no-console
-          console.warn("Para cambiar dificultad de forma permanente, pásala via prop 'dificultad' desde el padre.");
-        }} disabled>
-          <option>{dificultad}</option>
-        </select>
-
-        <button onClick={resetProcess}>Reiniciar</button>
-        <button onClick={shuffleUnselected}>Mezclar no seleccionados</button>
-        <button onClick={giveHint}>Pista</button>
-      </div>
-
       <div className="paso-grid">
-        <div className="paso-col">
-          <h3>Pasos disponibles</h3>
-          <div className="chips">
-            {shuffledItems.map((it) => (
-              <button
-                key={it.id}
-                onClick={() => pickStep(it)}
-                disabled={usedIds.has(it.id) || successRef.current}
-                className={`chip ${usedIds.has(it.id) ? "chip-used" : ""}`}
-                aria-pressed={usedIds.has(it.id)}
-              >
-                {it.text}
-              </button>
-            ))}
+  <div className="paso-col">
+    <h3>Pasos disponibles</h3>
+    <div className="chips">
+      {items.map((it) => (
+        <button
+          key={it.id}
+          onClick={() => pick(it)}
+          disabled={
+            selected.find((s) => s.id === it.id) || successRef.current
+          }
+          className={`chip ${
+            selected.find((s) => s.id === it.id) ? "chip-used" : ""
+          }`}
+        >
+          {it.text}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div className="paso-col">
+    <h3>Tu orden</h3>
+    <ol>
+      {selected.map((it, i) => (
+        <li key={i}>
+          <div className="selected-step">
+            {i + 1}. {it.text}
+            {!successRef.current && (
+              <button onClick={() => removeStep(i)}>✖</button>
+            )}
           </div>
-          <p style={{ marginTop: 8, fontSize: 14, color: "#666" }}>
-            Selecciona {correctSequence.length} pasos en orden.
-          </p>
-        </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
 
-        <div className="paso-col">
-          <h3>Tu orden</h3>
-          <ol>
-            {selected.map((it, i) => (
-              <li key={it.id + "-" + i}>
-                <div className="selected-step">
-                  <span>{i + 1}.</span> {it.text}
-                  {!successRef.current && (
-                    <button onClick={() => removeStep(i)}>✖</button>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ol>
+{/* ✅ Botones movidos fuera de la caja “Tu orden” */}
+<div className="acciones-globales" style={{ marginTop: 16, display: "flex", gap: 8, justifyContent: "center" }}>
+  <button onClick={validate}>Validar</button>
+  <button onClick={hint}>Pista</button>
+  <button onClick={resetProcess}>Reiniciar</button>
+</div>
 
-          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-            <button onClick={validate}>Validar</button>
-            <button onClick={resetProcess}>Limpiar</button>
-          </div>
+<p className="feedback">{feedback}</p>
 
-          <p className="feedback">{feedback}</p>
 
-          <div style={{ marginTop: 10, fontSize: 13, color: "#444" }}>
-            <div>Intentos: {attempts}</div>
-            <div>Pistas usadas: {hintsUsed}</div>
-          </div>
-
-          {successRef.current && (
-            <button onClick={() => setShowExplain((s) => !s)}>
-              {showExplain ? "Ocultar explicación" : "Ver explicación"}
-            </button>
-          )}
-
-          {volver && (
-            <button className="volver-btn" onClick={volver}>
-              ← Volver
-            </button>
-          )}
-        </div>
-      </div>
 
       {showExplain && (
         <div className="explain-box">
-          <h3>Explicación de los pasos</h3>
+          <h3>Explicación</h3>
           <ol>
-            {correctSequence.map((s, i) => (
+            {process.steps.map((s, i) => (
               <li key={i}>
                 <strong>{s}:</strong> {process.explain[i]}
               </li>
             ))}
           </ol>
         </div>
+      )}
+
+      {volver && (
+        <button className="volver-btn" onClick={volver}>
+          ← Volver
+        </button>
       )}
     </div>
   );

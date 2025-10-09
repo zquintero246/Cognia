@@ -18,8 +18,8 @@ const actividadesData = {
           overstimulation_risk: "Bajo. Evitar colores muy brillantes o cambios de luz rápidos para no generar fatiga visual."
         },
         {
-          name: "Flechas Ritmo",
-          description: "Varias flechas apareceran de manera consecutiva, No dejes pasar ninguna y aumenta tu puntaje.",
+          name: "Seguir Direccion",
+          description: "Sigue la direccion de las flechas con instrucciones!",
           stimulus: "auditivo",
           difficulty: 2,
           feedback: "¡Excelente!",
