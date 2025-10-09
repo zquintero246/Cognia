@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(180deg, #f8fafc, #e0f7fa);
+  background: linear-gradient(180deg, #F5DDBC, #F5DDBC);
   font-family: "Poppins", sans-serif;
   color: #222;
   gap: 1rem;
@@ -28,7 +28,7 @@
   left: 45%;
   width: 10%;
   height: 100%;
-  background-color: rgba(46, 204, 113, 0.6);
+  background-color: #559E7F;
   border-radius: 15px;
 }
 
@@ -60,7 +60,7 @@
 .boton-presionar,
 .boton-volver {
   border: none;
-  background-color: #4a90e2;
+  background-color: #6A4AB8;
   color: white;
   padding: 0.7rem 1.3rem;
   border-radius: 12px;
@@ -71,7 +71,7 @@
 
 .boton-actividad:hover,
 .boton-presionar:hover {
-  background-color: #357abd;
+  background-color: #6A4AB8;
   transform: scale(1.05);
 }
 

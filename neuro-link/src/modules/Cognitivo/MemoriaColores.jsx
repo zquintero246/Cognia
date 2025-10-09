@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRegistroActividad } from "../../hooks/useRegistroActividad";
-import clickSound from "../../assets/sound/click.mp3"; // agrega un sonido simple
+import clickSound from "../../assets/sound/click.mp3";
 import "./MemoriaColores.css";
 
 const BASE_COLORS = [
@@ -27,10 +27,12 @@ export default function MemoriaColores({ volver }) {
   const [timeStart, setTimeStart] = useState(null);
   const { registrarExito, registrarFallo } = useRegistroActividad();
 
-  const click = new Audio(clickSound);
+  // crea el audio una sola vez
+  const [click] = useState(() => new Audio(clickSound));
 
   useEffect(() => {
-    generateNewSequence(1);
+    generateNewSequence(1); // puedes dejarlo así; "Iniciar" sirve para repetir la secuencia
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const generateNewSequence = async (lvl = level) => {
@@ -61,7 +63,12 @@ export default function MemoriaColores({ volver }) {
 
   const handleColorPress = async (colorIndex) => {
     if (isShowing) return;
-    click.play();
+
+    try {
+      click.currentTime = 0;
+      await click.play();
+    } catch (_) { /* ignore autoplay */ }
+
     setPressed(colorIndex);
     setTimeout(() => setPressed(null), 150);
 
@@ -94,30 +101,63 @@ export default function MemoriaColores({ volver }) {
     await generateNewSequence(success ? level + 1 : level);
   };
 
+  // === NUEVO: controles ===
+  const iniciarSecuencia = async () => {
+    if (isShowing) return;
+    if (sequence.length) {
+      setMessage("Observa la secuencia");
+      await showSequence(sequence); // repetir la actual
+    } else {
+      await generateNewSequence(level); // por si no hubiera
+    }
+  };
+
+  const reiniciar = async () => {
+    if (isShowing) return;
+    setLevel(1);
+    await generateNewSequence(1);
+  };
+
   const colorPool = BASE_COLORS.slice(0, 3 + Math.floor(level / 2));
 
   return (
-    <div className="memoria-container">
-      <h2>🎨 Memoria de Colores — Nivel {level}</h2>
-      <p className="memoria-msg">{message}</p>
+    <div className="memoria-screen">
+      <div className="memoria-panel">
+        <h2 className="memoria-title">🎨 Memoria de Colores — Nivel {level}</h2>
+        <p className="memoria-msg">{message}</p>
 
-      <div className={`color-grid ${errorState ? "error" : ""}`} aria-hidden={isShowing}>
-        {colorPool.map((c, idx) => (
-          <button
-            key={c.id}
-            className={`color-btn ${activeIndex === idx ? "active" : ""} ${
-              pressed === idx ? "pressed" : ""
-            }`}
-            style={{ background: c.hex }}
-            onClick={() => handleColorPress(idx)}
-            disabled={isShowing}
-          />
-        ))}
+        {/* Botones de control */}
+        <div className="actions">
+          <button className="btn btn-primary" onClick={iniciarSecuencia} disabled={isShowing}>
+            ▶ Iniciar secuencia
+          </button>
+          <button className="btn btn-secondary" onClick={reiniciar} disabled={isShowing}>
+            ↺ Reiniciar
+          </button>
+        </div>
+
+        <div
+          className={`color-grid ${errorState ? "error" : ""}`}
+          aria-hidden={isShowing}
+        >
+          {colorPool.map((c, idx) => (
+            <button
+              key={c.id}
+              className={`color-btn ${activeIndex === idx ? "active" : ""} ${
+                pressed === idx ? "pressed" : ""
+              }`}
+              style={{ background: c.hex }}
+              onClick={() => handleColorPress(idx)}
+              disabled={isShowing}
+              aria-label={`Color ${c.id}`}
+            />
+          ))}
+        </div>
+
+        <button className="volver-btn" onClick={volver}>
+          ← Volver
+        </button>
       </div>
-
-      <button className="volver-btn" onClick={volver}>
-        ⬅ Volver
-      </button>
     </div>
   );
 }

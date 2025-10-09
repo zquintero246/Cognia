@@ -1,18 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
+
+/* Actividades (las que ya tienes) */
 import MemoriaColores from "./MemoriaColores";
 import DibujarFigura from "./DibujarFigura";
-
-import "./Cognitivo.css";
 import SeguirDireccion from "./SeguirDireccion";
+
+/* Estilos + decoraciones */
+import "./Cognitivo.css";
+import arriba from "./assets/arriba.svg";
+import abajo from "./assets/abajo.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Cognitivo() {
   const actividades = getActividadesPorModulo("Cognitivo");
+
+  // Render de actividad seleccionada
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
+  // Modal de preview
+  const [preview, setPreview] = useState(null);
 
-  const renderActividad = () => {
-    if (!actividadSeleccionada) return null;
+  const navigate = useNavigate();
+  const volverDashboard = () => navigate("/dashboard");
 
+  // Cerrar modal con Escape
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && setPreview(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Toma la primera oración como "característica"
+  const getTagline = (text = "") => {
+    const first = (text || "").split(".")[0]?.trim();
+    return first ? `${first}.` : "";
+  };
+
+  const empezarActividad = (actividad) => {
+    setPreview(null);
+    setActividadSeleccionada(actividad);
+  };
+
+  // Render directo de la actividad (no se toca backend/BD)
+  if (actividadSeleccionada) {
     switch (actividadSeleccionada.name) {
       case "Memoria de colores":
         return <MemoriaColores volver={() => setActividadSeleccionada(null)} />;
@@ -22,95 +52,82 @@ export default function Cognitivo() {
         return <DibujarFigura volver={() => setActividadSeleccionada(null)} />;
       default:
         return (
-          <p>
-            Esta actividad aún no está implementada:{" "}
-            <strong>{actividadSeleccionada.name}</strong>
-          </p>
+          <div className="cognitivo-container">
+            <p>
+              Actividad no implementada: <strong>{actividadSeleccionada.name}</strong>
+            </p>
+            <button className="btn btn-back" onClick={() => setActividadSeleccionada(null)}>
+              ← Volver
+            </button>
+          </div>
         );
     }
-  };
+  }
 
   return (
-    <div
-      style={{
-        padding: "24px",
-        fontFamily: "Poppins, sans-serif",
-        textAlign: "center",
-      }}
-    >
-      <h1 style={{ color: "#333" }}>🧠 Módulo Cognitivo</h1>
+    <div className="cognitivo-container">
+      {/* SVGs decorativos fijos */}
+      <img src={arriba} alt="" aria-hidden="true" className="decor decor-top" />
+      <img src={abajo} alt="" aria-hidden="true" className="decor decor-bottom" />
 
-      {actividadSeleccionada ? (
-        <div>
-          <h2 style={{ marginTop: "10px" }}>{actividadSeleccionada.name}</h2>
-          {renderActividad()}
-          <button
-            style={{
-              marginTop: "16px",
-              padding: "10px 18px",
-              background: "#eaeaea",
-              borderRadius: "10px",
-              border: "none",
-              cursor: "pointer",
-            }}
-            onClick={() => setActividadSeleccionada(null)}
-          >
-            ← Volver a la lista
-          </button>
-        </div>
-      ) : (
-        <div>
-          <p style={{ color: "#555" }}>Selecciona una actividad para comenzar.</p>
+      <div className="cognitivo-content">
+        <h1 className="cognitivo-title">Módulo Cognitivo</h1>
+        <p className="cognitivo-subtitle">
+          Fortalece tu memoria, atención y habilidades de razonamiento a través de ejercicios interactivos.
+        </p>
 
-          {actividades.length === 0 ? (
-            <p>No se encontraron actividades para este módulo.</p>
-          ) : (
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                marginTop: "20px",
-                display: "grid",
-                gap: "14px",
-                justifyContent: "center",
-              }}
+        {/* Tarjetas pastel: Título + característica */}
+        <div className="cognitivo-grid">
+          {actividades.map((a, i) => (
+            <button
+              key={a.name || i}
+              className={`cognitivo-mini card-${(i % 6) + 1}`}
+              onClick={() => setPreview(a)}
             >
-              {actividades.map((a, index) => (
-                <li
-                  key={index}
-                  onClick={() => setActividadSeleccionada(a)}
-                  style={{
-                    background: "#f6f8fa",
-                    borderRadius: "12px",
-                    padding: "16px 24px",
-                    width: "320px",
-                    cursor: "pointer",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-                    transition: "transform 0.15s ease",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.02)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                >
-                  <strong>{a.name}</strong>
-                  <p style={{ margin: "4px 0", fontSize: "14px" }}>
-                    {a.description}
-                  </p>
-                  <small style={{ color: "#777" }}>🎯 {a.why_useful}</small>
-                  <p style={{ marginTop: "6px", fontSize: "13px" }}>
-                    <strong>Dificultad:</strong> {a.difficulty} |{" "}
-                    <strong>Estímulo:</strong> {a.stimulus}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
+              <strong className="mini-title">{a.name}</strong>
+              <span className="mini-tagline">{getTagline(a.description)}</span>
+            </button>
+          ))}
         </div>
+          <button className="back-btn" onClick={volverDashboard}>
+          ← Volver al Dashboard
+          </button>
+      </div>
+
+      {/* Modal de preview */}
+      {preview && (
+        <>
+          <div className="modal-backdrop" onClick={() => setPreview(null)} />
+          <div className="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div className="modal-header">
+              <h3 id="modal-title" className="modal-title">
+                {preview.name}
+              </h3>
+            </div>
+
+            <div className="modal-body">
+              {preview.description && <p className="modal-desc">{preview.description}</p>}
+              <div className="modal-meta">
+                <span>
+                  <b>Dificultad:</b> {preview.difficulty}
+                </span>
+                <span>
+                  <b>Estímulo:</b> {preview.stimulus}
+                </span>
+              </div>
+            </div>
+
+            <div className="modal-actions">
+              <button className="btn btn-secondary" onClick={() => setPreview(null)}>
+                Cancelar
+              </button>
+              <button className="btn btn-primary" onClick={() => empezarActividad(preview)}>
+                Empezar →
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
 }
-
