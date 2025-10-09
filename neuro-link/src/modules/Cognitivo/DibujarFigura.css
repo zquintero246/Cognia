@@ -1,0 +1,50 @@
+.actividad-cognitiva {
+  text-align: center;
+  font-family: sans-serif;
+  color: #222;
+}
+
+.canvas-dibujo {
+  border: 3px solid #444;
+  border-radius: 12px;
+  cursor: crosshair;
+  background: #fff;
+  margin: 10px;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.canvas-dibujo.exito {
+  border-color: #4caf50;
+  box-shadow: 0 0 10px #4caf50;
+}
+
+.canvas-dibujo.fallo {
+  border-color: #e53935;
+  box-shadow: 0 0 10px #e53935;
+}
+
+.botones button {
+  margin: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.botones button:hover {
+  background: #125ca1;
+}
+
+.refuerzo {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}

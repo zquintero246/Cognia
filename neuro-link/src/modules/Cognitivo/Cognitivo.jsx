@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
 import MemoriaColores from "./MemoriaColores";
 import DibujarFigura from "./DibujarFigura";
-import FlechasRitmo from "./FlechasRitmo";
 
 import "./Cognitivo.css";
+import SeguirDireccion from "./SeguirDireccion";
 
 export default function Cognitivo() {
   const actividades = getActividadesPorModulo("Cognitivo");
@@ -16,11 +16,10 @@ export default function Cognitivo() {
     switch (actividadSeleccionada.name) {
       case "Memoria de colores":
         return <MemoriaColores volver={() => setActividadSeleccionada(null)} />;
-      case "Flechas del Ritmo":
-        return <FlechasRitmo volver={() => setActividadSeleccionada(null)} />;
+      case "Seguir dirección":
+        return <SeguirDireccion volver={() => setActividadSeleccionada(null)} />;
       case "Dibujar la figura":
         return <DibujarFigura volver={() => setActividadSeleccionada(null)} />;
-      case "Flechas del Ritmo":
       default:
         return (
           <p>

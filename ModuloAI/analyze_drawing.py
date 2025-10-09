@@ -25,24 +25,18 @@ def load_model_if_needed():
 
 
 def analyze_drawing(b64_image: str):
-    """Analiza una imagen en base64 y devuelve (etiqueta, confianza)."""
     if b64_image.startswith("data:"):
         b64_image = b64_image.split(",", 1)[1]
 
     img_bytes = base64.b64decode(b64_image)
-    image = Image.open(io.BytesIO(img_bytes)).convert("RGB")
-
-    image = Image.eval(image, lambda x: 255 - x)
-
+    image = Image.open(io.BytesIO(img_bytes)).convert("L")  # <- escala de grises, más consistente
+    image.save("debug_input.png")
     image = image.resize((28, 28))
 
+    # 🔹 Normalizar correctamente (sin invertir si no es necesario)
     x = np.array(image).astype("float32") / 255.0
-    if x.ndim == 2:
-        x = np.stack((x,) * 3, axis=-1)
-    elif x.shape[-1] == 1:
-        x = np.repeat(x, 3, axis=-1)
-
-    x = x.reshape(1, 28, 28, 3)
+    x = 1.0 - x  # invertir si el fondo es blanco (Canvas)
+    x = np.expand_dims(x, axis=(0, -1))  # (1, 28, 28, 1)
 
     model = load_model_if_needed()
     preds = model.predict(x)
@@ -51,7 +45,6 @@ def analyze_drawing(b64_image: str):
     label = LABELS.get(idx, "desconocido")
 
     return label, confidence
-
 
 # === Prueba local ===
 if __name__ == "__main__":
