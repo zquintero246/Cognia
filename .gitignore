@@ -15,3 +15,4 @@ neuro-link/node_modules/.cache/default-development/index.pack
 *.pack
 neuro-link/node_modules/.cache/.eslintcache
 neuro-link/node_modules/.cache/.eslintcache
+*.pyc
