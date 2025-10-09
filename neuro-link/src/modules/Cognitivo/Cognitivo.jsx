@@ -3,8 +3,11 @@ import { getActividadesPorModulo } from "../../services/activityService";
 import MemoriaColores from "./MemoriaColores";
 import DibujarFigura from "./DibujarFigura";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import FlechasRitmo from "./FlechasRitmo";
 import { useNavigate } from "react-router-dom";
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
@@ -27,8 +30,13 @@ export default function Cognitivo() {
       case "Memoria de colores":
         return <MemoriaColores volver={() => setActividadSeleccionada(null)} />;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       case "Flechas Ritmo": // 👈 nombre igual al de activityService
         return <FlechasRitmo volver={() => setActividadSeleccionada(null)} />;
+=======
+      case "Seguir dirección":
+        return <SeguirDireccion volver={() => setActividadSeleccionada(null)} />;
+>>>>>>> Stashed changes
 =======
       case "Seguir dirección":
         return <SeguirDireccion volver={() => setActividadSeleccionada(null)} />;
