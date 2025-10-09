@@ -2,16 +2,17 @@ const db = require('../database/init');
 
 class User {
   static create(userData, callback) {
-    const { name, age, profileType, abilities, preferences } = userData;
-    const sql = `INSERT INTO users (name, age, profileType, abilities, preferences) 
-                 VALUES (?, ?, ?, ?, ?)`;
+    const { name, age, profileType, password, abilities, preferences } = userData;
+    const sql = `INSERT INTO users (name, age, profileType, password, abilities, preferences) 
+                 VALUES (?, ?, ?, ?, ?, ?)`;
     
     db.run(sql, [
       name, 
       age, 
       profileType, 
-      JSON.stringify(abilities), 
-      JSON.stringify(preferences)
+      password,
+      abilities,
+      preferences
     ], callback);
   }
 
@@ -24,4 +25,4 @@ class User {
   }
 }
 
-module.exports = User;  
+module.exports = User;

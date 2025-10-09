@@ -1,18 +1,34 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ onLogin }) {
+  const navigate = useNavigate();
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (usuario === "admin" && password === "1234") {
-      onLogin();
-    } else {
-      setError("❌ Usuario o contraseña incorrectos");
+    try {
+      // CONSULTAR USUARIOS DESDE LA BASE DE DATOS
+      const response = await fetch('http://localhost:3001/api/users');
+      const users = await response.json();
+
+      // BUSCAR USUARIO QUE COINCIDA CON NOMBRE Y CONTRASEÑA
+      const userFound = users.find(user => 
+        user.name === usuario && user.password === password
+      );
+
+      if (userFound) {
+        navigate("/Dashboard");
+      } else {
+        setError("❌ Usuario o contraseña incorrectos");
+      }
+    } catch (error) {
+      console.error('Error en login:', error);
+      setError("❌ Error de conexión. Intenta nuevamente.");
     }
   };
 

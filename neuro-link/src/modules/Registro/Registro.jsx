@@ -7,8 +7,9 @@ function UserTest() {
     name: '',
     age: '',
     profileType: 'autism',
-    abilities: '{}',
-    preferences: '{}'
+    password: '',
+    abilities: '',
+    preferences: ''
   });
 
   // Cargar usuarios al iniciar
@@ -21,30 +22,13 @@ function UserTest() {
   const addUser = async () => {
     if (form.name.trim()) {
       try {
-        // Validar y parsear JSON fields
-        let abilitiesObj = {};
-        let preferencesObj = {};
-        
-        try {
-          abilitiesObj = form.abilities ? JSON.parse(form.abilities) : {};
-        } catch (e) {
-          alert('Error en formato de Abilities: debe ser JSON válido');
-          return;
-        }
-        
-        try {
-          preferencesObj = form.preferences ? JSON.parse(form.preferences) : {};
-        } catch (e) {
-          alert('Error en formato de Preferences: debe ser JSON válido');
-          return;
-        }
-
         await userService.createUser({
           name: form.name,
           age: parseInt(form.age) || 0,
           profileType: form.profileType,
-          abilities: abilitiesObj,
-          preferences: preferencesObj
+          password: form.password,
+          abilities: form.abilities,
+          preferences: form.preferences
         });
         
         // Limpiar formulario
@@ -52,8 +36,9 @@ function UserTest() {
           name: '',
           age: '',
           profileType: 'autism',
-          abilities: '{}',
-          preferences: '{}'
+          password: '',
+          abilities: '',
+          preferences: ''
         });
         
         // Recargar lista
@@ -68,13 +53,12 @@ function UserTest() {
     }
   };
 
-  // ★ NUEVA FUNCIÓN: Eliminar usuario
+  // Eliminar usuario
   const deleteUser = async (userId, userName) => {
     if (window.confirm(`¿Estás seguro de que quieres eliminar al usuario "${userName}"?`)) {
       try {
-        // Primero necesitamos agregar esta función al userService
         await userService.deleteUser(userId);
-        await loadUsers(); // Recargar lista después de eliminar
+        await loadUsers();
         alert(`Usuario "${userName}" eliminado correctamente`);
       } catch (error) {
         console.error('Error eliminando usuario:', error);
@@ -96,7 +80,7 @@ function UserTest() {
       borderRadius: '8px',
       backgroundColor: '#f9f9f9'
     }}>
-      <h3>👥 Gestión de Usuarios -  Cognia</h3>
+      <h3>👥 Gestión de Usuarios - Cognia</h3>
       
       {/* FORMULARIO */}
       <div style={{ 
@@ -147,42 +131,52 @@ function UserTest() {
           </div>
         </div>
 
-        {/* Habilidades */}
+        {/* CONTRASEÑA */}
         <div style={{ marginBottom: '10px' }}>
-          <label><strong>Habilidades (JSON):</strong></label>
+          <label><strong>Contraseña:</strong></label>
+          <input
+            type="password"
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+            placeholder="Ingrese la contraseña"
+            value={form.password}
+            onChange={(e) => setForm({...form, password: e.target.value})}
+          />
+        </div>
+
+        {/* Habilidades y Fortalezas */}
+        <div style={{ marginBottom: '10px' }}>
+          <label><strong>Habilidades y Fortalezas:</strong></label>
           <textarea
             style={{ 
               width: '100%', 
               padding: '8px', 
               marginTop: '5px',
-              fontFamily: 'monospace',
-              fontSize: '12px',
-              height: '60px'
+              fontSize: '14px',
+              height: '80px',
+              resize: 'vertical'
             }}
-            placeholder='Ej: {"motorSkills": "high", "communication": "medium"}'
+            placeholder="Describa las habilidades, fortalezas y áreas de desarrollo del usuario..."
             value={form.abilities}
             onChange={(e) => setForm({...form, abilities: e.target.value})}
           />
-          <small>Formato JSON válido. Ejemplo: {"{}"} para vacío</small>
         </div>
 
-        {/* Preferencias */}
+        {/* Preferencias y Adaptaciones */}
         <div style={{ marginBottom: '15px' }}>
-          <label><strong>Preferencias (JSON):</strong></label>
+          <label><strong>Preferencias y Adaptaciones:</strong></label>
           <textarea
             style={{ 
               width: '100%', 
               padding: '8px', 
               marginTop: '5px',
-              fontFamily: 'monospace',
-              fontSize: '12px',
-              height: '60px'
+              fontSize: '14px',
+              height: '80px',
+              resize: 'vertical'
             }}
-            placeholder='Ej: {"theme": "dark", "sound": true}'
+            placeholder="Describa las preferencias, adaptaciones necesarias y apoyos..."
             value={form.preferences}
             onChange={(e) => setForm({...form, preferences: e.target.value})}
           />
-          <small>Formato JSON válido. Ejemplo: {"{}"} para vacío</small>
         </div>
 
         {/* Botón */}
@@ -237,7 +231,7 @@ function UserTest() {
               backgroundColor: '#f8f9fa',
               position: 'relative'
             }}>
-              {/* ★ BOTÓN ELIMINAR */}
+              {/* BOTÓN ELIMINAR */}
               <button
                 onClick={() => deleteUser(user.id, user.name)}
                 style={{
@@ -257,7 +251,7 @@ function UserTest() {
                 🗑️ Eliminar
               </button>
               
-              <div style={{ paddingRight: '80px' }}> {/* Espacio para el botón */}
+              <div style={{ paddingRight: '80px' }}>
                 <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>
                   👤 {user.name}
                 </div>
@@ -276,35 +270,54 @@ function UserTest() {
                     <strong>📅 Creado:</strong> {formatDate(user.createdAt)}
                   </div>
                 </div>
-                
-                {/* Habilidades */}
-                {user.abilities && user.abilities !== '{}' && (
+
+                {/* ★ INDICADOR DE CONTRASEÑA (pero no la mostramos) */}
+                {user.password && (
                   <div style={{ marginTop: '8px' }}>
-                    <strong>💪 Habilidades:</strong> 
+                    <strong>🔐 Contraseña:</strong> 
+                    <span style={{ 
+                      color: '#28a745',
+                      marginLeft: '5px',
+                      fontStyle: 'italic'
+                    }}>
+                      ••••••••
+                    </span>
+                    <small style={{ marginLeft: '10px', color: '#666' }}>
+                      (contraseña oculta por seguridad)
+                    </small>
+                  </div>
+                )}
+                
+                {/* Habilidades y Fortalezas */}
+                {user.abilities && user.abilities.trim() !== '' && (
+                  <div style={{ marginTop: '12px' }}>
+                    <strong>💪 Habilidades y Fortalezas:</strong> 
                     <div style={{ 
-                      padding: '5px', 
-                      backgroundColor: '#e9ecef', 
-                      borderRadius: '3px',
-                      marginTop: '3px',
-                      fontSize: '12px',
-                      fontFamily: 'monospace'
+                      padding: '10px', 
+                      backgroundColor: '#e8f5e8', 
+                      borderRadius: '5px',
+                      marginTop: '5px',
+                      fontSize: '14px',
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: '1.4'
                     }}>
                       {user.abilities}
                     </div>
                   </div>
                 )}
                 
-                {/* Preferencias */}
-                {user.preferences && user.preferences !== '{}' && (
-                  <div style={{ marginTop: '8px' }}>
-                    <strong>⚙️ Preferencias:</strong>
+                {/* Preferencias y Adaptaciones */}
+                {user.preferences && user.preferences.trim() !== '' && (
+                  <div style={{ marginTop: '12px' }}>
+                    <strong>⚙️ Preferencias y Adaptaciones:</strong>
                     <div style={{ 
-                      padding: '5px', 
-                      backgroundColor: '#e9ecef', 
-                      borderRadius: '3px',
-                      marginTop: '3px',
-                      fontSize: '12px',
-                      fontFamily: 'monospace'
+                      padding: '10px', 
+                      backgroundColor: '#e3f2fd', 
+                      borderRadius: '5px',
+                      marginTop: '5px',
+                      fontSize: '14px',
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: '1.4'
                     }}>
                       {user.preferences}
                     </div>
@@ -319,7 +332,7 @@ function UserTest() {
   );
 }
 
-// ★ FUNCIÓN AUXILIAR: Obtener etiqueta del tipo de perfil
+// Función auxiliar: Obtener etiqueta del tipo de perfil
 function getProfileTypeLabel(profileType) {
   const labels = {
     autism: 'Autismo',
@@ -330,7 +343,7 @@ function getProfileTypeLabel(profileType) {
   return labels[profileType] || profileType;
 }
 
-// ★ FUNCIÓN AUXILIAR: Formatear fecha
+// Función auxiliar: Formatear fecha
 function formatDate(dateString) {
   if (!dateString) return 'N/A';
   const date = new Date(dateString);

@@ -11,6 +11,7 @@ db.serialize(() => {
     name TEXT NOT NULL,
     age INTEGER,
     profileType TEXT CHECK(profileType IN ('autism', 'intellectual', 'educator', 'parent')),
+    password TEXT,
     abilities TEXT,
     preferences TEXT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP

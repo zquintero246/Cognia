@@ -29,7 +29,7 @@ export const userService = {
     }
   },
 
-  // ★ NUEVA FUNCIÓN: Eliminar usuario
+  // Eliminar usuario
   deleteUser: async (userId) => {
     try {
       const response = await fetch(`${API_URL}/users/${userId}`, {
