@@ -1,0 +1,128 @@
+/* 🌈 Fondo con degradado pastel como en el dashboard */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f9e0ff, #e0f7ff);
+  font-family: "Poppins", sans-serif;
+}
+
+/* 📦 Tarjeta central */
+.login-card {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  padding: 3rem 2.5rem;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  animation: fadeIn 0.6s ease;
+}
+
+/* 🧠 Títulos */
+.login-title {
+  color: #6a1b9a;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* 📝 Formulario */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-form input {
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 2px solid #d4b3ff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #fafafa;
+}
+
+.login-form input:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+}
+
+/* 💜 Botón */
+.login-button {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.login-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(168, 85, 247, 0.3);
+}
+
+/* ⚠️ Error */
+.login-error {
+  color: #e53935;
+  background: #ffeaea;
+  border-radius: 10px;
+  padding: 0.6rem;
+  font-weight: 500;
+}
+
+/* 📜 Pie de página */
+.login-footer {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* ✨ Animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive */
+@media (max-width: 600px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-title {
+    font-size: 1.7rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .login-form input {
+    font-size: 0.95rem;
+    padding: 0.8rem;
+  }
+
+  .login-button {
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+}

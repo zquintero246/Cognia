@@ -1,4 +1,3 @@
-// src/modules/Sensorial/CazaDeLuz.js
 import React, { useState, useEffect, useRef } from "react";
 import "./LightChase.css";
 import { useRegistroActividad } from "../../hooks/useRegistroActividad";
@@ -19,10 +18,8 @@ export default function CazaDeLuz({ volver }) {
   const temporizador = useRef(null);
   const intervaloLuces = useRef(null);
 
-  // Hook para registrar éxitos y fallos
   const { registrarExito, registrarFallo } = useRegistroActividad();
 
-  // 🔹 Iniciar juego
   const iniciar = () => {
     setJugando(true);
     setPuntuacion(0);
@@ -31,7 +28,7 @@ export default function CazaDeLuz({ volver }) {
     setLuces([]);
   };
 
-  // 🔹 Loop de luces
+  // Loop de luces
   useEffect(() => {
     if (!jugando || !areaJuego.current) return;
 
@@ -44,7 +41,6 @@ export default function CazaDeLuz({ volver }) {
     };
   }, [jugando, intervalo]);
 
-  // 🔹 Generar luz dentro del área
   const generarLuz = () => {
     const area = areaJuego.current?.getBoundingClientRect();
     if (!area) return;
@@ -67,32 +63,26 @@ export default function CazaDeLuz({ volver }) {
     }, 1000);
   };
 
-  // 🔹 Click en luz
   const handleClick = (id) => {
     setPuntuacion((p) => p + 1);
     setLuces((prev) => prev.filter((l) => l.id !== id));
   };
 
-  // 🔹 Perder nivel
   const perderNivel = async () => {
     setMensaje("❌ Tiempo agotado o demasiados fallos.");
     clearInterval(intervaloLuces.current);
     clearTimeout(temporizador.current);
     setJugando(false);
     setLuces([]);
-
-    // 📊 Registrar fallo en la BD
     await registrarFallo("Sensorial", "Caza de Luz", nivel);
   };
 
-  // 🔹 Ganar nivel
   const ganarNivel = async () => {
     setMensaje("🎉 ¡Nivel completado!");
     setJugando(false);
     setEnTransicion(true);
     setProgreso(100);
 
-    // 📊 Registrar éxito en la BD
     await registrarExito("Sensorial", "Caza de Luz", nivel);
 
     let countdown = 100;
@@ -110,59 +100,69 @@ export default function CazaDeLuz({ volver }) {
     }, 60);
   };
 
-  // 🔹 Evaluar progreso
+  // Evaluar progreso
   useEffect(() => {
     if (!jugando) return;
     if (puntuacion >= objetivo) ganarNivel();
     if (fallos >= 3) perderNivel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [puntuacion, fallos]);
 
+  const reiniciar = () => {
+    clearInterval(intervaloLuces.current);
+    clearTimeout(temporizador.current);
+    setJugando(false);
+    setLuces([]);
+    setNivel(1);
+    setObjetivo(5);
+    setIntervalo(2000);
+    setPuntuacion(0);
+    setFallos(0);
+    setMensaje("");
+    setEnTransicion(false);
+    setProgreso(100);
+  };
+
   return (
-    <div className="sensorial-container fade-in">
-      <h1 className="sensorial-title">✨ Caza de Luz</h1>
-      <p>Haz clic en {objetivo} luces antes del tiempo (máx 3 fallos).</p>
+    <div className="chase-screen">
+      <div className="chase-panel">
+        <h2 className="chase-title">✨ Caza de Luz</h2>
+        <p className="chase-subtitle">Haz clic en {objetivo} luces antes del tiempo (máx 3 fallos).</p>
 
-      {enTransicion && (
-        <div className="sensorial-timer">
-          <div
-            className="sensorial-timer-bar"
-            style={{ width: `${progreso}%` }}
-          ></div>
-        </div>
-      )}
-
-      <div className="sensorial-game-area" ref={areaJuego}>
-        {luces.map((l) => (
-          <div
-            key={l.id}
-            className="sensorial-light"
-            style={{ top: `${l.y}px`, left: `${l.x}px`, position: "absolute" }}
-            onClick={() => handleClick(l.id)}
-          ></div>
-        ))}
-      </div>
-
-      <div className="sensorial-controls">
-        <p>Nivel: {nivel}</p>
-        <p>
-          Puntos: {puntuacion}/{objetivo} | Fallos: {fallos}/3
-        </p>
-        <p className="sensorial-message">{mensaje}</p>
-
-        {!jugando ? (
-          <button className="sensorial-button" onClick={iniciar}>
-            🚀 {mensaje ? "Reintentar" : "Comenzar"}
-          </button>
-        ) : (
-          <button className="sensorial-button detener" onClick={perderNivel}>
-            ⏹ Detener
-          </button>
+        {enTransicion && (
+          <div className="chase-timer">
+            <div className="chase-timer-bar" style={{ width: `${progreso}%` }} />
+          </div>
         )}
-        <button className="sensorial-volver" onClick={volver}>
-          ← Volver
-        </button>
+
+        <div className="actions">
+          {!jugando ? (
+            <button className="btn btn-primary" onClick={iniciar}>🚀 {mensaje ? "Reintentar" : "Comenzar"}</button>
+          ) : (
+            <button className="btn btn-secondary" onClick={perderNivel}>⏹ Detener</button>
+          )}
+          <button className="btn btn-secondary" onClick={reiniciar}>↺ Reiniciar</button>
+          <button className="volver-btn" onClick={volver}>← Volver</button>
+        </div>
+
+        <div className="chase-area" ref={areaJuego}>
+          {luces.map((l) => (
+            <div
+              key={l.id}
+              className="chase-light"
+              style={{ top: `${l.y}px`, left: `${l.x}px` }}
+              onClick={() => handleClick(l.id)}
+              aria-label="Luz objetivo"
+            />
+          ))}
+        </div>
+
+        <div className="chase-stats">
+          <p><strong>Nivel:</strong> {nivel}</p>
+          <p><strong>Puntos:</strong> {puntuacion}/{objetivo} &nbsp;|&nbsp; <strong>Fallos:</strong> {fallos}/3</p>
+          <p className="chase-message">{mensaje}</p>
+        </div>
       </div>
     </div>
   );
 }
-

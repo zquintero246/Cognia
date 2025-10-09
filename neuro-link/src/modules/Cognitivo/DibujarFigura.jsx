@@ -12,6 +12,10 @@ export default function DibujarFigura({ volver }) {
   const [loading, setLoading] = useState(false);
   const [errores, setErrores] = useState(0);
   const [refuerzo, setRefuerzo] = useState("");
+<<<<<<< Updated upstream
+=======
+  const [level, setLevel] = useState(1);
+>>>>>>> Stashed changes
 
   const { registrarExito, registrarFallo } = useRegistroActividad();
   const figuras = ["triángulo", "cuadrado", "círculo"];
@@ -25,6 +29,7 @@ export default function DibujarFigura({ volver }) {
     context.restore();
   };
 
+<<<<<<< Updated upstream
   const getCanvasPos = (evt) => {
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
@@ -48,6 +53,8 @@ export default function DibujarFigura({ volver }) {
     setCtx(context);
   }, []);
 
+=======
+>>>>>>> Stashed changes
   const cambiarFigura = () => {
     const nueva = figuras[Math.floor(Math.random() * figuras.length)];
     setFiguraActual(nueva);
@@ -79,10 +86,17 @@ export default function DibujarFigura({ volver }) {
   const tEnd   = (e) => { e.preventDefault(); stopDrawing(); };
 
   const limpiarCanvas = () => {
+<<<<<<< Updated upstream
     if (!ctx) return;
     const c = canvasRef.current;
     ctx.clearRect(0, 0, c.width, c.height);
     fillWhite(c, ctx); // ← importante
+=======
+    const canvas = canvasRef.current;
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "#fff";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+>>>>>>> Stashed changes
     setStrokes([]);
     setFeedback("");
     setRefuerzo("");
@@ -118,35 +132,61 @@ export default function DibujarFigura({ volver }) {
 
       const data = await res.json();
 
+<<<<<<< Updated upstream
       // ✅ usar el booleano del backend
       if (data?.match === true) {
         registrarExito("Cognitivo", "Dibujar la figura", 3);
+=======
+      if (resultText.includes("correct") || resultText.includes("bien")) {
+        registrarExito("Cognitivo", "Dibujar la figura", level);
+>>>>>>> Stashed changes
         setFeedback("✅ ¡Excelente!");
         setRefuerzo(`🎉 ¡Sí era un ${figuraActual}!`);
         setTimeout(() => {
           limpiarCanvas();
           cambiarFigura();
+<<<<<<< Updated upstream
         }, 1600);
+=======
+          setLevel((l) => Math.min(l + 1, 5));
+        }, 2000);
+>>>>>>> Stashed changes
       } else {
-        registrarFallo("Cognitivo", "Dibujar la figura", 3);
+        registrarFallo("Cognitivo", "Dibujar la figura", level);
         setFeedback("❌ Intenta de nuevo");
         setRefuerzo(`😅 No era un ${figuraActual}, vuelve a intentarlo`);
         setErrores((e) => e + 1);
+        setLevel((l) => Math.max(1, l - 1));
       }
     } catch (err) {
+<<<<<<< Updated upstream
       console.error(err);
       setFeedback("Error al analizar el dibujo");
       registrarFallo("Cognitivo", "Dibujar la figura", 3);
+=======
+      setFeedback("⚠️ Error al analizar el dibujo");
+      registrarFallo("Cognitivo", "Dibujar la figura", level);
+>>>>>>> Stashed changes
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="actividad-cognitiva">
-      <h1>Dibuja la figura</h1>
-      <p>Instrucción: Dibuja un {figuraActual}</p>
+  const reiniciar = () => {
+    limpiarCanvas();
+    setLevel(1);
+    setFeedback("");
+    setRefuerzo("");
+    cambiarFigura();
+  };
 
+  return (
+    <div className="dibujo-screen">
+      <div className="dibujo-panel">
+        <h2 className="dibujo-title">✏️ Dibujar la Figura — Nivel {level}</h2>
+        <p className="dibujo-subtitle">Instrucción: Dibuja un {figuraActual}</p>
+
+<<<<<<< Updated upstream
       <canvas
         ref={canvasRef}
         width={400}
@@ -162,16 +202,42 @@ export default function DibujarFigura({ volver }) {
         onTouchMove={tMove}
         onTouchEnd={tEnd}
       />
+=======
+        <canvas
+          ref={canvasRef}
+          width={400}
+          height={400}
+          className={`canvas-dibujo ${
+            feedback.includes("✅")
+              ? "exito"
+              : feedback.includes("❌")
+              ? "fallo"
+              : ""
+          }`}
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+          onMouseLeave={stopDrawing}
+        />
+>>>>>>> Stashed changes
 
-      <div className="botones">
-        <button onClick={validarDibujo} disabled={loading}>
-          {loading ? "Analizando..." : "Validar dibujo"}
-        </button>
-        <button onClick={limpiarCanvas}>Limpiar</button>
-        <button onClick={volver}>⬅ Volver</button>
+        <div className="actions">
+          <button className="btn btn-primary" onClick={validarDibujo} disabled={loading}>
+            {loading ? "Analizando..." : "Validar dibujo"}
+          </button>
+          <button className="btn btn-secondary" onClick={limpiarCanvas}>
+            Limpiar
+          </button>
+          <button className="btn btn-secondary" onClick={reiniciar}>
+            ↺ Reiniciar
+          </button>
+          <button className="volver-btn" onClick={volver}>
+            ← Volver
+          </button>
+        </div>
+
+        {refuerzo && <div className="refuerzo">{refuerzo}</div>}
       </div>
-
-      {refuerzo && <div className="refuerzo">{refuerzo}</div>}
     </div>
   );
 }

@@ -1,62 +1,138 @@
-.memoria-container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 16px;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-  color: #333;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+:root{
+  --bg:#F5DDBC;
+  --purple:#6A4AB8;
+  --text:#3b2f2f;
+  --shadow:0 14px 28px rgba(0,0,0,.15);
 }
 
-.color-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 140px);
-  gap: 16px;
-  justify-content: center;
-  margin: 20px 0;
+*{ box-sizing:border-box; font-family:'Poppins',sans-serif; }
+html, body, #root{ height:100%; background:var(--bg); }
+
+/* ===== pantalla centrada ===== */
+.memoria-screen{
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(16px,4vw,48px);
+  background:var(--bg);
+  text-align:center;
 }
 
-.color-btn {
-  width: 140px;
-  height: 140px;
-  border-radius: 20px;
-  border: 3px solid rgba(0,0,0,0.06);
-  outline: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
-  cursor: pointer;
+/* panel card */
+.memoria-panel{
+  width:min(860px, 92vw);
+  background:#fff;
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:clamp(18px,3vw,28px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
 }
 
-.color-btn:disabled {
-  opacity: 0.6;
+.memoria-title{
+  font-size:clamp(1.4rem,3vw,2rem);
+  font-weight:800;
+  color:var(--purple);
+  margin:6px 0 2px;
 }
 
-.color-btn.active {
-  transform: scale(1.1);
-  box-shadow: 0 0 18px rgba(0,0,0,0.2);
-  filter: saturate(1.1);
+.memoria-msg{
+  min-height:26px;
+  margin:2px 0 4px;
+  color:var(--text);
+  opacity:.95;
 }
 
-.color-btn.pressed {
-  border-color: #333;
+/* ===== controles ===== */
+.actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:4px;
+}
+.btn{
+  appearance:none;
+  border:0;
+  border-radius:16px;
+  padding:12px 18px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition: transform .16s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn:disabled{
+  opacity:.6; cursor:not-allowed; filter:saturate(.9);
+}
+.btn:hover:not(:disabled){
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0,0,0,.18);
+}
+.btn-primary{ background:var(--purple); color:#fff; }
+.btn-secondary{ background:#eee; color:#333; }
+
+/* ===== grid de colores ===== */
+.color-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 140px));
+  justify-content:center;
+  gap:18px;
+  margin:16px 0 6px;
+  width:100%;
+}
+.color-btn{
+  width:140px; height:140px;
+  border-radius:22px;
+  border:3px solid rgba(0,0,0,.06);
+  outline:none;
+  transition: transform .18s ease, box-shadow .2s ease, background .2s ease, filter .2s ease;
+  box-shadow:0 10px 22px rgba(0,0,0,.08);
+  cursor:pointer;
+  will-change: transform, box-shadow, filter;
+}
+.color-btn:disabled{ opacity:.6; cursor:not-allowed; }
+.color-btn.active{
+  transform: scale(1.08);
+  box-shadow:0 0 18px rgba(0,0,0,.2);
+  filter: saturate(1.06);
+}
+.color-btn.pressed{
+  border-color:#333;
   transform: scale(0.95);
 }
 
-.color-grid.error button {
-  background: #ff6b6b !important;
-  transition: background 0.3s ease;
+/* feedback error */
+.color-grid.error .color-btn{ animation: flashError .6s ease; }
+@keyframes flashError{
+  0%{ filter:none }
+  30%{ filter:brightness(95%) saturate(80%) }
+  60%{ filter:none }
 }
 
-.memoria-msg {
-  min-height: 26px;
-  margin-bottom: 8px;
+/* botón volver */
+.volver-btn{
+  margin-top:8px;
+  padding:12px 18px;
+  background:var(--purple);
+  color:#fff;
+  border:none;
+  border-radius:16px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition: transform .16s ease, box-shadow .2s ease;
+}
+.volver-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0,0,0,.18);
 }
 
-.volver-btn {
-  margin-top: 16px;
-  padding: 10px 18px;
-  background: #eaeaea;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
+/* responsive */
+@media (max-width: 520px){
+  .color-btn{ width:120px; height:120px; }
 }

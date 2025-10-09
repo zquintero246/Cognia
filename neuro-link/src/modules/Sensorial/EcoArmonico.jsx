@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+// src/modules/Sensorial/EcoArmonico.jsx
+import React, { useState } from "react";
 import "./EcoArmonico.css";
 
-// Lista de sonidos naturales (puedes reemplazar las URLs por archivos locales si los tienes)
 const SOUNDS = [
   { id: "pajaro", label: "🐦", src: "/sounds/pajaro.mp3" },
   { id: "agua", label: "💧", src: "/sounds/agua.mp3" },
@@ -19,13 +19,11 @@ export default function EcoArmonico({ volver }) {
   const [message, setMessage] = useState("");
   const [level, setLevel] = useState(1);
 
-  // reproducir sonido
   const playSound = (sound) => {
     const audio = new Audio(sound.src);
     audio.play();
   };
 
-  // Generar secuencia
   const startGame = async () => {
     const newSeq = Array.from(
       { length: Math.min(2 + level, 6) },
@@ -43,9 +41,9 @@ export default function EcoArmonico({ volver }) {
       const s = SOUNDS[seq[i]];
       setActiveSound(s.id);
       playSound(s);
-      await sleep(1000);
+      await sleep(900);
       setActiveSound(null);
-      await sleep(500);
+      await sleep(400);
     }
     setIsPlaying(false);
     setMessage("🔊 Repite los sonidos en orden");
@@ -55,63 +53,66 @@ export default function EcoArmonico({ volver }) {
     if (isPlaying) return;
     const s = SOUNDS[index];
     playSound(s);
-    const newInput = [...userInput, index];
-    setUserInput(newInput);
 
-    // Verificar el progreso
-    const expected = sequence[newInput.length - 1];
+    const next = [...userInput, index];
+    setUserInput(next);
+
+    const expected = sequence[next.length - 1];
     if (index !== expected) {
       setMessage("❌ No era ese sonido, intenta de nuevo.");
-      await sleep(1000);
+      await sleep(900);
       setLevel((l) => Math.max(1, l - 1));
       setSequence([]);
       setUserInput([]);
       return;
     }
 
-    if (newInput.length === sequence.length) {
+    if (next.length === sequence.length) {
       setMessage("✅ ¡Excelente oído!");
       setLevel((l) => l + 1);
-      await sleep(1000);
+      await sleep(800);
       startGame();
     }
   };
 
   return (
-    <div className="eco-container">
-      <h2>🎶 Eco Armónico</h2>
-      <p className="eco-msg">{message || "Presiona comenzar para iniciar."}</p>
+    <div className="eco-screen">
+      <div className="eco-panel">
+        <h2 className="eco-title">🎶 Eco Armónico</h2>
+        <p className="eco-subtitle">
+          Memoriza y repite la secuencia de sonidos.
+        </p>
 
-      <div className="eco-grid">
-        {SOUNDS.map((s, i) => (
+        <div className="actions">
           <button
-            key={s.id}
-            className={`eco-btn ${activeSound === s.id ? "activo" : ""}`}
-            onClick={() => handleSelect(i)}
+            className="btn btn-primary"
+            onClick={startGame}
             disabled={isPlaying}
           >
-            {s.label}
+            🎧 Comenzar
           </button>
-        ))}
-      </div>
-
-      <div className="eco-controls">
-        <button
-          onClick={startGame}
-          disabled={isPlaying}
-          className="eco-start-btn"
-        >
-          🎧 Comenzar
-        </button>
-        {volver && (
-          <button className="eco-volver-btn" onClick={volver}>
-            ⬅ Volver
+          <button className="volver-btn" onClick={volver}>
+            ← Volver
           </button>
-        )}
-      </div>
+        </div>
 
-      <p className="eco-nivel">Nivel actual: {level}</p>
+        <p className="eco-msg">{message || "Presiona comenzar para iniciar."}</p>
+
+        <div className="eco-grid">
+          {SOUNDS.map((s, i) => (
+            <button
+              key={s.id}
+              className={`eco-btn ${activeSound === s.id ? "active" : ""}`}
+              onClick={() => handleSelect(i)}
+              disabled={isPlaying}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+
+        <p className="eco-level">Nivel actual: {level}</p>
+      </div>
     </div>
   );
 }
-

@@ -1,38 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ======== Variables globales ======== */
+:root {
+  --bg: #F5DDBC;
+  --panel: #EECBB1;
+  --accent: #6E59B5;
+  --text: #3b2f2f;
+  --radius: 18px;
+  --shadow: 0 10px 24px rgba(110, 89, 181, 0.15);
+}
+
+/* ======== Reset general ======== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* ======== App base ======== */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
+  padding: 24px;
 }
 
+/* ======== Logo (si se usa) ======== */
+.App-logo {
+  height: 120px;
+  width: auto;
+  user-select: none;
+  filter: drop-shadow(0 6px 10px rgba(110, 89, 181, 0.2));
+}
+
+/* ======== Encabezado (contenedor principal si se usa) ======== */
+.App-header {
+  background: var(--panel);
+  padding: 40px 24px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.App-header h1 {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.App-header p {
+  color: var(--text);
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* ======== Enlaces ======== */
 .App-link {
-  color: #61dafb;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s ease;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.App-link:hover {
+  color: #5c48a1;
+  text-decoration: underline;
+}
+
+/* ======== Animación ligera opcional ======== */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: translateY(-6px);
   }
+}
+
+.App-logo {
+  animation: float 3s ease-in-out infinite;
 }

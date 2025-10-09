@@ -1,15 +1,109 @@
-.eco-container {
-  text-align: center;
-  padding: 20px;
-  font-family: "Poppins", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+:root {
+  --bg: #F5DDBC;
+  --purple: #6A4AB8;
+  --text: #3b2f2f;
+  --shadow: 0 14px 28px rgba(0, 0, 0, .15);
 }
 
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+}
+
+/* ===== Pantalla centrada ===== */
+.eco-screen {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 48px);
+  background: var(--bg);
+  text-align: center;
+}
+
+/* ===== Panel principal ===== */
+.eco-panel {
+  width: min(900px, 92vw);
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: clamp(18px, 3vw, 28px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.eco-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: var(--purple);
+  margin: 4px 0 2px;
+}
+
+.eco-subtitle {
+  color: rgba(59, 47, 47, .85);
+}
+
+/* ===== Botones ===== */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  border: 0;
+  border-radius: 16px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform .16s ease, box-shadow .2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, .18);
+}
+
+.btn-primary {
+  background: var(--purple);
+  color: #fff;
+}
+
+.volver-btn {
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform .16s ease, box-shadow .2s ease;
+}
+
+.volver-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, .18);
+}
+
+/* ===== Grid de sonidos ===== */
 .eco-grid {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 18px;
   flex-wrap: wrap;
-  margin: 30px 0;
+  margin: 14px 0 6px;
 }
 
 .eco-btn {
@@ -19,49 +113,29 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #f4f4f4;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform .18s ease, background .2s ease, box-shadow .2s ease;
+  background: #f4f4f4;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .08);
 }
 
 .eco-btn:hover {
-  transform: scale(1.1);
-  background-color: #e0f7fa;
+  transform: scale(1.08);
+  background: #e9f6ff;
 }
 
-.eco-btn.activo {
-  background-color: #a8e6cf;
-  transform: scale(1.2);
+.eco-btn.active {
+  background: #D7F2E6;
+  transform: scale(1.15);
 }
 
-.eco-start-btn,
-.eco-volver-btn {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background-color: #81d4fa;
-  transition: background-color 0.3s ease;
-}
-
-.eco-start-btn:hover {
-  background-color: #4fc3f7;
-}
-
-.eco-volver-btn {
-  background-color: #e0e0e0;
-}
-
+/* ===== Mensajes ===== */
 .eco-msg {
-  color: #555;
-  font-size: 18px;
-  margin-top: 10px;
+  color: var(--text);
+  opacity: .95;
+  min-height: 24px;
 }
 
-.eco-nivel {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #333;
+.eco-level {
+  color: var(--text);
+  font-weight: 700;
 }

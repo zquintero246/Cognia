@@ -1,45 +1,153 @@
-.sensorial-container {
-  text-align: center;
-  padding: 40px;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #eef2ff, #e0f7fa);
-  min-height: 100vh;
-  color: #333;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+:root{
+  --bg:#F5DDBC;
+  --blue:#73B4E0;
+  --pink:#D85A64;
+  --green:#559E7F;
+  --purple:#6A4AB8;
+  --text:#3b2f2f;
+  --radius:26px;
+  --shadow:0 14px 28px rgba(0,0,0,.15);
+  --card-w: clamp(240px, 24vw, 360px);
+  --card-h: 110px;
 }
 
-.sensorial-grid {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
-  margin-top: 30px;
+*{ box-sizing:border-box; font-family:'Poppins',sans-serif; margin:0; padding:0; }
+html,body,#root{ height:100%; background:var(--bg); }
+
+/* ===== contenedor principal ===== */
+.sensorial-container{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:clamp(16px,4vw,48px);
+  overflow:hidden;
+  background:var(--bg);
 }
 
-.sensorial-card {
-  background: #f8f9ff;
-  border: none;
-  border-radius: 20px;
-  padding: 24px 30px;
-  width: 240px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  font-size: 1rem;
-  color: #444;
+/* ===== decoraciones fijas ===== */
+.decor{
+  position:fixed;
+  left:0;
+  width:100vw;
+  max-width:none;
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+  object-fit:cover;
+}
+.decor-top{ top:0; }
+.decor-bottom{ bottom:0; }
+
+/* ===== contenido ===== */
+.sensorial-content{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
 }
 
-.sensorial-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  background: #ece9ff;
+/* ===== encabezado ===== */
+.sensorial-title{
+  font-size:clamp(1.9rem,3.6vw,3rem);
+  font-weight:800;
+  color:var(--purple);
+  margin-top:60px;
+}
+.sensorial-title span{
+  vertical-align:middle;
+}
+.sensorial-subtitle{
+  color:rgba(59,47,47,.85);
+  max-width:700px;
+  margin:0 auto 20px;
+  font-size:1.05rem;
 }
 
-.sensorial-card p {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 4px 0 0 0;
+/* ===== grid ===== */
+.sensorial-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(240px, px));
+  grid-template-rows: auto auto;
+  gap:32px;
+  justify-items:center;
+  align-items:center;
+  width:min(900px, 90%);
+  margin:20px auto 10px;
 }
 
-.sensorial-card.active strong {
-  color: #5b2dfd;
+/* coloca la tercera centrada en la fila inferior */
+.sensorial-card:nth-child(3){
+  grid-column:1 / span 2;
+  justify-self:center;
+}
+
+/* ===== tarjetas ===== */
+.sensorial-card{
+  width:var(--card-w);
+  height:var(--card-h);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .16s ease, box-shadow .2s ease, filter .2s ease;
+  padding:14px 10px;
+  border:none;
+  font-size:1rem;
+}
+.sensorial-card strong{ font-weight:700; }
+.sensorial-card p{ margin:4px 0 0; font-size:.95rem; opacity:.95; }
+
+.sensorial-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 18px 36px rgba(0,0,0,.18);
+  filter:saturate(1.03);
+}
+
+/* colores */
+.sensorial-card.purple{ background:var(--purple); }
+.sensorial-card.blue  { background:var(--blue); }
+.sensorial-card.green { background:var(--green); }
+
+/* ===== botón volver ===== */
+.back-btn{
+  background:var(--purple);
+  color:#fff;
+  border:none;
+  border-radius:18px;
+  padding:12px 20px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition:transform .16s ease, box-shadow .2s ease;
+  margin-top:24px;
+}
+.back-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 28px rgba(0,0,0,.18);
+}
+
+/* ===== responsive ===== */
+@media (max-width:900px){
+  .sensorial-grid{
+    grid-template-columns:1fr;
+    gap:24px;
+    width:min(92%,560px);
+  }
+  .sensorial-card:nth-child(3){
+    grid-column:auto;
+  }
+  .sensorial-subtitle{ font-size:0.95rem; padding:0 12px; }
 }
