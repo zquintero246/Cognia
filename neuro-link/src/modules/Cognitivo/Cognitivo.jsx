@@ -2,29 +2,13 @@ import React, { useState } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
 import MemoriaColores from "./MemoriaColores";
 import DibujarFigura from "./DibujarFigura";
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-import FlechasRitmo from "./FlechasRitmo";
-import { useNavigate } from "react-router-dom";
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
 import "./Cognitivo.css";
 import SeguirDireccion from "./SeguirDireccion";
 
 export default function Cognitivo() {
-  const navigate = useNavigate();
   const actividades = getActividadesPorModulo("Cognitivo");
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
-
-  const volverDashboard = () => {
-    navigate("/dashboard");
-  };
 
   const renderActividad = () => {
     if (!actividadSeleccionada) return null;
@@ -32,23 +16,8 @@ export default function Cognitivo() {
     switch (actividadSeleccionada.name) {
       case "Memoria de colores":
         return <MemoriaColores volver={() => setActividadSeleccionada(null)} />;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-      case "Flechas Ritmo": // 👈 nombre igual al de activityService
-        return <FlechasRitmo volver={() => setActividadSeleccionada(null)} />;
-=======
       case "Seguir dirección":
         return <SeguirDireccion volver={() => setActividadSeleccionada(null)} />;
->>>>>>> Stashed changes
-=======
-      case "Seguir dirección":
-        return <SeguirDireccion volver={() => setActividadSeleccionada(null)} />;
->>>>>>> Stashed changes
-=======
-      case "Seguir dirección":
-        return <SeguirDireccion volver={() => setActividadSeleccionada(null)} />;
->>>>>>> Stashed changes
       case "Dibujar la figura":
         return <DibujarFigura volver={() => setActividadSeleccionada(null)} />;
       default:
@@ -141,20 +110,6 @@ export default function Cognitivo() {
           )}
         </div>
       )}
-      <button
-        style={{
-          marginTop: "24px",
-          padding: "10px 18px",
-          background: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-        onClick={volverDashboard}
-      >
-        ← Volver al Dashboard
-      </button>
     </div>
   );
 }
