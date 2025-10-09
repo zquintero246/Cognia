@@ -2,28 +2,28 @@
 import { registrarResultado } from "../services/logService";
 
 export function useRegistroActividad() {
-  const registrarExito = async (modulo, actividad, nivel, extra = {}) => {
+  const registrarExito = async (modulo, actividad, nivel) => {
     const data = {
-      user_id: "usuario_demo", // luego se reemplaza con user real
+      user_id: "usuario_demo", // luego se reemplaza con el user real
       module: modulo,
-      activity: actividad,
+      activity_name: actividad, // ✅ nombre correcto
       success: true,
       difficulty: nivel,
       timestamp: new Date().toISOString(),
-      ...extra,
+      
     };
     await registrarResultado(data);
   };
 
-  const registrarFallo = async (modulo, actividad, nivel, extra = {}) => {
+  const registrarFallo = async (modulo, actividad, nivel) => {
     const data = {
       user_id: "usuario_demo",
       module: modulo,
-      activity: actividad,
+      activity_name: actividad, // ✅ nombre correcto
       success: false,
       difficulty: nivel,
       timestamp: new Date().toISOString(),
-      ...extra,
+      
     };
     await registrarResultado(data);
   };

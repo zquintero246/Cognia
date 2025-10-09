@@ -22,12 +22,13 @@ db.serialize(() => {
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,
   module TEXT,
-  activity_name TEXT,
-  success BOOLEAN,
-  difficulty INTEGER,
+  activity TEXT,             -- corregido: coincide con tu INSERT
+  success INTEGER,           -- 0 o 1
+  difficulty TEXT,           -- permite 'facil', 'normal', 'dificil'
   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(user_id) REFERENCES users(id)
 )`);
+
 });
 
 console.log('✅ Base de datos inicializada');

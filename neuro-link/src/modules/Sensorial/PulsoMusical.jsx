@@ -1,5 +1,7 @@
+// src/modules/Sensorial/PulsoMusical.js
 import React, { useState, useEffect, useRef } from "react";
 import "./PulsoMusical.css";
+import { useRegistroActividad } from "../../hooks/useRegistroActividad";
 
 export default function PulsoMusical({ volver }) {
   const [playing, setPlaying] = useState(false);
@@ -14,6 +16,9 @@ export default function PulsoMusical({ volver }) {
   const audioCtxRef = useRef(null);
   const animRef = useRef(null);
   const lastCenterPass = useRef(false);
+
+  // 🧩 Hook para registrar actividad
+  const { registrarExito, registrarFallo } = useRegistroActividad();
 
   const playTone = (freq = 440) => {
     const ctx = audioCtxRef.current;
@@ -31,7 +36,7 @@ export default function PulsoMusical({ volver }) {
   const animate = () => {
     positionRef.current += directionRef.current * speed;
 
-    // Rebote en bordes con sonido una sola vez
+    // Rebote con sonido
     if (positionRef.current >= 100) {
       positionRef.current = 100;
       directionRef.current = -1;
@@ -42,7 +47,7 @@ export default function PulsoMusical({ volver }) {
       playTone(500);
     }
 
-    // Sonido solo al cruzar el centro (no spamea)
+    // Sonido al pasar por el centro
     if (!lastCenterPass.current && positionRef.current >= 50 && positionRef.current <= 51) {
       playTone(440);
       lastCenterPass.current = true;
@@ -50,9 +55,7 @@ export default function PulsoMusical({ volver }) {
       lastCenterPass.current = false;
     }
 
-    // Actualiza la UI visualmente
     document.querySelector(".indicador")?.style.setProperty("left", `${positionRef.current}%`);
-
     animRef.current = requestAnimationFrame(animate);
   };
 
@@ -78,17 +81,23 @@ export default function PulsoMusical({ volver }) {
     setFeedback(msg);
   };
 
-  const handlePress = () => {
+  const handlePress = async () => {
     if (!playing) return;
     const diff = Math.abs(positionRef.current - 50);
     if (diff <= 10) {
       setScore((s) => s + 1);
       playTone(700);
       setFeedback("✨ ¡Buen ritmo!");
+
+      // ✅ Registrar éxito
+      await registrarExito("Sensorial", "Pulso Musical", level);
     } else {
       setFails((f) => f + 1);
       playTone(200);
       setFeedback("❌ Fuera de tiempo");
+
+      // ❌ Registrar fallo
+      await registrarFallo("Sensorial", "Pulso Musical", level);
     }
   };
 
@@ -153,3 +162,4 @@ export default function PulsoMusical({ volver }) {
     </div>
   );
 }
+

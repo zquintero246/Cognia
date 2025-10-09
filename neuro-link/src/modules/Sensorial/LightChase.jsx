@@ -1,5 +1,7 @@
+// src/modules/Sensorial/CazaDeLuz.js
 import React, { useState, useEffect, useRef } from "react";
 import "./LightChase.css";
+import { useRegistroActividad } from "../../hooks/useRegistroActividad";
 
 export default function CazaDeLuz({ volver }) {
   const [jugando, setJugando] = useState(false);
@@ -16,6 +18,9 @@ export default function CazaDeLuz({ volver }) {
   const areaJuego = useRef(null);
   const temporizador = useRef(null);
   const intervaloLuces = useRef(null);
+
+  // Hook para registrar éxitos y fallos
+  const { registrarExito, registrarFallo } = useRegistroActividad();
 
   // 🔹 Iniciar juego
   const iniciar = () => {
@@ -69,20 +74,26 @@ export default function CazaDeLuz({ volver }) {
   };
 
   // 🔹 Perder nivel
-  const perderNivel = () => {
+  const perderNivel = async () => {
     setMensaje("❌ Tiempo agotado o demasiados fallos.");
     clearInterval(intervaloLuces.current);
     clearTimeout(temporizador.current);
     setJugando(false);
     setLuces([]);
+
+    // 📊 Registrar fallo en la BD
+    await registrarFallo("Sensorial", "Caza de Luz", nivel);
   };
 
   // 🔹 Ganar nivel
-  const ganarNivel = () => {
+  const ganarNivel = async () => {
     setMensaje("🎉 ¡Nivel completado!");
     setJugando(false);
     setEnTransicion(true);
     setProgreso(100);
+
+    // 📊 Registrar éxito en la BD
+    await registrarExito("Sensorial", "Caza de Luz", nivel);
 
     let countdown = 100;
     const intervaloTimer = setInterval(() => {
@@ -154,3 +165,4 @@ export default function CazaDeLuz({ volver }) {
     </div>
   );
 }
+

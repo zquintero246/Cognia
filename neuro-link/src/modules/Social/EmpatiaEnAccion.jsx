@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { sendActivity } from "../../services/activityService";
+import { useRegistroActividad } from "../../hooks/useRegistroActividad";
 import "./Social.css";
 
 export default function EmpatiaEnAccion({ volver }) {
@@ -41,36 +41,30 @@ export default function EmpatiaEnAccion({ volver }) {
   );
   const [feedback, setFeedback] = useState("");
   const [score, setScore] = useState(0);
+  const [nivel, setNivel] = useState(1);
 
-  // ✅ Nueva función para registrar la puntuación y enviar actividad
-  const onPuntuar = async (puntos = 1) => {
-    setScore((s) => s + puntos);
-    try {
-      await sendActivity({
-        modulo: "Social",
-        actividad: "Empatía en acción",
-        puntuacion: puntos,
-        escenario: escenarioActual.descripcion,
-      });
-      console.log("✅ Actividad registrada correctamente (EmpatíaEnAccion)");
-    } catch (err) {
-      console.warn("⚠️ No se pudo enviar la actividad al servidor:", err);
-    }
-  };
+  const { registrarExito, registrarFallo } = useRegistroActividad();
 
-  const elegirOpcion = (opcion) => {
+  const elegirOpcion = async (opcion) => {
     if (opcion === escenarioActual.correcta) {
       setFeedback("✅ ¡Correcto! Reconociste la emoción.");
-      onPuntuar(1);
+      setScore((s) => s + 1);
+
+      // Registrar éxito en el backend
+      await registrarExito("Social", "Empatía en acción", nivel);
+
+      // Subir de nivel cada 5 aciertos
+      if ((score + 1) % 5 === 0) setNivel((n) => n + 1);
+
       setTimeout(() => nuevaRonda(), 2000);
     } else {
       setFeedback("❌ Intenta de nuevo, piensa cómo se sentiría esa persona.");
+      await registrarFallo("Social", "Empatía en acción", nivel);
     }
   };
 
   const nuevaRonda = () => {
-    const nueva =
-      escenarios[Math.floor(Math.random() * escenarios.length)];
+    const nueva = escenarios[Math.floor(Math.random() * escenarios.length)];
     setEscenarioActual(nueva);
     setFeedback("");
   };
@@ -96,7 +90,9 @@ export default function EmpatiaEnAccion({ volver }) {
       </div>
 
       {feedback && <p className="feedback">{feedback}</p>}
-      <p className="puntaje">Puntuación: {score}</p>
+      <p className="puntaje">
+        Puntuación: {score} | Nivel {nivel}
+      </p>
 
       <button className="boton-volver" onClick={volver}>
         ⬅ Volver
@@ -104,3 +100,4 @@ export default function EmpatiaEnAccion({ volver }) {
     </div>
   );
 }
+

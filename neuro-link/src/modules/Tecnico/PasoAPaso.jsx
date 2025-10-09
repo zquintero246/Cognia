@@ -1,3 +1,4 @@
+// src/modules/PasoAPaso.jsx
 import React, { useEffect, useState, useRef } from "react";
 import "./PasoAPaso.css";
 
@@ -11,15 +12,15 @@ const PROCESSES = [
       "Poner una pequeña cantidad de pasta dental",
       "Cepillar los dientes delanteros y traseros",
       "Cepillar la lengua suavemente",
-      "Enjuagarse la boca y guardar el cepillo"
+      "Enjuagarse la boca y guardar el cepillo",
     ],
     explain: [
       "Mojar el cepillo ayuda a preparar las cerdas.",
       "Una cantidad pequeña de pasta es suficiente.",
       "Cepillar elimina la placa bacteriana.",
       "La lengua acumula bacterias; cepillarla ayuda.",
-      "Enjuagar y guardar evita contaminación."
-    ]
+      "Enjuagar y guardar evita contaminación.",
+    ],
   },
   {
     id: "lavarse",
@@ -30,15 +31,15 @@ const PROCESSES = [
       "Aplicar jabón en las palmas",
       "Frotar todas las partes durante 20 segundos",
       "Enjuagar con agua limpia",
-      "Secar con una toalla o al aire"
+      "Secar con una toalla o al aire",
     ],
     explain: [
       "El agua remueve la suciedad inicial.",
       "El jabón atrapa los gérmenes.",
       "Frotar elimina bacterias.",
       "Enjuagar limpia los residuos.",
-      "Secar evita recontaminación."
-    ]
+      "Secar evita recontaminación.",
+    ],
   },
   {
     id: "sandwich",
@@ -49,15 +50,15 @@ const PROCESSES = [
       "Colocar dos rebanadas de pan",
       "Agregar el relleno elegido",
       "Tapar con la otra rebanada",
-      "Servir y limpiar la mesa"
+      "Servir y limpiar la mesa",
     ],
     explain: [
       "Evita contaminación.",
       "Organiza ingredientes.",
       "Desarrolla coordinación fina.",
       "Completa la tarea visualmente.",
-      "Refuerza responsabilidad."
-    ]
+      "Refuerza responsabilidad.",
+    ],
   },
   {
     id: "hervir",
@@ -68,15 +69,15 @@ const PROCESSES = [
       "Colocar la olla sobre la estufa",
       "Encender la estufa con cuidado",
       "Esperar hasta que hierva",
-      "Apagar la estufa y retirar la olla"
+      "Apagar la estufa y retirar la olla",
     ],
     explain: [
       "Medir evita derrames.",
       "Colocar correctamente previene accidentes.",
       "Encender con cuidado enseña seguridad.",
       "El hervor muestra cambio de estado.",
-      "Apagar previene quemaduras."
-    ]
+      "Apagar previene quemaduras.",
+    ],
   },
   {
     id: "germinacion",
@@ -87,15 +88,15 @@ const PROCESSES = [
       "Colocar la semilla a la profundidad adecuada",
       "Regar ligeramente la tierra",
       "Poner la maceta en un lugar con luz indirecta",
-      "Observar su crecimiento"
+      "Observar su crecimiento",
     ],
     explain: [
       "La tierra sostiene la semilla.",
       "Enterrarla la protege.",
       "El agua activa la germinación.",
       "La luz suave ayuda al crecimiento.",
-      "Observar enseña paciencia."
-    ]
+      "Observar enseña paciencia.",
+    ],
   },
   {
     id: "vestirse",
@@ -106,15 +107,15 @@ const PROCESSES = [
       "Ponerse la camiseta",
       "Ponerse el pantalón",
       "Colocarse los calcetines y zapatos",
-      "Guardar la ropa que no se usa"
+      "Guardar la ropa que no se usa",
     ],
     explain: [
       "Elegir ayuda autonomía.",
       "Vestirse desarrolla motricidad.",
       "Aprende orden en las acciones.",
       "Finaliza la presentación personal.",
-      "Refuerza responsabilidad."
-    ]
+      "Refuerza responsabilidad.",
+    ],
   },
   {
     id: "mesa",
@@ -125,15 +126,15 @@ const PROCESSES = [
       "Poner los platos en su lugar",
       "Ubicar cubiertos a cada lado",
       "Colocar vasos arriba del plato",
-      "Servir servilletas"
+      "Servir servilletas",
     ],
     explain: [
       "Mantel protege la mesa.",
       "Platos organizan el espacio.",
       "Cubiertos enseñan lateralidad.",
       "Vasos completan la disposición.",
-      "Servilletas fomentan limpieza."
-    ]
+      "Servilletas fomentan limpieza.",
+    ],
   },
   {
     id: "cama",
@@ -144,15 +145,15 @@ const PROCESSES = [
       "Estirar la sábana inferior",
       "Colocar la sábana superior",
       "Acomodar la cobija y almohadas",
-      "Revisar que quede ordenada"
+      "Revisar que quede ordenada",
     ],
     explain: [
       "Inicia la rutina diaria.",
       "Mantiene higiene.",
       "Promueve el orden.",
       "Fomenta responsabilidad.",
-      "Genera sensación de logro."
-    ]
+      "Genera sensación de logro.",
+    ],
   },
   {
     id: "desayuno",
@@ -163,15 +164,15 @@ const PROCESSES = [
       "Servir cereal en un plato o vaso",
       "Agregar leche o bebida vegetal",
       "Tomar una fruta o pan",
-      "Comer y limpiar la mesa"
+      "Comer y limpiar la mesa",
     ],
     explain: [
       "Empieza con higiene.",
       "Prepara el alimento principal.",
       "Completa el desayuno nutritivo.",
       "Incluye alimentos frescos.",
-      "Mantiene orden y hábitos."
-    ]
+      "Mantiene orden y hábitos.",
+    ],
   },
   {
     id: "mascota",
@@ -182,16 +183,16 @@ const PROCESSES = [
       "Servir la porción adecuada",
       "Colocar el plato en su lugar",
       "Esperar a que coma tranquilo",
-      "Guardar el alimento sobrante"
+      "Guardar el alimento sobrante",
     ],
     explain: [
       "Higiene ante todo.",
       "Medir enseña cuidado.",
       "Lugar fijo da seguridad.",
       "Observar enseña empatía.",
-      "Guardar promueve orden."
-    ]
-  }
+      "Guardar promueve orden.",
+    ],
+  },
 ];
 
 function shuffle(array) {
@@ -203,8 +204,8 @@ function shuffle(array) {
   return copy;
 }
 
-export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
-  const [order] = useState(() => shuffle(PROCESSES).slice(0, 10)); // 10 aleatorios
+export default function PasoAPaso({ volver, dificultad = "normal", userId = 1 }) {
+  const [order] = useState(() => shuffle(PROCESSES).slice(0, 10));
   const [index, setIndex] = useState(0);
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -222,11 +223,30 @@ export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
     resetProcess();
   }, [index]);
 
+  const registrarResultado = async (success, timeSpentMs) => {
+    try {
+      await fetch("http://localhost:3001/api/activities/registrar_resultado", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          module: "Paso a Paso",
+          activity: process.title,
+          success,
+          difficulty: dificultad,
+          attempts: attempts + 1,
+          hints,
+          timeSpentMs,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+    } catch (err) {
+      console.error("❌ Error registrando resultado:", err);
+    }
+  };
+
   function resetProcess() {
-    const shuffled = shuffle(process.steps).map((text, i) => ({
-      id: i,
-      text
-    }));
+    const shuffled = shuffle(process.steps).map((text, i) => ({ id: i, text }));
     setItems(shuffled);
     setSelected([]);
     setFeedback("");
@@ -248,7 +268,7 @@ export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
     setSelected(selected.filter((_, i) => i !== pos));
   }
 
-  function validate() {
+  async function validate() {
     if (selected.length < correctSequence.length) {
       setFeedback("Selecciona todos los pasos.");
       return;
@@ -260,14 +280,7 @@ export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
       setFeedback("¡Excelente! Todo está en orden.");
       successRef.current = true;
       setShowExplain(true);
-      onResult?.({
-        processId: process.id,
-        difficulty: dificultad,
-        attempts: attempts + 1,
-        hints,
-        timeSpentMs,
-        success: true
-      });
+      await registrarResultado(true, timeSpentMs);
       setTimeout(() => {
         if (index + 1 < order.length) {
           setIndex(index + 1);
@@ -277,14 +290,7 @@ export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
       }, 2500);
     } else {
       setFeedback("Algunos pasos no están en orden.");
-      onResult?.({
-        processId: process.id,
-        difficulty: dificultad,
-        attempts: attempts + 1,
-        hints,
-        timeSpentMs,
-        success: false
-      });
+      await registrarResultado(false, timeSpentMs);
     }
   }
 
@@ -307,53 +313,53 @@ export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
       <p>{process.description}</p>
 
       <div className="paso-grid">
-  <div className="paso-col">
-    <h3>Pasos disponibles</h3>
-    <div className="chips">
-      {items.map((it) => (
-        <button
-          key={it.id}
-          onClick={() => pick(it)}
-          disabled={
-            selected.find((s) => s.id === it.id) || successRef.current
-          }
-          className={`chip ${
-            selected.find((s) => s.id === it.id) ? "chip-used" : ""
-          }`}
-        >
-          {it.text}
-        </button>
-      ))}
-    </div>
-  </div>
-
-  <div className="paso-col">
-    <h3>Tu orden</h3>
-    <ol>
-      {selected.map((it, i) => (
-        <li key={i}>
-          <div className="selected-step">
-            {i + 1}. {it.text}
-            {!successRef.current && (
-              <button onClick={() => removeStep(i)}>✖</button>
-            )}
+        <div className="paso-col">
+          <h3>Pasos disponibles</h3>
+          <div className="chips">
+            {items.map((it) => (
+              <button
+                key={it.id}
+                onClick={() => pick(it)}
+                disabled={
+                  selected.find((s) => s.id === it.id) || successRef.current
+                }
+                className={`chip ${
+                  selected.find((s) => s.id === it.id) ? "chip-used" : ""
+                }`}
+              >
+                {it.text}
+              </button>
+            ))}
           </div>
-        </li>
-      ))}
-    </ol>
-  </div>
-</div>
+        </div>
 
-{/* ✅ Botones movidos fuera de la caja “Tu orden” */}
-<div className="acciones-globales" style={{ marginTop: 16, display: "flex", gap: 8, justifyContent: "center" }}>
-  <button onClick={validate}>Validar</button>
-  <button onClick={hint}>Pista</button>
-  <button onClick={resetProcess}>Reiniciar</button>
-</div>
+        <div className="paso-col">
+          <h3>Tu orden</h3>
+          <ol>
+            {selected.map((it, i) => (
+              <li key={i}>
+                <div className="selected-step">
+                  {i + 1}. {it.text}
+                  {!successRef.current && (
+                    <button onClick={() => removeStep(i)}>✖</button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
 
-<p className="feedback">{feedback}</p>
+      <div
+        className="acciones-globales"
+        style={{ marginTop: 16, display: "flex", gap: 8, justifyContent: "center" }}
+      >
+        <button onClick={validate}>Validar</button>
+        <button onClick={hint}>Pista</button>
+        <button onClick={resetProcess}>Reiniciar</button>
+      </div>
 
-
+      <p className="feedback">{feedback}</p>
 
       {showExplain && (
         <div className="explain-box">
@@ -376,4 +382,5 @@ export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
     </div>
   );
 }
+
 

@@ -1,3 +1,4 @@
+// src/modules/Cognitivo/SeguirDireccion.js
 import React, { useEffect, useState } from "react";
 import { useRegistroActividad } from "../../hooks/useRegistroActividad";
 import "./SeguirDireccion.css";
@@ -13,21 +14,29 @@ export default function SeguirDireccion({ volver }) {
   const [feedback, setFeedback] = useState(null);
   const { registrarExito, registrarFallo } = useRegistroActividad();
 
+  // Inicia la primera instrucción al montar
   useEffect(() => {
     reproducirDireccion();
   }, []);
 
   const reproducirDireccion = async () => {
     setBloqueado(true);
+    setMensaje("Escucha la instrucción...");
+    
+    // Seleccionar dirección aleatoria
     const dir = DIRECCIONES[Math.floor(Math.random() * DIRECCIONES.length)];
     setActual(dir);
+
+    // Reproducir con voz
     const msg = new SpeechSynthesisUtterance(dir);
     msg.lang = "es-ES";
-    msg.rate = 0.8 + level * 0.05;
+    msg.rate = 0.9; // velocidad de voz
     speechSynthesis.speak(msg);
-    await sleep(800 + (5 - level) * 200);
+
+    // Esperar un poco y habilitar botones
+    await sleep(1500);
     setBloqueado(false);
-    setMensaje("Selecciona la dirección correcta");
+    setMensaje("Selecciona la dirección correcta 👇");
   };
 
   const handleRespuesta = async (respuesta) => {
@@ -38,16 +47,17 @@ export default function SeguirDireccion({ volver }) {
     setFeedback({ dir: respuesta, correcto });
 
     if (correcto) {
-      registrarExito("Cognitivo", "Seguir Dirección", level);
+      await registrarExito("Cognitivo", "Seguir Dirección", level);
       setMensaje("✅ ¡Excelente!");
       setLevel((l) => Math.min(l + 1, 5));
     } else {
-      registrarFallo("Cognitivo", "Seguir Dirección", level);
-      setMensaje("❌ Intenta de nuevo");
+      await registrarFallo("Cognitivo", "Seguir Dirección", level);
+      setMensaje(`❌ No era ${respuesta}. Era ${actual}.`);
       setLevel((l) => Math.max(1, l - 1));
     }
 
-    await sleep(1000);
+    // Esperar un momento antes de la siguiente ronda
+    await sleep(1500);
     setFeedback(null);
     reproducirDireccion();
   };
@@ -82,3 +92,4 @@ export default function SeguirDireccion({ volver }) {
     </div>
   );
 }
+

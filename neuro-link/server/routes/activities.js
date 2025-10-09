@@ -1,9 +1,8 @@
-// routes/activities.js
 const express = require("express");
 const router = express.Router();
 const db = require("../database/init");
 
-// Registrar un resultado de actividad (éxito o fallo)
+// Registrar resultado de actividad
 router.post("/registrar_resultado", async (req, res) => {
   try {
     const { user_id, module, activity, success, difficulty, timestamp } = req.body;
@@ -12,12 +11,18 @@ router.post("/registrar_resultado", async (req, res) => {
       return res.status(400).json({ error: "Faltan datos requeridos" });
     }
 
-    // Inserta el resultado en la base de datos
-    await db.run(
-      `INSERT INTO activity_logs (user_id, module, activity, success, difficulty, timestamp)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [user_id, module, activity, success ? 1 : 0, difficulty, timestamp]
-    );
+    // Ejecutar inserción como promesa
+    await new Promise((resolve, reject) => {
+      db.run(
+        `INSERT INTO activity_logs (user_id, module, activity_name, success, difficulty, timestamp)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+        [user_id, module, activity, success ? 1 : 0, difficulty, timestamp],
+        function (err) {
+          if (err) reject(err);
+          else resolve(this.lastID);
+        }
+      );
+    });
 
     res.json({ message: "✅ Resultado registrado correctamente" });
   } catch (error) {
@@ -30,10 +35,18 @@ router.post("/registrar_resultado", async (req, res) => {
 router.get("/historial/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const results = await db.all(
-      "SELECT * FROM activity_logs WHERE user_id = ? ORDER BY timestamp DESC",
-      [user_id]
-    );
+
+    const results = await new Promise((resolve, reject) => {
+      db.all(
+        "SELECT * FROM activity_logs WHERE user_id = ? ORDER BY timestamp DESC",
+        [user_id],
+        (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+        }
+      );
+    });
+
     res.json(results);
   } catch (error) {
     console.error("❌ Error al obtener historial:", error);

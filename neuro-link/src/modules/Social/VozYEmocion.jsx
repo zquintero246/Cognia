@@ -1,8 +1,8 @@
-// src/modules/Social/VozYEmocion.jsx
 import React, { useState, useEffect, useRef } from "react";
+import { useRegistroActividad } from "../../hooks/useRegistroActividad";
 import "./Social.css";
 
-export default function VozYEmocion({ volver, onPuntuar }) {
+export default function VozYEmocion({ volver }) {
   const frases = [
     { id: 1, text: "Hola, ¿cómo estás?", expectedKeywords: ["hola", "cómo", "estás"] },
     { id: 2, text: "Gracias por ayudarme", expectedKeywords: ["gracias", "ayudarme"] },
@@ -16,8 +16,10 @@ export default function VozYEmocion({ volver, onPuntuar }) {
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef(null);
 
+  // ✅ Integración con el backend
+  const { registrarExito, registrarFallo } = useRegistroActividad();
+
   useEffect(() => {
-    // Inicializar SpeechRecognition si está disponible
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition || null;
     if (!SpeechRecognition) return;
@@ -39,7 +41,7 @@ export default function VozYEmocion({ volver, onPuntuar }) {
     };
 
     recognitionRef.current = rec;
-    // cleanup
+
     return () => {
       if (recognitionRef.current) {
         recognitionRef.current.onresult = null;
@@ -51,24 +53,25 @@ export default function VozYEmocion({ volver, onPuntuar }) {
         } catch {}
       }
     };
-    // eslint-disable-next-line
   }, []);
 
-  const evaluarTranscripcion = (transcript) => {
+  const evaluarTranscripcion = async (transcript) => {
     const keywords = fraseActual.expectedKeywords;
-    // Contar cuántas keywords aparecen
     let aciertos = 0;
+
     for (const k of keywords) {
       if (transcript.includes(k)) aciertos++;
     }
+
     const ratio = aciertos / keywords.length;
 
     if (ratio >= 0.6) {
       setFeedback("✅ ¡Muy bien! Buena pronunciación y entonación.");
-      if (onPuntuar) onPuntuar(1);
+      await registrarExito("Social", "Voz y emoción", 1);
       setTimeout(() => siguienteFrase(), 1400);
     } else {
       setFeedback("❌ Intenta pronunciar con más claridad. Repite la frase.");
+      await registrarFallo("Social", "Voz y emoción", 1);
     }
   };
 
@@ -81,9 +84,9 @@ export default function VozYEmocion({ volver, onPuntuar }) {
 
     try {
       rec.start();
-      setFeedback("Escuchando... habla ahora.");
+      setFeedback("🎙️ Escuchando... habla ahora.");
     } catch (e) {
-      // ya iniciado
+      // Ya estaba iniciado
     }
   };
 
@@ -93,10 +96,9 @@ export default function VozYEmocion({ volver, onPuntuar }) {
     setFeedback("");
   };
 
-  const marcarLeido = () => {
-    // fallback: usuario clickea que leyó la frase
-    setFeedback("Marcado como leído. Buen trabajo.");
-    if (onPuntuar) onPuntuar(1);
+  const marcarLeido = async () => {
+    setFeedback("📖 Marcado como leído. Buen trabajo.");
+    await registrarExito("Social", "Voz y emoción", 1);
     setTimeout(() => siguienteFrase(), 1200);
   };
 
@@ -106,6 +108,7 @@ export default function VozYEmocion({ volver, onPuntuar }) {
       <p className="contexto">
         Lee en voz alta la siguiente frase con entonación adecuada:
       </p>
+
       <div className="frase-voz">{fraseActual.text}</div>
 
       <div style={{ marginTop: 18 }}>
@@ -132,3 +135,4 @@ export default function VozYEmocion({ volver, onPuntuar }) {
     </div>
   );
 }
+

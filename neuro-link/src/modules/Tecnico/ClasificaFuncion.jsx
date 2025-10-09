@@ -1,5 +1,7 @@
+// src/modules/Cognitivo/ClasificaFuncion.jsx
 import React, { useState, useEffect } from "react";
 import "./ClasificaFuncion.css";
+import { useRegistroActividad } from "../../hooks/useRegistroActividad";
 
 const PAREJAS = [
   // --- Cotidianos ---
@@ -48,9 +50,11 @@ export default function ClasificaFuncion({ volver }) {
   const [aciertos, setAciertos] = useState([]);
   const [feedback, setFeedback] = useState("");
   const [explicacion, setExplicacion] = useState("");
-  const [usadas, setUsadas] = useState([]); // pares usados
+  const [usadas, setUsadas] = useState([]);
 
-  // 🔸 Elegir 6 pares aleatorios únicos cada ronda
+  // ✅ Hook de registro de actividad
+  const { registrarExito, registrarFallo } = useRegistroActividad();
+
   const elegirAleatorias = () => shuffle(PAREJAS).slice(0, 6);
 
   useEffect(() => {
@@ -88,14 +92,16 @@ export default function ClasificaFuncion({ volver }) {
       setFeedback("✅ ¡Correcto! Buena asociación.");
       setExplicacion(parejaCorrecta.explicacion);
 
+      registrarExito("Cognitiva", "Clasifica la función", 1);
+
       const voice = new SpeechSynthesisUtterance("¡Muy bien! Respuesta correcta.");
       voice.lang = "es-ES";
       window.speechSynthesis.speak(voice);
 
-      // 🎉 Mensaje al completar todas
       if (aciertos.length + 1 === usadas.length) {
         setTimeout(() => {
           setFeedback("🎉 ¡Completaste la ronda!");
+          registrarExito("Cognitiva", "Clasifica la función", 1);
           const voiceEnd = new SpeechSynthesisUtterance("¡Excelente! Completaste todas las parejas.");
           voiceEnd.lang = "es-ES";
           window.speechSynthesis.speak(voiceEnd);
@@ -103,6 +109,7 @@ export default function ClasificaFuncion({ volver }) {
       }
     } else {
       setFeedback("❌ No es correcto, intenta de nuevo.");
+      registrarFallo("Cognitiva", "Clasifica la función", 1);
       setExplicacion("");
     }
 
@@ -175,5 +182,3 @@ export default function ClasificaFuncion({ volver }) {
     </div>
   );
 }
-
-
