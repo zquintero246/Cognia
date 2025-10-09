@@ -1,0 +1,85 @@
+.historias-container {
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  background-color: #f7faff;
+  padding: 20px;
+  border-radius: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.escenario-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.emociones-opciones {
+  margin: 10px 0;
+}
+
+.botones-emociones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.emocion-btn {
+  background: #e8f0fe;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.emocion-btn:hover {
+  background: #d0e2ff;
+}
+
+.emocion-btn.seleccionado {
+  background: #b2d4ff;
+  font-weight: bold;
+}
+
+.resultado-box {
+  margin-top: 20px;
+  background: #eef6ff;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.explicacion {
+  color: #444;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.puntajes {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.siguiente-btn,
+.volver-btn {
+  background: #a2d2ff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.siguiente-btn:hover,
+.volver-btn:hover {
+  background: #80c1ff;
+}
