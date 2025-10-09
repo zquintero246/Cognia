@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Login({ onLogin }) {
   const navigate = useNavigate();
-  const [username, setUsername] = useState(""); // ★ CAMBIADO de usuario a username
+  const { login } = useAuth(); // ★ LLAMADA DIRECTA, SIN CONDICIONALES
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -12,17 +14,16 @@ export default function Login({ onLogin }) {
     e.preventDefault();
 
     try {
-      // CONSULTAR USUARIOS DESDE LA BASE DE DATOS
       const response = await fetch('http://localhost:3001/api/users');
       const users = await response.json();
 
-      // ★ BUSCAR USUARIO QUE COINCIDA CON USERNAME Y CONTRASEÑA
       const userFound = users.find(user => 
         user.username === username && user.password === password
       );
 
       if (userFound) {
-        navigate("/Dashboard");
+        login(userFound);
+        navigate("/dashboard");
       } else {
         setError("❌ Usuario o contraseña incorrectos");
       }
@@ -43,7 +44,7 @@ export default function Login({ onLogin }) {
         <form onSubmit={handleSubmit} className="login-form">
           <input
             type="text"
-            placeholder="Username" // ★ CAMBIADO placeholder
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
