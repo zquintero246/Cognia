@@ -27,5 +27,18 @@ export const userService = {
       console.error('Error creating user:', error);
       throw error;
     }
+  },
+
+  // Eliminar usuario
+  deleteUser: async (userId) => {
+    try {
+      const response = await fetch(`${API_URL}/users/${userId}`, {
+        method: 'DELETE',
+      });
+      return await response.json();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
+    }
   }
 };
