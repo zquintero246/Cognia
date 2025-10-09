@@ -5,10 +5,9 @@ from typing import Optional
 
 from ModuloAI.analyzer import analyze_performance
 from ModuloAI.db import get_recent_sessions
-from ModuloAI.analyze_drawing import predict_from_base64, load_model_if_needed
+from ModuloAI.analyze_drawing import analyze_drawing, load_model_if_needed
 
 
-# --- Inicializar FastAPI ---
 app = FastAPI()
 
 app.add_middleware(
@@ -19,18 +18,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# --- Cargar modelo al iniciar el servidor ---
 @app.on_event("startup")
 async def startup_event():
-    try:
-        load_model_if_needed()
-        print("Modelo de dibujo cargado correctamente")
-    except Exception as e:
-        print("Error cargando el modelo:", e)
+    load_model_if_needed()
+    print("Servidor iniciado con el modelo cargado.")
 
 
-# --- Esquema de datos ---
 class ActivityPayload(BaseModel):
     user_id: str
     session_id: Optional[str] = None
@@ -43,7 +36,6 @@ class ActivityPayload(BaseModel):
     timestamp: Optional[str] = None
 
 
-# --- Endpoints ---
 @app.get("/")
 def home():
     return {"status": "AI server online"}
@@ -56,14 +48,15 @@ async def analyze(data: ActivityPayload):
 
 
 @app.post("/analyze_drawing")
-async def analyze_drawing(request: Request):
+async def analyze_drawing_endpoint(request: Request):
     payload = await request.json()
     figura_esperada = (payload.get("figuraEsperada") or "").lower()
     image_b64 = payload.get("image", "")
 
     try:
-        predicted_label, confidence = predict_from_base64(image_b64)
+        predicted_label, confidence = analyze_drawing(image_b64)
     except Exception as e:
+        print("[ERROR] Falló el análisis del dibujo:", e)
         return {"error": str(e)}
 
     match = predicted_label.lower() == figura_esperada
@@ -71,8 +64,9 @@ async def analyze_drawing(request: Request):
         "predicted": predicted_label,
         "confidence": confidence,
         "match": match,
-        "feedback": f"Correcto {predicted_label}" if match else f"Parece un {predicted_label}",
+        "feedback": f"Correcto, parece un {predicted_label}" if match else f"Incorrecto, parece un {predicted_label}",
     }
+
     return feedback
 
 

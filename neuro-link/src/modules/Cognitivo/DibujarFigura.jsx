@@ -55,7 +55,19 @@ export default function DibujarFigura({ volver }) {
   const validarDibujo = async () => {
     setLoading(true);
     const canvas = canvasRef.current;
-    const imageData = canvas.toDataURL("image/png");
+    const ctx = canvas.getContext("2d");
+
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    const tempCtx = tempCanvas.getContext("2d");
+
+    tempCtx.fillStyle = "#ffffff";
+    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    tempCtx.drawImage(canvas, 0, 0);
+
+    const imageData = tempCanvas.toDataURL("image/png");
 
     const payload = {
       figuraEsperada: figuraActual,
