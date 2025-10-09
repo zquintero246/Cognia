@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login({ onLogin }) {
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState("");
+  const [username, setUsername] = useState(""); // ★ CAMBIADO de usuario a username
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -16,9 +16,9 @@ export default function Login({ onLogin }) {
       const response = await fetch('http://localhost:3001/api/users');
       const users = await response.json();
 
-      // BUSCAR USUARIO QUE COINCIDA CON NOMBRE Y CONTRASEÑA
+      // ★ BUSCAR USUARIO QUE COINCIDA CON USERNAME Y CONTRASEÑA
       const userFound = users.find(user => 
-        user.name === usuario && user.password === password
+        user.username === username && user.password === password
       );
 
       if (userFound) {
@@ -43,9 +43,9 @@ export default function Login({ onLogin }) {
         <form onSubmit={handleSubmit} className="login-form">
           <input
             type="text"
-            placeholder="Usuario"
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
+            placeholder="Username" // ★ CAMBIADO placeholder
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
           <input

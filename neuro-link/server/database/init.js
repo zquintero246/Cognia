@@ -9,6 +9,7 @@ db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
+    username TEXT,
     age INTEGER,
     profileType TEXT CHECK(profileType IN ('autism', 'intellectual', 'educator', 'parent')),
     password TEXT,

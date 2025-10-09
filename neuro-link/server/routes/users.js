@@ -14,10 +14,14 @@ router.get('/', (req, res) => {
 
 // POST crear usuario
 router.post('/', express.json(), (req, res) => {
+  console.log('📨 POST /api/users - Body:', req.body);
+  
   User.create(req.body, function(err) {
     if (err) {
+      console.error('❌ Error creando usuario:', err);
       return res.status(400).json({ error: err.message });
     }
+    console.log('✅ Usuario creado exitosamente, ID:', this.lastID);
     res.json({ 
       id: this.lastID,
       message: 'Usuario creado exitosamente' 
