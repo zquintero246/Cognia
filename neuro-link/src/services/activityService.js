@@ -18,7 +18,7 @@ const actividadesData = {
           overstimulation_risk: "Bajo. Evitar colores muy brillantes o cambios de luz rápidos para no generar fatiga visual."
         },
         {
-          name: "Seguir Direccion",
+          name: "Seguir dirección",
           description: "Sigue la direccion de las flechas con instrucciones!",
           stimulus: "auditivo",
           difficulty: 2,
