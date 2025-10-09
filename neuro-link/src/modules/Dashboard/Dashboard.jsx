@@ -54,13 +54,6 @@ export default function Dashboard() {
           <p>Practica empatía y comunicación</p>
         </div>
 
-        <div
-          className="dashboard-card familiar"
-          onClick={() => navigate("/familiar")}
-        >
-          <h3>Familiar</h3>
-          <p>Fortalece vínculos familiares</p>
-        </div>
 
         <div
           className="dashboard-card tecnico"
@@ -73,3 +66,12 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+//   <div
+//           className="dashboard-card familiar"
+//           onClick={() => navigate("/familiar")}
+//         >
+//           <h3>Familiar</h3>
+//           <p>Fortalece vínculos familiares</p>
+//         </div>

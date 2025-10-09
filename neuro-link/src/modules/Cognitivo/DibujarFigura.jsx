@@ -18,11 +18,14 @@ export default function DibujarFigura({ volver }) {
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, 400, 400);
     ctx.lineWidth = 3;
     ctx.lineCap = "round";
-    ctx.strokeStyle = "#333";
+    ctx.strokeStyle = "#000";
     setContext(ctx);
   }, []);
+
 
   const cambiarFigura = () => {
     const nueva = figuras[Math.floor(Math.random() * figuras.length)];
