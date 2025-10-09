@@ -1,123 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
-
-:root{
-  --bg:#F5DDBC;
-  --purple:#6A4AB8;
-  --text:#3b2f2f;
-  --shadow:0 14px 28px rgba(0,0,0,.15);
+.actividad-cognitiva {
+  text-align: center;
+  font-family: sans-serif;
+  color: #222;
 }
 
-*{ box-sizing:border-box; font-family:'Poppins',sans-serif; }
-html,body,#root{ height:100%; background:var(--bg); }
-
-/* ===== pantalla centrada ===== */
-.dibujo-screen{
-  min-height:100svh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--bg);
-  padding:clamp(16px,4vw,48px);
-  text-align:center;
+.canvas-dibujo {
+  border: 3px solid #444;
+  border-radius: 12px;
+  cursor: crosshair;
+  background: #fff;
+  margin: 10px;
+  transition: box-shadow 0.3s, border-color 0.3s;
 }
 
-/* panel principal */
-.dibujo-panel{
-  width:min(860px, 92vw);
-  background:#fff;
-  border-radius:24px;
-  box-shadow:var(--shadow);
-  padding:clamp(18px,3vw,28px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:14px;
+.canvas-dibujo.exito {
+  border-color: #4caf50;
+  box-shadow: 0 0 10px #4caf50;
 }
 
-.dibujo-title{
-  font-size:clamp(1.4rem,3vw,2rem);
-  font-weight:800;
-  color:var(--purple);
-  margin-bottom:2px;
+.canvas-dibujo.fallo {
+  border-color: #e53935;
+  box-shadow: 0 0 10px #e53935;
 }
 
-.dibujo-subtitle{
-  color:rgba(59,47,47,.85);
-  margin-bottom:6px;
+.botones button {
+  margin: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* ===== lienzo ===== */
-.canvas-dibujo{
-  border:3px solid #444;
-  border-radius:18px;
-  cursor:crosshair;
-  background:#fff;
-  transition: box-shadow .3s, border-color .3s;
-  margin:10px 0 16px;
-}
-.canvas-dibujo.exito{
-  border-color:#4CAF50;
-  box-shadow:0 0 10px #4CAF50;
-}
-.canvas-dibujo.fallo{
-  border-color:#E53935;
-  box-shadow:0 0 10px #E53935;
+.botones button:hover {
+  background: #125ca1;
 }
 
-/* ===== botones ===== */
-.actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-.btn{
-  appearance:none;
-  border:0;
-  border-radius:16px;
-  padding:12px 18px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:var(--shadow);
-  transition: transform .16s ease, box-shadow .2s ease, filter .2s ease;
-}
-.btn:disabled{ opacity:.6; cursor:not-allowed; filter:saturate(.9); }
-.btn:hover:not(:disabled){
-  transform:translateY(-2px);
-  box-shadow:0 16px 28px rgba(0,0,0,.18);
-}
-.btn-primary{ background:var(--purple); color:#fff; }
-.btn-secondary{ background:#eee; color:#333; }
-
-.volver-btn{
-  background:var(--purple);
-  color:#fff;
-  border:none;
-  border-radius:16px;
-  padding:12px 18px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:var(--shadow);
-  transition:transform .16s ease, box-shadow .2s ease;
-}
-.volver-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 16px 28px rgba(0,0,0,.18);
+.refuerzo {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  animation: fadeIn 0.4s ease;
 }
 
-/* ===== refuerzo visual ===== */
-.refuerzo{
-  margin-top:10px;
-  font-size:1.1rem;
-  animation:fadeIn .4s ease;
-  color:var(--text);
-}
-@keyframes fadeIn{
-  from{ opacity:0; transform:scale(.9); }
-  to{ opacity:1; transform:scale(1); }
-}
-
-/* responsive */
-@media (max-width:520px){
-  .canvas-dibujo{ width:90%; height:auto; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }

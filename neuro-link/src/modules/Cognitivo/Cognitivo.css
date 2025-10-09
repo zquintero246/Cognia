@@ -1,163 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
-
-:root{
-  --bg:#F5DDBC;
-  --blue:#73B4E0;
-  --pink:#D85A64;
-  --green:#559E7F;
-  --purple:#6A4AB8;
-  --text:#3b2f2f;
-  --radius:26px;
-  --shadow:0 14px 28px rgba(0,0,0,.15);
-  --card-w: clamp(240px, 24vw, 360px);
-  --card-h: 110px;
+/* 🎨 Estilo base del módulo Cognitivo */
+.cognitivo-container {
+  padding: 30px;
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f8ff;
+  min-height: 100vh;
+  color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-*{ box-sizing:border-box; font-family:'Poppins',sans-serif; margin:0; padding:0; }
-html,body,#root{ height:100%; background:var(--bg); }
-
-/* ===== contenedor principal ===== */
-.cognitivo-container{
-  position:relative;
-  min-height:100svh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:clamp(16px,4vw,48px);
-  overflow:hidden;
-  background:var(--bg);
+/* 🔹 Título principal */
+.cognitivo-title {
+  font-size: 2rem;
+  color: #204ac8;
+  text-align: center;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
 }
 
-/* ===== decoraciones fijas ===== */
-.decor{
-  position:fixed;
-  left:0;
-  width:100vw;
-  max-width:none;
-  pointer-events:none;
-  user-select:none;
-  z-index:0;
-  object-fit:cover;
-}
-.decor-top{ top:0; }
-.decor-bottom{ bottom:0; }
-
-/* ===== contenido ===== */
-.cognitivo-content{
-  position:relative;
-  z-index:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:28px;
+/* 🧩 Lista de actividades */
+.activity-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 700px;
 }
 
-/* ===== encabezado ===== */
-.cognitivo-title{
-  font-size:clamp(1.9rem,3.6vw,3rem);
-  font-weight:800;
-  color:var(--purple);
-  margin-top:60px;
-}
-.cognitivo-subtitle{
-  color:rgba(59,47,47,.85);
-  max-width:700px;
-  margin:0 auto 20px;
-  font-size:1.05rem;
+/* 📦 Tarjeta individual */
+.activity-card {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 10px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
-/* ===== grid 2×N ===== */
-.cognitivo-grid{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(240px, 900px));
-  grid-template-rows: auto auto;
-  gap:32px;
-  justify-items:center;
-  align-items:center;
-  width:min(900px, 90%);
-  margin:20px auto 10px;
+.activity-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
 }
 
-/* 3ª tarjeta centrada en fila inferior */
-.cognitivo-grid > *:nth-child(3){
-  grid-column:1 / span 2;
-  justify-self:center;
+/* 🧠 Nombre de la actividad */
+.activity-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #204ac8;
+  margin-bottom: 8px;
 }
 
-/* ===== tarjetas ===== */
-.cognitivo-mini{
-  width:var(--card-w);
-  height:var(--card-h);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  cursor:pointer;
-  transition:transform .16s ease, box-shadow .2s ease, filter .2s ease;
-  padding:14px 10px;
-  border:none;
-  font-size:1rem;
-}
-.mini-title{ font-weight:700; }
-.mini-tagline{ margin:4px 0 0; font-size:.95rem; opacity:.95; }
-
-/* colores (pastel) */
-.card-1{ background:var(--purple); }
-.card-2{ background:var(--blue); }
-.card-3{ background:var(--green); }
-  
-/* ===== modal ===== */
-/* fondo difuminado detrás del modal */
-.modal-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.35);
-  z-index:10;
-  backdrop-filter: blur(10px) saturate(120%);
-  -webkit-backdrop-filter: blur(10px) saturate(120%);
-  transition: backdrop-filter .3s ease, background .3s ease;
-  animation: fadeIn .2s ease-out;
+/* 📜 Descripción corta */
+.activity-desc {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 6px;
 }
 
-/* animación de aparición */
-@keyframes fadeIn{
-  from{ opacity:0; }
-  to{ opacity:1; }
+/* 🎯 Datos adicionales */
+.activity-meta {
+  font-size: 0.85rem;
+  color: #555;
 }
 
-.modal-panel{
-  position:fixed; margin:auto; z-index:11;
-  width: clamp(340px, 92vw, 720px);
-  max-height: 82vh;
-  background:#fff; border-radius:22px; box-shadow:0 30px 60px rgba(0,0,0,.25);
-  display:flex; flex-direction:column; overflow:hidden; animation:pop .16s ease-out;
-}
-.modal-header{ padding:18px 22px 0; }
-.modal-title{ font-size:1.35rem; font-weight:800; color:var(--purple); text-align:center; }
-.modal-body{ padding:12px 22px 8px; overflow:auto; max-height:56vh; }
-.modal-desc{ color:var(--text); opacity:.9; line-height:1.5; text-align:center; }
-.modal-meta{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; color:#5a4fa8; font-weight:600; }
-.modal-actions{ display:flex; gap:12px; justify-content:center; padding:12px 16px 18px; }
-
-/* botones */
-.btn{ appearance:none; border:0; border-radius:16px; padding:10px 16px; font-weight:700; cursor:pointer; }
-.btn-primary{ background:var(--purple); color:#fff; box-shadow:var(--shadow); }
-.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 28px rgba(0,0,0,.18); }
-.btn-secondary{ background:#eee; color:#333; }
-
-/* responsive */
-@media (max-width:900px){
-  .cognitivo-grid{ grid-template-columns:1fr; gap:24px; width:min(92%,560px); }
-  .cognitivo-grid > *:nth-child(3){ grid-column:auto; }
-  .cognitivo-subtitle{ font-size:.95rem; padding:0 12px; }
-  .modal-body{ max-height:58vh; }
+.activity-meta strong {
+  color: #204ac8;
 }
 
-/* animación */
-@keyframes pop{ from{ transform:scale(.98); opacity:.6 } to{ transform:scale(1); opacity:1 } }
+/* 💬 Mensajes o estados */
+.empty-message {
+  text-align: center;
+  font-size: 1rem;
+  color: #666;
+  margin-top: 20px;
+}

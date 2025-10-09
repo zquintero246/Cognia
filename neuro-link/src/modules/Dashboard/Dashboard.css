@@ -1,131 +1,93 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
-
-:root{
-  --bg:#F5DDBC;
-  --blue:#73B4E0;
-  --pink:#D85A64;
-  --green:#559E7F;
-  --purple:#6A4AB8;
-  --text:#3b2f2f;
-  --radius:26px;
-  --shadow:0 14px 28px rgba(0,0,0,.15);
-  --card-w: clamp(260px,24vw,380px);
-  --card-h: 120px;
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #f8f9ff 0%, #e9f5ff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 2rem;
+  font-family: "Poppins", sans-serif;
 }
 
-*{ box-sizing:border-box; font-family:'Poppins',sans-serif; margin:0; padding:0; }
-html,body,#root{ height:100%; background:var(--bg); }
-
-/* ===== contenedor principal ===== */
-.dashboard-container{
-  position:relative;
-  min-height:100svh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:clamp(16px,4vw,48px);
-  overflow:hidden;
-  background:var(--bg);
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #3a3a3a;
+  margin-bottom: 0.5rem;
 }
 
-/* ===== SVG decorativos ===== */
-.dashboard-container::before,
-.dashboard-container::after{
-  content:"";
-  position:absolute;
-  left:0;
-  width:100%;
-  height:clamp(120px,20vw,240px);
-  background-repeat:no-repeat;
-  background-size:100% auto;
-  background-position:center;
-  pointer-events:none;
-  z-index:0;
-}
-.dashboard-container::before{
-  top:0;
-  background-image:url("./assets/arriba.svg");
-}
-.dashboard-container::after{
-  bottom:0;
-  background-image:url("./assets/abajo.svg");
+.dashboard-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2.5rem;
 }
 
-/* todo el contenido encima */
-.dashboard-container > *{ position:relative; z-index:1; }
-
-/* ===== títulos ===== */
-.dashboard-title{
-  font-size:clamp(1.9rem,3.6vw,3rem);
-  font-weight:800;
-  color:var(--purple);
-  margin-bottom:8px;
-}
-.dashboard-subtitle{
-  color:rgba(59,47,47,.85);
-  margin-bottom:38px;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
 }
 
-/* ===== grid 2x2 ===== */
-.dashboard-grid{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(260px, 1fr));
-  grid-template-rows: repeat(2, auto);
-  gap:36px;
-  justify-items:center;
-  align-items:center;
-  width:min(920px,90%);
-  margin:0 auto;
+.dashboard-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
-/* ===== tarjetas ===== */
-.dashboard-card{
-  width:var(--card-w);
-  height:var(--card-h);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  cursor:pointer;
-  transition:transform .16s ease, box-shadow .2s ease, filter .2s ease;
-  padding:10px;
+.dashboard-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  color: #2c2c2c;
 }
 
-.dashboard-card h3{
-  margin:0 0 6px;
-  font-size:1.1rem;
-  font-weight:700;
-}
-.dashboard-card p{
-  margin:0;
-  font-size:.95rem;
-  opacity:.95;
+.dashboard-card p {
+  color: #555;
+  font-size: 0.9rem;
 }
 
-/* ===== colores por módulo ===== */
-.dashboard-card.cognitivo{ background:var(--purple); }
-.dashboard-card.sensorial{ background:var(--blue); }
-.dashboard-card.social   { background:var(--green); }
-.dashboard-card.tecnico  { background:var(--pink); }
-
-/* ===== hover ===== */
-.dashboard-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 18px 36px rgba(0,0,0,.18);
-  filter:saturate(1.03);
+.dashboard-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* ===== responsive ===== */
-@media (max-width:900px){
-  .dashboard-grid{
-    grid-template-columns:1fr;
-    gap:24px;
-    width:min(92%,560px);
+/* 🎨 Colores pastel coherentes con tu ejemplo */
+.cognitivo {
+  background: #d0e4ff;
+}
+
+.sensorial {
+  background: #ffe8d0;
+}
+
+.social {
+  background: #ffd0f5;
+}
+
+.familiar {
+  background: #d7ffd0;
+}
+
+.tecnico {
+  background: #f7d0ff;
+}
+
+/* Pequeña animación al cargar */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-card {
+  animation: fadeIn 0.5s ease forwards;
 }

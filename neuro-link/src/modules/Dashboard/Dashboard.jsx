@@ -24,7 +24,7 @@ export default function Dashboard() {
         👤 {user?.name || 'Usuario'}
       </div>
 
-      <h1 className="dashboard-title">Panel Principal</h1>
+      <h1 className="dashboard-title">🧠 Panel Principal</h1>
       <p className="dashboard-subtitle">
         Selecciona un módulo para comenzar
       </p>

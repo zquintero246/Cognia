@@ -1,125 +1,87 @@
 // src/modules/Tecnico/Tecnico.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getActividadesPorModulo } from "../../services/activityService";
 import ConstruyeRobot from "./ConstruyeRobot";
 import EncuentraError from "./EncuentraError";
 import MiniProgramador from "./MiniProgramador";
 import "./Tecnico.css";
-import arriba from "./assets/arriba.svg";
-import abajo from "./assets/abajo.svg";
 import { useNavigate } from "react-router-dom";
 
 export default function Tecnico() {
+  // Si usas JSON, asegúrate que las actividades del módulo técnico estén definidas ahí.
   const actividades = getActividadesPorModulo("Tecnico");
+
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
-  const [preview, setPreview] = useState(null);
   const navigate = useNavigate();
 
-  const volverDashboard = () => navigate("/dashboard");
-
-  // Cierra modal con tecla ESC
-  useEffect(() => {
-    const onKey = (e) => e.key === "Escape" && setPreview(null);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  const getTagline = (text = "") => {
-    const first = (text || "").split(".")[0]?.trim();
-    return first ? `${first}.` : "";
+const volverDashboard = () => {
+    navigate("/dashboard");
   };
 
-  const empezarActividad = (actividad) => {
-    setPreview(null);
-    setActividadSeleccionada(actividad);
-  };
+  const renderActividad = () => {
+    if (!actividadSeleccionada) return null;
 
-  // Render directo de la actividad seleccionada
-  if (actividadSeleccionada) {
     switch (actividadSeleccionada.name) {
-<<<<<<< Updated upstream
       case "Mini programador":
         return <MiniProgramador/>;
       case "Construye tu robot":
         return <ConstruyeRobot />;
       case "Encuentra el error":
         return <EncuentraError />;
-=======
-      case "Paso a paso: la ciencia de la vida diaria":
-        return <PasoAPaso volver={() => setActividadSeleccionada(null)} />;
-      case "Explora el porqué":
-        return <ExploraPorQue volver={() => setActividadSeleccionada(null)} />;
-      case "Clasifica por su función":
-        return <ClasificaFuncion volver={() => setActividadSeleccionada(null)} />;
->>>>>>> Stashed changes
       default:
         return (
-          <div className="tecnico-container">
-            <p>
-              Actividad no implementada:{" "}
-              <strong>{actividadSeleccionada.name}</strong>
-            </p>
-            <button className="btn btn-back" onClick={() => setActividadSeleccionada(null)}>
-              ← Volver
-            </button>
-          </div>
+          <p>
+            Esta actividad aún no está implementada:{" "}
+            <strong>{actividadSeleccionada.name}</strong>
+          </p>
         );
     }
-  }
+  };
 
   return (
     <div className="tecnico-container">
-      {/* decoraciones fijas */}
-      <img src={arriba} alt="" aria-hidden="true" className="decor decor-top" />
-      <img src={abajo} alt="" aria-hidden="true" className="decor decor-bottom" />
+      <h1 className="tecnico-title">⚙️ Módulo Técnico</h1>
 
-      <div className="tecnico-content">
-        <h1 className="tecnico-title">Módulo Técnico</h1>
-        <p className="tecnico-subtitle">
-          Aprende y aplica conocimientos prácticos que estimulan tu pensamiento científico.
-        </p>
-
-        <div className="tecnico-grid">
-          {actividades.map((a, i) => (
-            <button
-              key={a.name || i}
-              className={`tecnico-mini card-${(i % 6) + 1}`}
-              onClick={() => setPreview(a)}
-            >
-              <strong className="mini-title">{a.name}</strong>
-              <span className="mini-tagline">{getTagline(a.description)}</span>
-            </button>
-          ))}
+      {actividadSeleccionada ? (
+        <div className="actividad-contenedor">
+          <h2 className="actividad-titulo">{actividadSeleccionada.name}</h2>
+          {renderActividad()}
+          <button
+            className="volver-boton"
+            onClick={() => setActividadSeleccionada(null)}
+          >
+            ← Volver a la lista
+          </button>
         </div>
+      ) : (
+        <div className="lista-contenedor">
+          <p className="tecnico-descripcion">
+            Selecciona una actividad para comenzar y explorar el conocimiento
+            técnico y científico del mundo.
+          </p>
 
-        <button className="back-btn" onClick={volverDashboard}>
-          ← Volver al Dashboard
-        </button>
-      </div>
-
-      {/* Modal flotante */}
-      {preview && (
-        <>
-          <div className="modal-backdrop" onClick={() => setPreview(null)} />
-          <div className="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-            <div className="modal-header">
-              <h3 id="modal-title" className="modal-title">{preview.name}</h3>
-            </div>
-
-            <div className="modal-body">
-              {preview.description && <p className="modal-desc">{preview.description}</p>}
-              <div className="modal-meta">
-                <span><b>Dificultad:</b> {preview.difficulty}</span>
-                <span><b>Estímulo:</b> {preview.stimulus}</span>
-              </div>
-            </div>
-
-            <div className="modal-actions">
-              <button className="btn btn-secondary" onClick={() => setPreview(null)}>Cancelar</button>
-              <button className="btn btn-primary" onClick={() => empezarActividad(preview)}>Empezar →</button>
-            </div>
-          </div>
-        </>
+          {actividades.length === 0 ? (
+            <p>No se encontraron actividades para este módulo.</p>
+          ) : (
+            <ul className="lista-actividades">
+              {actividades.map((a, index) => (
+                <li
+                  key={index}
+                  className="actividad-item"
+                  onClick={() => setActividadSeleccionada(a)}
+                >
+                  <strong>{a.name}</strong>
+                  <p className="actividad-desc">{a.description}</p>
+                  <small className="actividad-why">{a.why_useful}</small>
+                  <p className="actividad-info">
+                    <strong>Dificultad:</strong> {a.difficulty} |{" "}
+                    <strong>Tipo:</strong> {a.stimulus}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       )}
     </div>
   );

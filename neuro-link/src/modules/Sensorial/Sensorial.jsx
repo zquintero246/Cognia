@@ -5,19 +5,15 @@ import EcoArmonico from "./EcoArmonico";
 import "./Sensorial.css";
 import { useNavigate } from "react-router-dom";
 
-<<<<<<< Updated upstream
 
-=======
-import arriba from "./assets/arriba.svg";
-import abajo from "./assets/abajo.svg";
->>>>>>> Stashed changes
 
 export default function Sensorial() {
   const [actividadActual, setActividadActual] = useState(null);
   const navigate = useNavigate();
 
-  const volverDashboard = () => navigate("/dashboard");
-
+  const volverDashboard = () => {
+      navigate("/dashboard");
+    };
   const renderActividad = () => {
     switch (actividadActual) {
       case "LightChase":
@@ -35,22 +31,32 @@ export default function Sensorial() {
 
   return (
     <div className="sensorial-container">
-      <img src={arriba} alt="" aria-hidden="true" className="decor decor-top" />
-      <img src={abajo} alt="" aria-hidden="true" className="decor decor-bottom" />
+      <h1>🎨 Módulo Sensorial</h1>
+      <p>
+        Este módulo estimula tus sentidos y ayuda a mejorar la coordinación, la
+        percepción visual y la concentración a través de experiencias
+        interactivas.
+      </p>
 
-      <div className="sensorial-content">
-        <h1 className="sensorial-title">🎨 <span>Módulo Sensorial</span></h1>
-        <p className="sensorial-subtitle">
-          Estimula tus sentidos y mejora la coordinación, percepción visual y concentración.
-        </p>
+      <div className="sensorial-grid">
+        {/* Caza de Luz */}
+        <button
+          className="sensorial-card active"
+          onClick={() => setActividadActual("LightChase")}
+        >
+          ✨ <strong>Caza de Luz</strong>
+          <p>Ejercicio visual interactivo</p>
+        </button>
 
-        <div className="sensorial-grid">
-          <button className="sensorial-card purple" onClick={() => setActividadActual("LightChase")}>
-            ✨ <strong>Caza de Luz</strong>
-            <p>Ejercicio visual interactivo</p>
-          </button>
+        {/* Pulso Musical */}
+        <button
+          className="sensorial-card active"
+          onClick={() => setActividadActual("PulsoMusical")}
+        >
+          🎵 <strong>Pulso Musical</strong>
+          <p>Ejercicio auditivo-ritmico</p>
+        </button>
 
-<<<<<<< Updated upstream
         {/* Brisa Tactil */}
        <button
           className="sensorial-card active"
@@ -58,24 +64,23 @@ export default function Sensorial() {
         >
           <strong>Eco Armónico</strong>
           <p>Refuerza memoria auditiva secuencial.</p>
-=======
-          <button className="sensorial-card blue" onClick={() => setActividadActual("PulsoMusical")}>
-            🎵 <strong>Pulso Musical</strong>
-            <p>Ejercicio auditivo-rítmico</p>
-          </button>
-
-          <button className="sensorial-card green" onClick={() => setActividadActual("BrisaTactil")}>
-            🔊 <strong>Eco Armónico</strong>
-            <p>Memoria auditiva secuencial</p>
-          </button>
-        </div>
-
-        <button className="back-btn" onClick={volverDashboard}>
-          ← Volver al Dashboard
->>>>>>> Stashed changes
         </button>
 
       </div>
+      <button
+        style={{
+          marginTop: "24px",
+          padding: "10px 18px",
+          background: "#007bff",
+          color: "#fff",
+          border: "none",
+          borderRadius: "8px",
+          cursor: "pointer",
+        }}
+        onClick={volverDashboard}
+      >
+        ← Volver al Dashboard
+      </button>
     </div>
   );
 }

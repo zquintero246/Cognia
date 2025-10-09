@@ -1,199 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
-
-:root{
-  --bg:#F5DDBC;
-  --blue:#73B4E0;
-  --pink:#D85A64;
-  --green:#559E7F;
-  --purple:#6A4AB8;
-  --text:#3b2f2f;
-  --radius:26px;
-  --shadow:0 14px 28px rgba(0,0,0,.15);
-  --card-w: clamp(240px, 24vw, 360px);
-  --card-h: 110px;
+.tecnico-container {
+  padding: 24px;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
 }
 
-*{ box-sizing:border-box; font-family:'Poppins',sans-serif; margin:0; padding:0; }
-html,body,#root{ height:100%; background:var(--bg); }
-
-/* ===== contenedor principal ===== */
-.tecnico-container{
-  position:relative;
-  min-height:100svh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:clamp(16px,4vw,48px);
-  overflow:hidden;
-  background:var(--bg);
+.tecnico-title {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
-/* ===== decoraciones fijas ===== */
-.decor{
-  position:fixed;
-  left:0;
-  width:100vw;
-  max-width:none;
-  pointer-events:none;
-  user-select:none;
-  z-index:0;
-  object-fit:cover;
-}
-.decor-top{ top:0; }
-.decor-bottom{ bottom:0; }
-
-/* ===== contenido ===== */
-.tecnico-content{
-  position:relative;
-  z-index:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:28px;
+.tecnico-descripcion {
+  color: #555;
+  margin-bottom: 20px;
 }
 
-/* ===== encabezado ===== */
-.tecnico-title{
-  font-size:clamp(1.9rem,3.6vw,3rem);
-  font-weight:800;
-  color:var(--purple);
-  margin-top:60px;
-}
-.tecnico-subtitle{
-  color:rgba(59,47,47,.85);
-  max-width:700px;
-  margin:0 auto 20px;
-  font-size:1.05rem;
+.lista-actividades {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  display: grid;
+  gap: 14px;
+  justify-content: center;
 }
 
-/* ===== grid 2×N ===== */
-.tecnico-grid{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(240px, 900px));
-  grid-template-rows: auto auto;
-  gap:32px;
-  justify-items:center;
-  align-items:center;
-  width:min(900px, 90%);
-  margin:20px auto 10px;
+.actividad-item {
+  background: #f6f8fa;
+  border-radius: 12px;
+  padding: 16px 24px;
+  width: 320px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease;
 }
 
-/* 3ª tarjeta centrada en fila inferior */
-.tecnico-grid > *:nth-child(3){
-  grid-column:1 / span 2;
-  justify-self:center;
+.actividad-item:hover {
+  transform: scale(1.03);
+  background-color: #eef3ff;
 }
 
-/* ===== tarjetas ===== */
-.tecnico-mini{
-  width:var(--card-w);
-  height:var(--card-h);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  cursor:pointer;
-  transition:transform .16s ease, box-shadow .2s ease, filter .2s ease;
-  padding:14px 10px;
-  border:none;
-  font-size:1rem;
-}
-.mini-title{ font-weight:700; }
-.mini-tagline{ margin:4px 0 0; font-size:.95rem; opacity:.95; }
-
-/* colores (pastel) */
-.card-1{ background:#E3D8FB; color:#5A3FB3; }
-.card-2{ background:#CFE8FF; color:#2D6FA3; }
-.card-3{ background:#D7F2E6; color:#2C7A5A; }
-
-/* ===== modal ===== */
-/* fondo difuminado detrás del modal */
-.modal-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.35);
-  z-index:10;
-  backdrop-filter: blur(10px) saturate(120%);
-  -webkit-backdrop-filter: blur(10px) saturate(120%);
-  transition: backdrop-filter .3s ease, background .3s ease;
-  animation: fadeIn .2s ease-out;
+.actividad-desc {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #444;
 }
 
-/* animación de aparición */
-@keyframes fadeIn{
-  from{ opacity:0; }
-  to{ opacity:1; }
+.actividad-why {
+  color: #777;
+  font-size: 13px;
 }
 
-.modal-panel{
-  position:fixed;
-  margin:auto;
-  z-index:11;
-  width: clamp(340px, 92vw, 720px);
-  max-height: 82vh;
-  background:#fff;
-  border-radius:22px;
-  box-shadow:0 30px 60px rgba(0,0,0,.25);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  animation:pop .16s ease-out;
-}
-.modal-header{ padding:18px 22px 0; }
-.modal-title{ font-size:1.35rem; font-weight:800; color:var(--purple); text-align:center; }
-.modal-body{ padding:12px 22px 8px; overflow:auto; max-height:56vh; }
-.modal-desc{ color:var(--text); opacity:.9; line-height:1.5; text-align:center; }
-.modal-meta{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; color:#5a4fa8; font-weight:600; }
-.modal-actions{ display:flex; gap:12px; justify-content:center; padding:12px 16px 18px; }
-
-/* botones */
-.btn{
-  appearance:none;
-  border:0;
-  border-radius:16px;
-  padding:10px 16px;
-  font-weight:700;
-  cursor:pointer;
-}
-.btn-primary{ background:var(--purple); color:#fff; box-shadow:var(--shadow); }
-.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 28px rgba(0,0,0,.18); }
-.btn-secondary{ background:#eee; color:#333; }
-.back-btn{
-  background:var(--purple);
-  color:#fff;
-  border:none;
-  border-radius:18px;
-  padding:12px 20px;
-  font-weight:600;
-  cursor:pointer;
-  box-shadow:var(--shadow);
-  transition:transform .16s ease, box-shadow .2s ease;
-  margin-top:24px;
-}
-.back-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 16px 28px rgba(0,0,0,.18);
+.actividad-info {
+  margin-top: 6px;
+  font-size: 13px;
 }
 
-/* responsive */
-@media (max-width:900px){
-  .tecnico-grid{
-    grid-template-columns:1fr;
-    gap:24px;
-    width:min(92%,560px);
-  }
-  .tecnico-grid > *:nth-child(3){
-    grid-column:auto;
-  }
-  .tecnico-subtitle{ font-size:.95rem; padding:0 12px; }
-  .modal-body{ max-height:58vh; }
+.volver-boton {
+  margin-top: 16px;
+  padding: 10px 18px;
+  background: #eaeaea;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-/* animación */
-@keyframes pop{ from{ transform:scale(.98); opacity:.6 } to{ transform:scale(1); opacity:1 } }
+.volver-boton:hover {
+  background: #d8d8d8;
+}
+
+.actividad-titulo {
+  margin-top: 10px;
+  font-size: 1.5rem;
+}
+
+.actividad-contenedor {
+  margin-top: 20px;
+}
