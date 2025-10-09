@@ -1,65 +1,75 @@
 import os
-import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.callbacks import CSVLogger, EarlyStopping
 
+# --- Rutas ---
 BASE_DIR = r"C:\Users\Zabdiel Julian\Downloads\Cognia-dev\ModuloAI\shapes"
 TRAIN_DIR = os.path.join(BASE_DIR, "train")
-VAL_DIR = os.path.join(BASE_DIR, "validation")
+TEST_DIR = os.path.join(BASE_DIR, "test")
 
+# --- Parámetros ---
 IMG_SIZE = (28, 28)
-BATCH_SIZE = 16
-EPOCHS = 50
+BATCH_SIZE = 8
+EPOCHS = 20
 
+# --- Generadores ---
 train_datagen = ImageDataGenerator(
-    rescale=1./255,
-    rotation_range=10,
-    zoom_range=0.05,
-    width_shift_range=0.05,
-    height_shift_range=0.05
+    rescale=1. / 255,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True
 )
-val_datagen = ImageDataGenerator(rescale=1./255)
+
+test_datagen = ImageDataGenerator(rescale=1. / 255)
 
 train_gen = train_datagen.flow_from_directory(
     TRAIN_DIR,
     target_size=IMG_SIZE,
     batch_size=BATCH_SIZE,
-    color_mode="grayscale",
-    class_mode="categorical"
+    class_mode='categorical'
 )
 
-val_gen = val_datagen.flow_from_directory(
-    VAL_DIR,
+test_gen = test_datagen.flow_from_directory(
+    TEST_DIR,
     target_size=IMG_SIZE,
     batch_size=BATCH_SIZE,
-    color_mode="grayscale",
-    class_mode="categorical"
+    class_mode='categorical'
 )
 
+# --- Modelo CNN (versión moderna del de Keyur-r) ---
 model = models.Sequential([
-    layers.Input(shape=(28, 28, 1)),
-    layers.Conv2D(16, (3,3), activation='relu', padding='same'),
-    layers.MaxPooling2D(2,2),
+    layers.Conv2D(16, (3, 3), activation='relu', input_shape=(28, 28, 3)),
+    layers.MaxPooling2D(pool_size=(2, 2)),
 
-    layers.Conv2D(32, (3,3), activation='relu', padding='same'),
-    layers.MaxPooling2D(2,2),
+    layers.Conv2D(32, (3, 3), activation='relu'),
+    layers.MaxPooling2D(pool_size=(2, 2)),
 
     layers.Flatten(),
-    layers.Dense(64, activation='relu'),
+    layers.Dense(56, activation='relu'),
     layers.Dense(3, activation='softmax')
 ])
 
 model.compile(
-    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+    optimizer='adam',
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
 
+model.summary()
+
+# --- Callbacks ---
+csv_logger = CSVLogger('training_log.csv', append=True, separator=';')
+early_stop = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+
+# --- Entrenamiento ---
 history = model.fit(
     train_gen,
-    validation_data=val_gen,
     epochs=EPOCHS,
-    verbose=1
+    validation_data=test_gen,
+    callbacks=[csv_logger, early_stop]
 )
 
+# --- Guardar modelo ---
 model.save("drawing_best.keras")
+print("✅ Modelo guardado como drawing_best.keras")
