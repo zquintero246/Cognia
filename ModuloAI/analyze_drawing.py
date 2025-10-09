@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
 
-MODEL_FILE = os.path.join(os.path.dirname(__file__), "drawing_classification.keras")
+MODEL_FILE = os.path.join(os.path.dirname(__file__), "drawing_best.keras")
 
 LABELS = {0: "círculo", 1: "cuadrado", 2: "triángulo"}
 
