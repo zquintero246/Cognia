@@ -354,6 +354,7 @@ export default function PasoAPaso({ volver, dificultad = "normal", onResult }) {
 <p className="feedback">{feedback}</p>
 
 
+
       {showExplain && (
         <div className="explain-box">
           <h3>Explicación</h3>
