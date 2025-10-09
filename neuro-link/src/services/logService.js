@@ -1,12 +1,17 @@
-export async function registrarResultado({ user_id, module, activity_name, success, difficulty }) {
+// src/services/logService.js
+export async function registrarResultado(data) {
   try {
-    const res = await fetch("http://localhost:3001/api/log-activity", {
+    const res = await fetch("http://localhost:3001/api/activities/registrar_resultado", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_id, module, activity_name, success, difficulty }),
+      body: JSON.stringify(data),
     });
-    return await res.json();
+    const result = await res.json();
+    console.log("📘 Resultado registrado:", result);
+    return result;
   } catch (err) {
-    console.error("Error registrando resultado:", err);
+    console.error("❌ Error al registrar resultado:", err);
   }
 }
+
+

@@ -1,28 +1,33 @@
+// src/hooks/useRegistroActividad.js
 import { registrarResultado } from "../services/logService";
-import { useUser } from "../context/UserContext";
 
 export function useRegistroActividad() {
-  const { user } = useUser();
-
-  const registrarExito = async (modulo, nombre, dificultad) => {
-    await registrarResultado({
-      user_id: user.id || 1, // por ahora usa 1 si no hay sesión activa
+  const registrarExito = async (modulo, actividad, nivel, extra = {}) => {
+    const data = {
+      user_id: "usuario_demo", // luego se reemplaza con user real
       module: modulo,
-      activity_name: nombre,
+      activity: actividad,
       success: true,
-      dificultad,
-    });
+      difficulty: nivel,
+      timestamp: new Date().toISOString(),
+      ...extra,
+    };
+    await registrarResultado(data);
   };
 
-  const registrarFallo = async (modulo, nombre, dificultad) => {
-    await registrarResultado({
-      user_id: user.id || 1,
+  const registrarFallo = async (modulo, actividad, nivel, extra = {}) => {
+    const data = {
+      user_id: "usuario_demo",
       module: modulo,
-      activity_name: nombre,
+      activity: actividad,
       success: false,
-      dificultad,
-    });
+      difficulty: nivel,
+      timestamp: new Date().toISOString(),
+      ...extra,
+    };
+    await registrarResultado(data);
   };
 
   return { registrarExito, registrarFallo };
 }
+
