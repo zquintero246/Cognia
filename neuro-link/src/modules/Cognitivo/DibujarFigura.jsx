@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Cognitivo.css";
+import { useRegistroActividad } from "../../hooks/useRegistroActividad"; // ✅ Importa el hook
 
 export default function DibujarFigura({ volver }) {
   const canvasRef = useRef(null);
@@ -8,10 +9,13 @@ export default function DibujarFigura({ volver }) {
   const [feedback, setFeedback] = useState("");
   const [figuraActual, setFiguraActual] = useState("triángulo");
   const [strokes, setStrokes] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // ✅ Hook de registro
+  const { registrarExito, registrarFallo } = useRegistroActividad();
 
   const figuras = ["triángulo", "cuadrado", "círculo"];
 
-  // Inicializa el contexto de canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -41,15 +45,12 @@ export default function DibujarFigura({ volver }) {
     setDrawing(false);
   };
 
-
   const limpiarCanvas = () => {
     const canvas = canvasRef.current;
     context.clearRect(0, 0, canvas.width, canvas.height);
     setStrokes([]);
     setFeedback("");
   };
-
-  const [loading, setLoading] = useState(false);
 
   const validarDibujo = async () => {
     setLoading(true);
@@ -79,11 +80,23 @@ export default function DibujarFigura({ volver }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       const data = await res.json();
-      setFeedback(data.feedback || "Sin respuesta del servidor");
+      const resultText = data.feedback || "Sin respuesta del servidor";
+
+      setFeedback(resultText);
+
+      // ✅ Registro según el resultado
+      if (resultText.toLowerCase().includes("correct") || resultText.toLowerCase().includes("bien")) {
+        registrarExito("Cognitivo", "Dibujar la figura", 3);
+      } else {
+        registrarFallo("Cognitivo", "Dibujar la figura", 3);
+      }
+
     } catch (err) {
       console.error("Error:", err);
       setFeedback("Error al analizar el dibujo");
+      registrarFallo("Cognitivo", "Dibujar la figura", 3);
     } finally {
       setLoading(false);
     }
@@ -106,8 +119,12 @@ export default function DibujarFigura({ volver }) {
       />
 
       <div className="botones">
-       <button className="boton-actividad" onClick={validarDibujo}>
-        Validar dibujo
+        <button
+          className="boton-actividad"
+          onClick={validarDibujo}
+          disabled={loading}
+        >
+          {loading ? "Analizando..." : "Validar dibujo"}
         </button>
         <button className="boton-actividad limpiar" onClick={limpiarCanvas}>
           Limpiar
@@ -121,3 +138,4 @@ export default function DibujarFigura({ volver }) {
     </div>
   );
 }
+

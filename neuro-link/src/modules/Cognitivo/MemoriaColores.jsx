@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useUser } from "../../context/UserContext";
-import { sendActivity } from "../../services/activityService";
+import { useRegistroActividad } from "../../hooks/useRegistroActividad";
 import "./MemoriaColores.css";
 
 const COLORS = [
@@ -12,8 +11,7 @@ const COLORS = [
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-export default function MemoriaColores() {
-  const { user, setUser } = useUser();
+export default function MemoriaColores({ volver }) {
   const [sequence, setSequence] = useState([]);
   const [userInput, setUserInput] = useState([]);
   const [level, setLevel] = useState(1);
@@ -22,12 +20,11 @@ export default function MemoriaColores() {
   const [message, setMessage] = useState("");
   const [timeStart, setTimeStart] = useState(null);
 
-  useEffect(() => {
-    // generateNewSequence(level);
-  }, []);
+  // 🔗 Hook para registrar datos de actividad
+  const { registrarExito, registrarFallo } = useRegistroActividad();
 
-  const generateNewSequence = async (lvl = level, seqOverride = null) => {
-    const len = seqOverride ?? Math.min(6, 2 + lvl);
+  const generateNewSequence = async (lvl = level) => {
+    const len = Math.min(6, 2 + lvl);
     const seq = Array.from({ length: len }, () =>
       Math.floor(Math.random() * COLORS.length)
     );
@@ -57,82 +54,43 @@ export default function MemoriaColores() {
 
     const expectedIndex = sequence[nextInput.length - 1];
     if (colorIndex !== expectedIndex) {
-      setMessage("Casi… intenta otra vez");
-      await finishRound(false, nextInput);
+      setMessage("Casi… intenta otra vez 😅");
+      await finishRound(false);
       return;
     }
 
     if (nextInput.length === sequence.length) {
-      setMessage("¡Lo lograste!");
-      await finishRound(true, nextInput);
+      setMessage("¡Excelente memoria! 🧠");
+      await finishRound(true);
     }
   };
 
-  const finishRound = async (success, finalInput) => {
-    const timeSec = timeStart ? Math.round((Date.now() - timeStart) / 1000) : 0;
-    const correctCount = finalInput.filter(
-      (val, idx) => sequence[idx] === val
-    ).length;
-    const errors = sequence.length - correctCount;
+  const finishRound = async (success) => {
+    const tiempo = timeStart ? Math.round((Date.now() - timeStart) / 1000) : 0;
 
-    const result = {
-      user_id: user?.nombre || "anon",
-      session_id: `${user?.nombre || "anon"}_${Date.now()}`,
-      module: "Cognitivo",
-      activity_id: "memoria_colores_01",
-      correct: correctCount,
-      errors: errors,
-      time: timeSec,
-      focus_loss: 0,
-    };
-
-    setUser((prev) => ({
-      ...prev,
-      progreso: {
-        ...prev.progreso,
-        cognitivo: (prev?.progreso?.cognitivo || 0) + (success ? 1 : 0),
-      },
-    }));
-
-    let aiResponse = null;
-    try {
-      aiResponse = await sendActivity(result);
-      console.log("AI response:", aiResponse);
-    } catch (e) {
-      console.warn("sendActivity falló:", e);
+    // ✅ Registrar resultado en la base de datos
+    if (success) {
+      registrarExito("Cognitivo", "Memoria de Colores", level);
+    } else {
+      registrarFallo("Cognitivo", "Memoria de Colores", level);
     }
 
-    let seqOverride = null;
-
-    if (aiResponse?.recommendation) {
-      const { next_difficulty, next_module, adjustments } = aiResponse.recommendation;
-
-      if (next_difficulty === "increase") {
-        setLevel((l) => l + 1);
-        setMessage("🔥 Subiendo dificultad");
-      } else if (next_difficulty === "decrease") {
-        setLevel(1);
-        setMessage("Tomémoslo suave, reiniciando nivel");
-      } else {
-        setMessage("Nivel estable, sigue así 😎");
-      }
-
-      if (adjustments?.sequence_length) seqOverride = adjustments.sequence_length;
-
-      if (next_module && next_module !== result.activity_id) {
-        console.log(`IA recomienda cambiar a: ${next_module}`);
-      }
+    // Ajuste de dificultad (modo local)
+    if (success) {
+      setLevel((l) => Math.min(l + 1, 5));
+      setMessage("🔥 ¡Nivel superado!");
+    } else {
+      setLevel((l) => Math.max(1, l - 1));
+      setMessage("📉 Nivel reducido para practicar");
     }
 
-    await sleep(800);
-    setMessage("Preparando siguiente secuencia…");
-    await sleep(600);
-    await generateNewSequence(level, seqOverride);
+    await sleep(1000);
+    await generateNewSequence(level);
   };
 
   return (
     <div className="memoria-container">
-      <h2>Memoria de Colores — Nivel {level}</h2>
+      <h2>🎨 Memoria de Colores — Nivel {level}</h2>
       <p className="memoria-msg">{message}</p>
 
       <div className="color-grid" aria-hidden={isShowing}>
@@ -143,7 +101,6 @@ export default function MemoriaColores() {
             style={{ background: c.hex }}
             onClick={() => handleColorPress(idx)}
             disabled={isShowing}
-            aria-label={`color-${c.id}`}
           />
         ))}
       </div>
@@ -154,7 +111,7 @@ export default function MemoriaColores() {
           onClick={() => generateNewSequence(level)}
           disabled={isShowing}
         >
-          {isShowing ? "Mostrando..." : "Iniciar secuencia"}
+          {isShowing ? "Mostrando..." : "▶️ Iniciar secuencia"}
         </button>
         <button
           className="reset-btn"
@@ -163,9 +120,13 @@ export default function MemoriaColores() {
             generateNewSequence(1);
           }}
         >
-          Reiniciar
+          🔄 Reiniciar
+        </button>
+        <button className="volver-btn" onClick={volver}>
+          ⬅ Volver
         </button>
       </div>
     </div>
   );
 }
+

@@ -2,12 +2,13 @@ const db = require('../database/init');
 
 class User {
   static create(userData, callback) {
-    const { name, age, profileType, password, abilities, preferences } = userData;
-    const sql = `INSERT INTO users (name, age, profileType, password, abilities, preferences) 
-                 VALUES (?, ?, ?, ?, ?, ?)`;
+    const { name, username, age, profileType, password, abilities, preferences } = userData;
+    const sql = `INSERT INTO users (name, username, age, profileType, password, abilities, preferences) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?)`; // ★ AGREGAR USERNAME
     
     db.run(sql, [
       name, 
+      username, // ★ INCLUIR USERNAME
       age, 
       profileType, 
       password,

@@ -9,6 +9,7 @@ db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
+    username TEXT,
     age INTEGER,
     profileType TEXT CHECK(profileType IN ('autism', 'intellectual', 'educator', 'parent')),
     password TEXT,
@@ -16,6 +17,17 @@ db.serialize(() => {
     preferences TEXT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
+// Tabla de registro de actividades realizadas por los usuarios
+  db.run(`CREATE TABLE IF NOT EXISTS activity_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER,
+  module TEXT,
+  activity_name TEXT,
+  success BOOLEAN,
+  difficulty INTEGER,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(user_id) REFERENCES users(id)
+)`);
 });
 
 console.log('✅ Base de datos inicializada');

@@ -5,6 +5,7 @@ function UserTest() {
   const [users, setUsers] = useState([]);
   const [form, setForm] = useState({
     name: '',
+    username: '', 
     age: '',
     profileType: 'autism',
     password: '',
@@ -20,10 +21,11 @@ function UserTest() {
 
   // Agregar nuevo usuario
   const addUser = async () => {
-    if (form.name.trim()) {
+    if (form.name.trim() && form.username.trim()) {
       try {
         await userService.createUser({
           name: form.name,
+          username: form.username,
           age: parseInt(form.age) || 0,
           profileType: form.profileType,
           password: form.password,
@@ -34,6 +36,7 @@ function UserTest() {
         // Limpiar formulario
         setForm({
           name: '',
+          username: '',
           age: '',
           profileType: 'autism',
           password: '',
@@ -49,7 +52,7 @@ function UserTest() {
         alert('Error al crear usuario');
       }
     } else {
-      alert('El nombre es requerido');
+      alert('El nombre y username son requeridos');
     }
   };
 
@@ -94,13 +97,25 @@ function UserTest() {
         
         {/* Nombre */}
         <div style={{ marginBottom: '10px' }}>
-          <label><strong>Nombre: *</strong></label>
+          <label><strong>Nombre Completo: *</strong></label>
           <input
             style={{ width: '100%', padding: '8px', marginTop: '5px' }}
             placeholder="Ej: María González"
             value={form.name}
             onChange={(e) => setForm({...form, name: e.target.value})}
           />
+        </div>
+
+        {/*CAMPO: USERNAME */}
+        <div style={{ marginBottom: '10px' }}>
+          <label><strong>Nombre de usuario: *</strong></label>
+          <input
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+            placeholder="Ej: maria.gonzalez"
+            value={form.username}
+            onChange={(e) => setForm({...form, username: e.target.value})}
+          />
+          <small>Este será el usuario para iniciar sesión</small>
         </div>
 
         {/* Edad y Tipo de Perfil en misma línea */}
@@ -258,6 +273,9 @@ function UserTest() {
                 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '14px' }}>
                   <div>
+                    <strong>👤 Username:</strong> {user.username || 'No definido'}
+                  </div>
+                  <div>
                     <strong>📅 Edad:</strong> {user.age || 'No especificada'}
                   </div>
                   <div>
@@ -266,12 +284,9 @@ function UserTest() {
                   <div>
                     <strong>🆔 ID:</strong> {user.id}
                   </div>
-                  <div>
-                    <strong>📅 Creado:</strong> {formatDate(user.createdAt)}
-                  </div>
                 </div>
 
-                {/* ★ INDICADOR DE CONTRASEÑA (pero no la mostramos) */}
+                {/* INDICADOR DE CONTRASEÑA */}
                 {user.password && (
                   <div style={{ marginTop: '8px' }}>
                     <strong>🔐 Contraseña:</strong> 
@@ -282,9 +297,6 @@ function UserTest() {
                     }}>
                       ••••••••
                     </span>
-                    <small style={{ marginLeft: '10px', color: '#666' }}>
-                      (contraseña oculta por seguridad)
-                    </small>
                   </div>
                 )}
                 
