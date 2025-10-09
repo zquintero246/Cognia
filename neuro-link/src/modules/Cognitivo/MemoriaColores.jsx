@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useRegistroActividad } from "../../hooks/useRegistroActividad";
+import clickSound from "../../assets/sound/click.mp3"; // agrega un sonido simple
 import "./MemoriaColores.css";
 
-const COLORS = [
+const BASE_COLORS = [
   { id: "blue", hex: "#A6D8FF" },
   { id: "green", hex: "#A8E6CF" },
   { id: "lav", hex: "#E9D5FF" },
   { id: "peach", hex: "#FFD9B3" },
+  { id: "yellow", hex: "#FFF9A6" },
+  { id: "pink", hex: "#FFC0CB" },
+  { id: "mint", hex: "#B2F2BB" },
 ];
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -18,18 +22,26 @@ export default function MemoriaColores({ volver }) {
   const [isShowing, setIsShowing] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [message, setMessage] = useState("");
+  const [errorState, setErrorState] = useState(false);
+  const [pressed, setPressed] = useState(null);
   const [timeStart, setTimeStart] = useState(null);
-
-  // 🔗 Hook para registrar datos de actividad
   const { registrarExito, registrarFallo } = useRegistroActividad();
 
+  const click = new Audio(clickSound);
+
+  useEffect(() => {
+    generateNewSequence(1);
+  }, []);
+
   const generateNewSequence = async (lvl = level) => {
+    const colorPool = BASE_COLORS.slice(0, 3 + Math.floor(lvl / 2)); // más colores con nivel
     const len = Math.min(6, 2 + lvl);
     const seq = Array.from({ length: len }, () =>
-      Math.floor(Math.random() * COLORS.length)
+      Math.floor(Math.random() * colorPool.length)
     );
     setSequence(seq);
     setUserInput([]);
+    setErrorState(false);
     setMessage("Observa la secuencia");
     await showSequence(seq);
   };
@@ -49,55 +61,53 @@ export default function MemoriaColores({ volver }) {
 
   const handleColorPress = async (colorIndex) => {
     if (isShowing) return;
+    click.play();
+    setPressed(colorIndex);
+    setTimeout(() => setPressed(null), 150);
+
     const nextInput = [...userInput, colorIndex];
     setUserInput(nextInput);
 
     const expectedIndex = sequence[nextInput.length - 1];
     if (colorIndex !== expectedIndex) {
-      setMessage("Casi… intenta otra vez 😅");
+      setErrorState(true);
+      setMessage("❌ Intenta de nuevo");
       await finishRound(false);
       return;
     }
 
     if (nextInput.length === sequence.length) {
-      setMessage("¡Excelente memoria! 🧠");
+      setMessage("✅ ¡Excelente memoria!");
       await finishRound(true);
     }
   };
 
   const finishRound = async (success) => {
-    const tiempo = timeStart ? Math.round((Date.now() - timeStart) / 1000) : 0;
+    if (success) registrarExito("Cognitivo", "Memoria de Colores", level);
+    else registrarFallo("Cognitivo", "Memoria de Colores", level);
 
-    // ✅ Registrar resultado en la base de datos
-    if (success) {
-      registrarExito("Cognitivo", "Memoria de Colores", level);
-    } else {
-      registrarFallo("Cognitivo", "Memoria de Colores", level);
-    }
-
-    // Ajuste de dificultad (modo local)
-    if (success) {
-      setLevel((l) => Math.min(l + 1, 5));
-      setMessage("🔥 ¡Nivel superado!");
-    } else {
-      setLevel((l) => Math.max(1, l - 1));
-      setMessage("📉 Nivel reducido para practicar");
-    }
+    if (success) setLevel((l) => Math.min(l + 1, 6));
+    else setLevel((l) => Math.max(1, l - 1));
 
     await sleep(1000);
-    await generateNewSequence(level);
+    setErrorState(false);
+    await generateNewSequence(success ? level + 1 : level);
   };
+
+  const colorPool = BASE_COLORS.slice(0, 3 + Math.floor(level / 2));
 
   return (
     <div className="memoria-container">
       <h2>🎨 Memoria de Colores — Nivel {level}</h2>
       <p className="memoria-msg">{message}</p>
 
-      <div className="color-grid" aria-hidden={isShowing}>
-        {COLORS.map((c, idx) => (
+      <div className={`color-grid ${errorState ? "error" : ""}`} aria-hidden={isShowing}>
+        {colorPool.map((c, idx) => (
           <button
             key={c.id}
-            className={`color-btn ${activeIndex === idx ? "active" : ""}`}
+            className={`color-btn ${activeIndex === idx ? "active" : ""} ${
+              pressed === idx ? "pressed" : ""
+            }`}
             style={{ background: c.hex }}
             onClick={() => handleColorPress(idx)}
             disabled={isShowing}
@@ -105,28 +115,9 @@ export default function MemoriaColores({ volver }) {
         ))}
       </div>
 
-      <div className="memoria-controls">
-        <button
-          className="start-btn"
-          onClick={() => generateNewSequence(level)}
-          disabled={isShowing}
-        >
-          {isShowing ? "Mostrando..." : "▶️ Iniciar secuencia"}
-        </button>
-        <button
-          className="reset-btn"
-          onClick={() => {
-            setLevel(1);
-            generateNewSequence(1);
-          }}
-        >
-          🔄 Reiniciar
-        </button>
-        <button className="volver-btn" onClick={volver}>
-          ⬅ Volver
-        </button>
-      </div>
+      <button className="volver-btn" onClick={volver}>
+        ⬅ Volver
+      </button>
     </div>
   );
 }
-

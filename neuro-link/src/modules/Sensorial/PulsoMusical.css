@@ -1,0 +1,85 @@
+.pulso-musical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(180deg, #f8fafc, #e0f7fa);
+  font-family: "Poppins", sans-serif;
+  color: #222;
+  gap: 1rem;
+  text-align: center;
+}
+
+.barra-contenedor {
+  position: relative;
+  width: 80%;
+  height: 35px;
+  background-color: #dfe6e9;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 1rem 0;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.zona-verde {
+  position: absolute;
+  top: 0;
+  left: 45%;
+  width: 10%;
+  height: 100%;
+  background-color: rgba(46, 204, 113, 0.6);
+  border-radius: 15px;
+}
+
+.indicador {
+  position: absolute;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  background-color: #f39c12;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.6);
+  transition: left 0.1s linear;
+}
+
+.feedback {
+  font-size: 1.3rem;
+  font-weight: bold;
+  min-height: 1.5rem;
+  color: #333;
+}
+
+.puntaje {
+  font-size: 1.1rem;
+  margin-top: 0.3rem;
+}
+
+.boton-actividad,
+.boton-presionar,
+.boton-volver {
+  border: none;
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.7rem 1.3rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+}
+
+.boton-actividad:hover,
+.boton-presionar:hover {
+  background-color: #357abd;
+  transform: scale(1.05);
+}
+
+.boton-volver {
+  background-color: #999;
+  margin-top: 0.5rem;
+}
+
+.detener {
+  background-color: #e74c3c;
+}
